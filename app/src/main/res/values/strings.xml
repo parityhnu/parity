@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">UtilProject</string>
+
+    <!--IconFont字符串，粘贴须验证 -->
+    <string name="icon_test">&#xe77d;</string>
+
 </resources>
