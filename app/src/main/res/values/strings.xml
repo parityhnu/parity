@@ -4,4 +4,7 @@
     <!--IconFont字符串，粘贴须验证 -->
     <string name="icon_test">&#xe77d;</string>
 
+    <!-- 以下为设置其他类型的字符串 -->
+
+
 </resources>

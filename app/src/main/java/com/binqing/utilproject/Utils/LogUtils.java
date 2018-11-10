@@ -5,7 +5,7 @@ import android.util.Log;
 public class LogUtils {
     public static boolean isDebug = true;
 
-    private final static String APP_TAG = "TAG_UTIL_PROJECT";
+    private final static String APP_TAG = "[BINQING] : ";
 
     private static String getFunctionName() {
         StackTraceElement[] sts = Thread.currentThread().getStackTrace();
@@ -29,39 +29,39 @@ public class LogUtils {
 
     public static void v(String msg) {
         if (isDebug) {
-            Log.v(APP_TAG, getMsgFormat(msg));
+            Log.v(APP_TAG, msg);
         }
     }
 
     public static void v(String tag, String msg) {
         if (isDebug) {
-            Log.v(tag, getMsgFormat(msg));
+            Log.v(addApiTag(tag), msg);
         }
     }
 
 
     public static void d(String msg) {
         if (isDebug) {
-            Log.d(APP_TAG, getMsgFormat(msg));
+            Log.d(APP_TAG, msg);
         }
     }
 
     public static void d(String tag, String msg) {
         if (isDebug) {
-            Log.d(tag, getMsgFormat(msg));
+            Log.d(addApiTag(tag), msg);
         }
     }
 
 
     public static void i(String msg) {
         if (isDebug) {
-            Log.i(APP_TAG, getMsgFormat(msg));
+            Log.i(APP_TAG, msg);
         }
     }
 
     public static void i(String tag, String msg) {
         if (isDebug) {
-            Log.i(tag, getMsgFormat(msg));
+            Log.i(addApiTag(tag), msg);
         }
     }
 
@@ -69,33 +69,33 @@ public class LogUtils {
 
     public static void w(String msg) {
         if (isDebug) {
-            Log.w(APP_TAG, getMsgFormat(msg));
+            Log.w(APP_TAG, msg);
         }
     }
 
     public static void w(String tag, String msg) {
         if (isDebug) {
-            Log.w(tag, getMsgFormat(msg));
+            Log.w(addApiTag(tag), msg);
         }
     }
 
 
     public static void e(String msg) {
         if (isDebug) {
-            Log.e(APP_TAG, getMsgFormat(msg));
+            Log.e(APP_TAG, msg);
         }
     }
 
     public static void e(String tag, String msg) {
         if (isDebug) {
-            Log.e(tag, getMsgFormat(msg));
+            Log.e(addApiTag(tag), msg);
         }
     }
 
     /**
      * 输出格式定义
      */
-    private static String getMsgFormat(String msg) {
-        return msg + " ;" + getFunctionName();
+    private static String addApiTag(String tag) {
+        return StringUtils.appendString(APP_TAG, tag);
     }
 }

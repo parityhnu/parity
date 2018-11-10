@@ -22,11 +22,10 @@ public class DataProvider {
     private Executor mExecutor;
     private ThreadPoolExecutor mThreadPoolExecutor;
 
-    public DataProvider() {
+    private DataProvider() {
         mExecutor = new Executor();
         mThreadPoolExecutor = getThreadPoolExecutor();
     }
-
 
     public void runInExecutor(Runnable command) {
         if (mExecutor == null) {
