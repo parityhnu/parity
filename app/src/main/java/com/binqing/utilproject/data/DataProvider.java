@@ -36,10 +36,10 @@ public class DataProvider {
 
     private ThreadPoolExecutor getThreadPoolExecutor() {
         return new ThreadPoolExecutor(1,
-                        1,
-                        0,
-                        TimeUnit.MILLISECONDS,
-                        new LinkedBlockingQueue<Runnable>());
+                1,
+                0,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>());
     }
 
     private class Executor implements java.util.concurrent.Executor {

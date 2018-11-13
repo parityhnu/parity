@@ -21,6 +21,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initPresenter();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.testAnnotation();
+    }
+
     private void initPresenter() {
         mPresenter = new MainPresenter(this);
     }
