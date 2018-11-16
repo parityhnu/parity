@@ -1,15 +1,20 @@
 package com.binqing.utilproject.data.parse;
 
+import android.content.ContentValues;
 import android.text.TextUtils;
 
 import com.binqing.utilproject.data.annotation.Column;
 import com.binqing.utilproject.data.annotation.Table;
+import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
 import com.binqing.utilproject.data.model.ColumnInfo;
+import com.binqing.utilproject.data.model.DBValues;
 import com.binqing.utilproject.data.model.DataType;
 import com.binqing.utilproject.data.model.TableInfo;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -90,7 +95,7 @@ public class AnnoParse {
             return DataType.LONG;
         } else if (Integer.class.getName().equals(typeName) || int.class.getName().equals(typeName)) {
             return DataType.INTEGER;
-        } else if (String.class.getName() == typeName) {
+        } else if (String.class.getName().equals(typeName)) {
             return DataType.STRING;
         } else if (float.class.getName().equals(typeName) || Float.class.getName().equals(typeName)) {
             return DataType.FLOAT;
@@ -101,5 +106,82 @@ public class AnnoParse {
         } else {
             return DataType.UNKOWN;
         }
+    }
+
+    public static DBValues getDBValues(List<AbsEntry> entryList) {
+        if (entryList == null || entryList.isEmpty()) {
+            return null;
+        }
+        AbsEntry entry = entryList.get(0);
+        if (entry == null) {
+            return null;
+        }
+        Class<? extends AbsEntry> clazz = entry.getClass();
+        TableInfo tableInfo = initTableInfo(clazz);
+        if (tableInfo == null) {
+            return null;
+        }
+        String tableName = tableInfo.tableName;
+        List<ContentValues> contentValuesList = new ArrayList<>();
+        Field[] fields = ReflectUtils.getFields(clazz);
+        for (AbsEntry absEntry : entryList) {
+            ContentValues values = null;
+            for (Field field : fields) {
+                field.setAccessible(true);
+                try {
+                    if (values == null) {
+                        values = new ContentValues();
+                    }
+                    ColumnInfo column = tableInfo.getColumnByColunmName(field.getName());
+                    if (column == null) {
+                        continue;
+                    }
+                    Object object = field.get(absEntry);
+                    switch (column.dbtype) {
+                        case INTEGER:
+                            if (object == null) {
+                                values.put(column.fieldName, "");
+                            } else {
+                                values.put(column.fieldName, (Integer) object);
+                            }
+                            break;
+
+                        case STRING:
+                            if (object == null) {
+                                values.put(column.fieldName, "");
+                            } else {
+                                values.put(column.fieldName, (String) object);
+                            }
+                            break;
+                        case SHORT:
+                            if (object == null) {
+                                values.put(column.fieldName, "");
+                            } else {
+                                values.put(column.fieldName, (Short) object);
+                            }
+                            break;
+                        case DOUBLE:
+                        case FLOAT:
+                        case LONG:
+                        case ENUM:
+                        case BOOLEAN:
+                            if (object == null) {
+                                values.put(column.fieldName, "");
+                            } else {
+                                values.put(column.fieldName, object.toString());
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    contentValuesList.add(values);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return new DBValues(tableName, contentValuesList);
     }
 }

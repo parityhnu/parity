@@ -1,5 +1,9 @@
 package com.binqing.utilproject.data.db;
 
+import android.content.Context;
+
+import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -25,8 +29,13 @@ public class DBManager {
         return mInstance;
     }
 
-    public void insert() {
-
+    public void insert(final Context context, final AbsEntry absEntry, final List<Object> objectList) {
+        mWriteThreadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                SqliteOpenHelperUtil.insert(context, absEntry, objectList);
+            }
+        });
     }
 
     public void delete() {}

@@ -3,7 +3,6 @@ package com.binqing.utilproject.data.model;
 import android.text.TextUtils;
 
 import java.util.HashMap;
-import java.util.Set;
 
 public class TableInfo {
     public String clazzName;
