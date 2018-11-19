@@ -7,12 +7,21 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
-    public DatabaseOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    private static volatile DatabaseOpenHelper mInstance;
+
+    public static DatabaseOpenHelper getInstance(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        if (mInstance == null) {
+            synchronized (DatabaseOpenHelper.class) {
+                if (mInstance == null) {
+                    mInstance = new DatabaseOpenHelper(context, name, factory, version);
+                }
+            }
+        }
+        return mInstance;
     }
 
-    public DatabaseOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
-        super(context, name, factory, version, errorHandler);
+    private DatabaseOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
     }
 
     @Override
@@ -23,6 +32,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //todo 清一次表
+
     }
 
 }

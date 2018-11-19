@@ -27,7 +27,7 @@ public class SqliteOpenHelperUtil {
 
     private static void makesureObject(Context context, String databaseName, int version) {
         if (mSQLiteOpenHelper == null) {
-            mSQLiteOpenHelper = new DatabaseOpenHelper(context, databaseName, null, version);
+            mSQLiteOpenHelper = DatabaseOpenHelper.getInstance(context, databaseName, null, version);
         }
     }
 
