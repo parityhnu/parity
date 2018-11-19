@@ -3,6 +3,7 @@ package com.binqing.utilproject.data.parse;
 import android.content.ContentValues;
 import android.text.TextUtils;
 
+import com.binqing.utilproject.Consts.Consts;
 import com.binqing.utilproject.data.annotation.Column;
 import com.binqing.utilproject.data.annotation.Table;
 import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
@@ -185,6 +186,7 @@ public class AnnoParse {
                     }
                 }
             }
+            values.putNull(Consts.DATABASE_PRIMARY_KEY_NAME);
             contentValuesList.add(values);
         }
         return new DBValues(tableName, contentValuesList);

@@ -41,7 +41,9 @@ public class SqliteOpenHelperUtil {
 
         sql.append("CREATE TABLE IF NOT EXISTS ");
         sql.append(tableName);
-        sql.append(" (");
+        sql.append(" ( ");
+        sql.append(Consts.DATABASE_PRIMARY_KEY_NAME);
+        sql.append(" INTEGER PRIMARY KEY , ");
         for (Map.Entry<String, ColumnInfo> entry : set) {
             ColumnInfo columnInfo = entry.getValue();
             if (columnInfo == null) {
