@@ -10,5 +10,6 @@ import java.lang.annotation.Target;
 public @interface Column {
 	String name() default "";
 	int length() default 100;
-	int order() default 0;
+	//构造参数中的参数顺序，须与表中的order从小到大的顺序一致
+	int order();
 }

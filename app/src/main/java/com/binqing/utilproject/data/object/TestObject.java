@@ -1,8 +1,8 @@
 package com.binqing.utilproject.data.object;
 
 public class TestObject {
-    private String mName;
     private long mId;
+    private String mName;
     private String mTestC;
 
     public String getName() {
@@ -26,6 +26,12 @@ public class TestObject {
     }
 
     public void setTestC(String testC) {
+        mTestC = testC;
+    }
+
+    public TestObject(long id, String name, String testC) {
+        mId = id;
+        mName = name;
         mTestC = testC;
     }
 

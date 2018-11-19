@@ -1,9 +1,11 @@
 package com.binqing.utilproject.data.parse;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.text.TextUtils;
 
 import com.binqing.utilproject.Consts.Consts;
+import com.binqing.utilproject.biz.test.MainContract;
 import com.binqing.utilproject.data.annotation.Column;
 import com.binqing.utilproject.data.annotation.Table;
 import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
@@ -12,11 +14,15 @@ import com.binqing.utilproject.data.model.DBValues;
 import com.binqing.utilproject.data.model.DataType;
 import com.binqing.utilproject.data.model.TableInfo;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -208,6 +214,105 @@ public class AnnoParse {
             }
         }
         return fieldList;
+    }
+
+    public static <T>List<T> fillCursor(Cursor cursor, AbsEntry entry, Class<?> clazz1) {
+        if (cursor == null || entry == null) {
+            return null;
+        }
+        Class<?> clazz = entry.getClass();
+        TableInfo tableInfo = initTableInfo(clazz);
+        List<Class<?>> parameterTypes = new ArrayList<>();
+        Set<Map.Entry<String, ColumnInfo>> set = tableInfo.colunmMap.entrySet();
+        for (Map.Entry<String, ColumnInfo> entry1 : set) {
+            ColumnInfo columnInfo = entry1.getValue();
+            switch (columnInfo.dbtype) {
+                case LONG:
+                    parameterTypes.add(long.class);
+                    break;
+                case FLOAT:
+                    parameterTypes.add(Float.class);
+                    break;
+                case SHORT:
+                    parameterTypes.add(Short.class);
+                    break;
+                case DOUBLE:
+                    parameterTypes.add(Double.class);
+                    break;
+                case STRING:
+                    parameterTypes.add(String.class);
+                    break;
+                case BOOLEAN:
+                    parameterTypes.add(Boolean.class);
+                    break;
+                case INTEGER:
+                    parameterTypes.add(Integer.class);
+                    break;
+                default:
+                    break;
+            }
+        }
+        int size = parameterTypes.size();
+        if (size != tableInfo.colunmMap.size()) {
+            return null;
+        }
+        Class [] classes = new Class[size];
+        for (int index = 0; index < size; index++) {
+            classes[index] = parameterTypes.get(index);
+        }
+
+        List<T> list = new ArrayList<>();
+        Constructor constructor = null;
+        try {
+            constructor = clazz1.getConstructor(classes);
+            Object [] objects = new Object[size];
+            while (cursor.moveToNext()) {
+                int index = 0;
+                for (Map.Entry<String, ColumnInfo> entry1 : set) {
+                    ColumnInfo columnInfo = entry1.getValue();
+                    switch (columnInfo.dbtype) {
+                        case LONG:
+                            objects[index] = cursor.getLong(index);
+                            break;
+                        case FLOAT:
+                            objects[index] = cursor.getFloat(index);
+                            break;
+                        case SHORT:
+                            objects[index] = cursor.getShort(index);
+                            break;
+                        case DOUBLE:
+                            objects[index] = cursor.getDouble(index);
+                            break;
+                        case STRING:
+                            objects[index] = cursor.getString(index);
+                            break;
+                        case BOOLEAN:
+                            objects[index] = "true".equals(cursor.getString(index));
+                            break;
+                        case INTEGER:
+                            objects[index] = cursor.getInt(index);
+                            break;
+                        default:
+                            break;
+                    }
+                    index++;
+                }
+                list.add((T) constructor.newInstance(objects));
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return list;
     }
 
 }
