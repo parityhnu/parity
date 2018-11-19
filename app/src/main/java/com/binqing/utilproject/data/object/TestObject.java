@@ -3,6 +3,7 @@ package com.binqing.utilproject.data.object;
 public class TestObject {
     private String mName;
     private long mId;
+    private String mTestC;
 
     public String getName() {
         return mName;
@@ -18,5 +19,22 @@ public class TestObject {
 
     public void setId(long id) {
         mId = id;
+    }
+
+    public String getTestC() {
+        return mTestC;
+    }
+
+    public void setTestC(String testC) {
+        mTestC = testC;
+    }
+
+    @Override
+    public String toString() {
+        return "TestObject{" +
+                "mName='" + mName + '\'' +
+                ", mId=" + mId +
+                ", mTestC='" + mTestC + '\'' +
+                '}';
     }
 }

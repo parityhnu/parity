@@ -14,6 +14,7 @@ import com.binqing.utilproject.data.model.TableInfo;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -41,10 +42,10 @@ public class AnnoParse {
             tableInfo.tableName = table.name();
         }
 
-        HashMap<String, ColumnInfo> columnMaps = null;
+        LinkedHashMap<String, ColumnInfo> columnMaps = null;
         Field[] fields = clazz.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
+        List<Field> fieldList = getOrderedField(fields);
+        for (Field field : fieldList) {
             field.setAccessible(true);
             Column column = field.getAnnotation(Column.class);
             if (column != null) {
@@ -59,7 +60,7 @@ public class AnnoParse {
                 columnInfo.dbtype = getType(field.getType(), columnInfo.fieldtype);
 
                 if (columnMaps == null) {
-                    columnMaps = new HashMap<String, ColumnInfo>();
+                    columnMaps = new LinkedHashMap<String, ColumnInfo>();
                 }
                 columnMaps.put(columnInfo.fieldName, columnInfo);
             }
@@ -124,9 +125,10 @@ public class AnnoParse {
         String tableName = tableInfo.tableName;
         List<ContentValues> contentValuesList = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();
+        List<Field> fieldList = getOrderedField(fields);
         for (AbsEntry absEntry : entryList) {
             ContentValues values = null;
-            for (Field field : fields) {
+            for (Field field : fieldList) {
                 field.setAccessible(true);
                 Column column = field.getAnnotation(Column.class);
                 if (column != null) {
@@ -187,4 +189,23 @@ public class AnnoParse {
         }
         return new DBValues(tableName, contentValuesList);
     }
+
+    private static List<Field> getOrderedField(Field[] fields) {
+        List<Field> fieldList = new ArrayList<>();
+        for (Field f : fields) {
+            if(f.getAnnotation(Column.class) != null) {
+                int index = 0;
+                for (Field field : fieldList) {
+                    if (field.getAnnotation(Column.class).order() < f.getAnnotation(Column.class).order()) {
+                        index++;
+                        continue;
+                    }
+                    break;
+                }
+                fieldList.add(index, f);
+            }
+        }
+        return fieldList;
+    }
+
 }

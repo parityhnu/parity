@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface Column {
 	String name() default "";
 	int length() default 100;
+	int order() default 0;
 }

@@ -2,12 +2,13 @@ package com.binqing.utilproject.data.model;
 
 import android.text.TextUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 
 public class TableInfo {
     public String clazzName;
     public String tableName;
-    public HashMap<String, ColumnInfo> colunmMap;//数据库的列名与列信息的映射
+    public LinkedHashMap<String, ColumnInfo> colunmMap;//数据库的列名与列信息的映射
 
     public ColumnInfo getColumnByColunmName(String colunmName) {
         if (colunmMap == null || TextUtils.isEmpty(colunmName)) {
