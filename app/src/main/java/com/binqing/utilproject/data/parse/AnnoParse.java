@@ -50,7 +50,7 @@ public class AnnoParse {
             if (column != null) {
                 // 列信息
                 ColumnInfo columnInfo = new ColumnInfo();
-                columnInfo.fieldName = field.getName();
+                columnInfo.fieldName = column.name();
                 columnInfo.fieldtype = field.getType().getName();
 
                 columnInfo.columLength = column.length();
@@ -123,64 +123,67 @@ public class AnnoParse {
         }
         String tableName = tableInfo.tableName;
         List<ContentValues> contentValuesList = new ArrayList<>();
-        Field[] fields = ReflectUtils.getFields(clazz);
+        Field[] fields = clazz.getDeclaredFields();
         for (AbsEntry absEntry : entryList) {
             ContentValues values = null;
             for (Field field : fields) {
                 field.setAccessible(true);
-                try {
-                    if (values == null) {
-                        values = new ContentValues();
-                    }
-                    ColumnInfo column = tableInfo.getColumnByColunmName(field.getName());
-                    if (column == null) {
-                        continue;
-                    }
-                    Object object = field.get(absEntry);
-                    switch (column.dbtype) {
-                        case INTEGER:
-                            if (object == null) {
-                                values.put(column.fieldName, "");
-                            } else {
-                                values.put(column.fieldName, (Integer) object);
-                            }
-                            break;
+                Column column = field.getAnnotation(Column.class);
+                if (column != null) {
+                    try {
+                        if (values == null) {
+                            values = new ContentValues();
+                        }
+                        ColumnInfo columnInfo = tableInfo.getColumnByColunmName(column.name());
+                        if (columnInfo == null) {
+                            continue;
+                        }
+                        Object object = field.get(absEntry);
+                        switch (columnInfo.dbtype) {
+                            case INTEGER:
+                                if (object == null) {
+                                    values.put(columnInfo.fieldName, "");
+                                } else {
+                                    values.put(columnInfo.fieldName, (Integer) object);
+                                }
+                                break;
 
-                        case STRING:
-                            if (object == null) {
-                                values.put(column.fieldName, "");
-                            } else {
-                                values.put(column.fieldName, (String) object);
-                            }
-                            break;
-                        case SHORT:
-                            if (object == null) {
-                                values.put(column.fieldName, "");
-                            } else {
-                                values.put(column.fieldName, (Short) object);
-                            }
-                            break;
-                        case DOUBLE:
-                        case FLOAT:
-                        case LONG:
-                        case ENUM:
-                        case BOOLEAN:
-                            if (object == null) {
-                                values.put(column.fieldName, "");
-                            } else {
-                                values.put(column.fieldName, object.toString());
-                            }
-                            break;
-                        default:
-                            break;
+                            case STRING:
+                                if (object == null) {
+                                    values.put(columnInfo.fieldName, "");
+                                } else {
+                                    values.put(columnInfo.fieldName, (String) object);
+                                }
+                                break;
+                            case SHORT:
+                                if (object == null) {
+                                    values.put(columnInfo.fieldName, "");
+                                } else {
+                                    values.put(columnInfo.fieldName, (Short) object);
+                                }
+                                break;
+                            case DOUBLE:
+                            case FLOAT:
+                            case LONG:
+                            case ENUM:
+                            case BOOLEAN:
+                                if (object == null) {
+                                    values.put(columnInfo.fieldName, "");
+                                } else {
+                                    values.put(columnInfo.fieldName, object.toString());
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
                     }
-                    contentValuesList.add(values);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
                 }
             }
+            contentValuesList.add(values);
         }
         return new DBValues(tableName, contentValuesList);
     }

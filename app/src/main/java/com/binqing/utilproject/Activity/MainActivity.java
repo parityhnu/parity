@@ -2,6 +2,7 @@ package com.binqing.utilproject.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.binqing.utilproject.IconFont.IconFontTextView;
 import com.binqing.utilproject.R;
@@ -19,12 +20,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         initView();
         initPresenter();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mPresenter.testAnnotation();
+        initListener();
     }
 
     private void initPresenter() {
@@ -33,5 +29,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initView() {
         mIcftTest = findViewById(R.id.ictv_test);
+    }
+
+    private void initListener() {
+        mIcftTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.testAnnotation();
+            }
+        });
     }
 }

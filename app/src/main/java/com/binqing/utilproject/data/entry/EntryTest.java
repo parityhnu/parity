@@ -5,7 +5,7 @@ import com.binqing.utilproject.data.annotation.Table;
 import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
 import com.binqing.utilproject.data.object.TestObject;
 
-@Table(name = "test")
+@Table(name = "test1")
 public class EntryTest implements AbsEntry {
     @Column(name = "t_name")
     public String name;

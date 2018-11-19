@@ -2,9 +2,9 @@ package com.binqing.utilproject.data.db;
 
 import android.content.Context;
 
+import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -30,7 +30,7 @@ public class DBManager {
     }
 
     public void insert(final Context context, final AbsEntry absEntry, final List<Object> objectList) {
-        mWriteThreadPoolExecutor.execute(new Runnable() {
+        mWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 SqliteOpenHelperUtil.insert(context, absEntry, objectList);
@@ -38,16 +38,51 @@ public class DBManager {
         });
     }
 
-    public void delete() {}
-
-    public void update() {
-
+    public void delete(final Context context, final AbsEntry absEntry, final String whereClause, final String[] whereArgs) {
+        mWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                SqliteOpenHelperUtil.delete(context, absEntry, whereClause, whereArgs);
+            }
+        });
     }
 
-    public <T>List<T> query() {
-        List<T> list = new ArrayList<>();
+    // 不考虑提供update()方法，由业务逻辑自己进行delete和insert操作
+//    public void update() {
+//
+//    }
 
-        return list;
+    public <T>void rawQury(final Context context, final String sql, final String[] selectionArgs,
+                           final SqliteOpenHelperUtil.OnPackageDataCallback<T> callback, final Callback callback1) {
+        mReadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                SqliteOpenHelperUtil.rawQuery(context, sql, selectionArgs, callback, callback1);
+            }
+        });
+    }
+
+    public <T>void query(final Context context, final AbsEntry entry,
+                         final String whereClause, final String[] whereArgs,
+                         final SqliteOpenHelperUtil.OnPackageDataCallback<T> callback, final Callback callback1) {
+        mReadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                SqliteOpenHelperUtil.query(context, entry, whereClause, whereArgs, callback, callback1);
+            }
+        });
+    }
+
+    public <T>void query(final Context context, final AbsEntry entry, final String[] columns,
+                         final String whereClause, final String[] whereArgs,
+                         final String groupBy, final String having, final String orderBy,
+                         final SqliteOpenHelperUtil.OnPackageDataCallback<T> callback, final Callback callback1) {
+        mReadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                SqliteOpenHelperUtil.query(context, entry, columns, whereClause, whereArgs, groupBy, having, orderBy, callback, callback1);
+            }
+        });
     }
 
     private DBManager() {
