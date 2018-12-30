@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Consts.Consts;
@@ -31,10 +32,40 @@ public class SqliteOpenHelperUtil {
         }
     }
 
+    private static boolean createSqliteMasterTable() {
+        StringBuilder create_sql = new StringBuilder();
+        create_sql.append("CREATE TABLE IF NOT EXISTS ");
+        create_sql.append(Consts.DATABASE_SQLITE_MASTER_TABLE_NAME);
+        create_sql.append(" ( ");
+        create_sql.append(Consts.DATABASE_SQLITE_MASTER_Column_NAME);
+        create_sql.append(" varchar(64) PRIMARY KEY ); ");
+        SQLiteDatabase database = null;
+        try {
+            database = mSQLiteOpenHelper.getWritableDatabase();
+            database.execSQL(create_sql.toString());
+        } catch (RuntimeException e) {
+            Log.e("[SqliteOpenHelperUtil]", String.valueOf(e));
+            return false;
+        } finally {
+            if (database != null && database.isOpen()) {
+                database.close();
+            }
+        }
+        return true;
+    }
+
     private static boolean createTable(TableInfo tableInfo) {
         if (tableInfo == null) {
             return false;
         }
+        if (!createSqliteMasterTable()) {
+            return false;
+        }
+        SQLiteDatabase database = mSQLiteOpenHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Consts.DATABASE_SQLITE_MASTER_Column_NAME, tableInfo.tableName);
+        database.insert(Consts.DATABASE_SQLITE_MASTER_TABLE_NAME, null, contentValues);
+
         StringBuilder sql = new StringBuilder();
         String tableName = tableInfo.tableName;
         Set<Map.Entry<String, ColumnInfo>> set = tableInfo.colunmMap.entrySet();
@@ -66,7 +97,6 @@ public class SqliteOpenHelperUtil {
         }
         sql.deleteCharAt(sql.length() - 1);
         sql.append(");");
-        SQLiteDatabase database = mSQLiteOpenHelper.getWritableDatabase();
         LogUtils.e("[SqliteOpenHelperUtil] sql: ", sql.toString());
         database.execSQL(sql.toString());
         database.close();
