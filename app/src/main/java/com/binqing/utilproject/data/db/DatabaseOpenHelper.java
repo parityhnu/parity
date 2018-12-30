@@ -1,8 +1,10 @@
 package com.binqing.utilproject.data.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
@@ -30,7 +32,21 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //todo 清一次表
+        dropDb(db);
+    }
+
+    private void dropDb(SQLiteDatabase db) {
+        Cursor cursor = db.rawQuery("SELECT s_name FROM sqlite_master", null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                db.execSQL("DROP TABLE " + cursor.getString(0));
+                Log.e("[DatabaseOpenHelper]", "删除表 " + cursor.getString(0));
+            }
+        }
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
     }
 
 }

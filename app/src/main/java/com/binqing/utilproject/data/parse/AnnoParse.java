@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.text.TextUtils;
 
 import com.binqing.utilproject.Consts.Consts;
-import com.binqing.utilproject.biz.test.MainContract;
 import com.binqing.utilproject.data.annotation.Column;
 import com.binqing.utilproject.data.annotation.Table;
 import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
@@ -18,7 +17,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -231,22 +229,22 @@ public class AnnoParse {
                     parameterTypes.add(long.class);
                     break;
                 case FLOAT:
-                    parameterTypes.add(Float.class);
+                    parameterTypes.add(float.class);
                     break;
                 case SHORT:
-                    parameterTypes.add(Short.class);
+                    parameterTypes.add(short.class);
                     break;
                 case DOUBLE:
-                    parameterTypes.add(Double.class);
+                    parameterTypes.add(double.class);
                     break;
                 case STRING:
                     parameterTypes.add(String.class);
                     break;
                 case BOOLEAN:
-                    parameterTypes.add(Boolean.class);
+                    parameterTypes.add(boolean.class);
                     break;
                 case INTEGER:
-                    parameterTypes.add(Integer.class);
+                    parameterTypes.add(int.class);
                     break;
                 default:
                     break;
