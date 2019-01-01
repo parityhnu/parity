@@ -46,15 +46,18 @@ public class DataSourceRemote {
         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                callback.onResult((GoodModel) parseObject(GoodModel.class, response));
+                if (callback != null) {
+                    callback.onResult((GoodModel) parseObject(GoodModel.class, response));
+                }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                Log.e("[http]", String.valueOf(t));
+                if (callback != null) {
+                    callback.onException("connectionException", String.valueOf(t));
+                }
             }
         };
-
         HttpUtil.get(path, options, callback1);
     }
 
