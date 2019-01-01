@@ -1,5 +1,8 @@
 package com.binqing.utilproject.data;
 
+import com.binqing.utilproject.Callback;
+import com.binqing.utilproject.data.object.GoodObject;
+
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +36,24 @@ public class DataProvider {
         }
         mExecutor.execute(command);
     }
+
+    public void searchGood(final GoodObject goodObject, final Callback<GoodObject> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().searchGood(goodObject, callback);
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
 
     private ThreadPoolExecutor getThreadPoolExecutor() {
         return new ThreadPoolExecutor(1,

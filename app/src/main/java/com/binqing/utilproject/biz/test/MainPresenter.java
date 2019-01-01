@@ -2,20 +2,26 @@ package com.binqing.utilproject.biz.test;
 
 import android.database.Cursor;
 import android.os.Looper;
+import android.util.Log;
 
 import com.binqing.utilproject.Activity.MainActivity;
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.MainLoopHandler;
 import com.binqing.utilproject.Utils.LogUtils;
+import com.binqing.utilproject.data.DataProvider;
 import com.binqing.utilproject.data.db.DBManager;
 import com.binqing.utilproject.data.db.SqliteOpenHelperUtil;
 import com.binqing.utilproject.data.entry.EntryTest;
 import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
+import com.binqing.utilproject.data.object.GoodObject;
 import com.binqing.utilproject.data.object.TestObject;
 import com.binqing.utilproject.data.parse.AnnoParse;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MainPresenter implements MainContract.Presenter {
 
@@ -41,7 +47,7 @@ public class MainPresenter implements MainContract.Presenter {
         final TestObject testObject = new TestObject(1, "123123123", "11111");
         testObjects.add(testObject);
         AbsEntry entryTest = new EntryTest();
-        DBManager.getInstance().insert(mView, entryTest, testObjects);
+//        DBManager.getInstance().insert(mView, entryTest, testObjects);
 //        DBManager.getInstance().delete(mView, entryTest, "t_id = ?", new String[]{"2"});
 //        SqliteOpenHelperUtil.OnPackageDataCallback<TestObject> callback = new SqliteOpenHelperUtil.OnPackageDataCallback<TestObject>() {
 //            @Override
@@ -64,6 +70,21 @@ public class MainPresenter implements MainContract.Presenter {
 //            }
 //        };
 //        DBManager.getInstance().query(mView, entryTest, null, null, callback, callback1);
+        Callback<GoodObject> callback = new Callback<GoodObject>() {
+            @Override
+            public void onResult(GoodObject object) {
+                Log.e("[MainPresenter]", object.toString());
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                Log.e(code, reason);
+            }
+        };
+        GoodObject object = new GoodObject();
+        object.setGoodName("欧舒丹");
+        object.setPage("0");
+        DataProvider.getInstance().searchGood(object, callback);
     }
 
 }
