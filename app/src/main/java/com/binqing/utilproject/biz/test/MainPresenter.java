@@ -15,6 +15,7 @@ import com.binqing.utilproject.data.entry.EntryTest;
 import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
 import com.binqing.utilproject.data.object.GoodObject;
 import com.binqing.utilproject.data.object.TestObject;
+import com.binqing.utilproject.data.object.UserObject;
 import com.binqing.utilproject.data.parse.AnnoParse;
 
 import java.util.ArrayList;
@@ -70,10 +71,16 @@ public class MainPresenter implements MainContract.Presenter {
 //            }
 //        };
 //        DBManager.getInstance().query(mView, entryTest, null, null, callback, callback1);
-        Callback<GoodObject> callback = new Callback<GoodObject>() {
+
+        Callback<UserObject> callback = new Callback<UserObject>() {
             @Override
-            public void onResult(GoodObject object) {
-                Log.e("[MainPresenter]", object.toString());
+            public void onResult(UserObject object) {
+                if (object == null){
+                    Log.e("[MainPresenter]", "账号注册过了");
+                } else {
+                    Log.e("[MainPresenter]", object.toString());
+                }
+
             }
 
             @Override
@@ -81,10 +88,12 @@ public class MainPresenter implements MainContract.Presenter {
                 Log.e(code, reason);
             }
         };
-        GoodObject object = new GoodObject();
-        object.setGoodName("欧舒丹");
-        object.setPage("0");
-        DataProvider.getInstance().searchGood(object, callback);
+//        GoodObject object = new GoodObject();
+//        object.setGoodName("欧舒丹");
+//        object.setPage("0");
+//        DataProvider.getInstance().searchGood(object, callback);
+
+        DataProvider.getInstance().register("qing14", "qing1234", callback);
     }
 
 }

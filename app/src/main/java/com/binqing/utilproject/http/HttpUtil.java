@@ -10,7 +10,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -22,6 +25,16 @@ public class HttpUtil {
 
         @GET("{path}")
         Call<Object> get(@Path("path") String path, @QueryMap Map<String, String> options);
+    }
+
+    public interface PostService {
+        @POST("{path}")
+        @FormUrlEncoded
+        Call<List<Object>> postList(@Path("path") String path, @FieldMap Map<String, String> options);
+
+        @POST("{path}")
+        @FormUrlEncoded
+        Call<Object> post(@Path("path") String path, @FieldMap Map<String, String> options);
     }
 
     public static void get(String path, Map<String, String> options, Callback<Object> callback) {
@@ -50,8 +63,17 @@ public class HttpUtil {
         repos.enqueue(callback);
     }
 
-    public static void post() {
+    public static void post(String path, Map<String, String> options, Callback<Object> callback) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Consts.INTERNET_BASEURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
+        PostService service = retrofit.create(PostService.class);
+
+        Call<Object> repos = service.post(path, options);
+
+        repos.enqueue(callback);
     }
 
 

@@ -2,6 +2,7 @@ package com.binqing.utilproject.data;
 
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.data.object.GoodObject;
+import com.binqing.utilproject.data.object.UserObject;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -42,6 +43,15 @@ public class DataProvider {
             @Override
             public void run() {
                 DataCenter.getInstance().searchGood(goodObject, callback);
+            }
+        });
+    }
+
+    public void register(final String account, final String password, final Callback<UserObject> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().register(account, password, callback);
             }
         });
     }

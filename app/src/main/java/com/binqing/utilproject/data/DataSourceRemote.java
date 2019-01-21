@@ -1,15 +1,18 @@
 package com.binqing.utilproject.data;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.data.annotation.Member;
 import com.binqing.utilproject.data.model.GoodModel;
+import com.binqing.utilproject.data.model.UserModel;
 import com.binqing.utilproject.data.object.GoodObject;
 import com.binqing.utilproject.http.HttpUtil;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +64,32 @@ public class DataSourceRemote {
         HttpUtil.get(path, options, callback1);
     }
 
+    public void register(String account, String password, final Callback<UserModel> callback) {
+        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
+            return;
+        }
+        String path = "register";
+        Map<String, String> options = new HashMap<>();
+        options.put("account", account);
+        options.put("password", password);
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    callback.onResult((UserModel) parseObject(UserModel.class, response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("connectionException", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.post(path, options, callback1);
+    }
+
     /**
      * 需要解析列表时使用
      * @param clazz
@@ -90,6 +119,11 @@ public class DataSourceRemote {
      * @return
      */
     private Object parseObject(Class<?> clazz, Response<Object> response) {
+        if (response.body() instanceof LinkedTreeMap) {
+            ArrayList<LinkedTreeMap> arrayList = new ArrayList<>(1);
+            arrayList.add((LinkedTreeMap) response.body());
+            return parse(clazz, arrayList);
+        }
         ArrayList<LinkedTreeMap> body = (ArrayList<LinkedTreeMap>) response.body();
         return parse(clazz, body);
     }
@@ -115,7 +149,13 @@ public class DataSourceRemote {
                         continue;
                     }
                     Field field = fieldList.get(index);
-                    field.set(object, entry.getValue());
+                    if (field.getType() == int.class || field.getType() == Integer.class) {
+                        DecimalFormat df = new DecimalFormat("######0");
+                        int x = Integer.parseInt(df.format(entry.getValue()));
+                        field.set(object, x);
+                    } else {
+                        field.set(object, entry.getValue());
+                    }
                     index ++;
                 }
                 result = object;

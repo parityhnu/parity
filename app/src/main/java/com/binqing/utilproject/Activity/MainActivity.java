@@ -1,15 +1,15 @@
 package com.binqing.utilproject.Activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.binqing.utilproject.Activity.base.BaseActivity;
 import com.binqing.utilproject.IconFont.IconFontTextView;
 import com.binqing.utilproject.R;
 import com.binqing.utilproject.biz.test.MainContract;
 import com.binqing.utilproject.biz.test.MainPresenter;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
+public class MainActivity extends BaseActivity implements MainContract.View {
 
     private IconFontTextView mIcftTest;
     private MainPresenter mPresenter;
