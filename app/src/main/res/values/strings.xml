@@ -15,5 +15,6 @@
     <string name="text_category">分类</string>
     <string name="text_mine">我的</string>
     <string name="text_search">搜索</string>
+    <string name="text_clear_search_history">清除搜索历史</string>
 
 </resources>

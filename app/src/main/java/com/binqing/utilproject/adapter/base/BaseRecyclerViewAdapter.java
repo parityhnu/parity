@@ -10,16 +10,26 @@ import java.util.List;
 
 public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
-    private List<T> mDataList;
-    private int mLayoutId;
-    private MultiTypeLayout<T> mMultiTypeLayout;
+    protected LayoutInflater mLayoutInflater;
+
+    protected List<T> mDataList;
+
+    protected int mLayoutId;
+
+    protected MultiTypeLayout<T> mMultiTypeLayout;
 
     public BaseRecyclerViewAdapter(Context context, List<T> dataList, int layoutId) {
-        this.mContext = context;
+        this.mLayoutInflater = LayoutInflater.from(context);
         this.mDataList = dataList;
         this.mLayoutId = layoutId;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mMultiTypeLayout != null) {
+            return mMultiTypeLayout.getLayoutId(mDataList.get(position), position);
+        }
+        return super.getItemViewType(position);
     }
 
     @Override
@@ -27,8 +37,8 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         if (mMultiTypeLayout != null) {
             mLayoutId = viewType;
         }
-        View view = mLayoutInflater.inflate(mLayoutId, parent, false);
-        return new BaseViewHolder(view);
+        View itemView = mLayoutInflater.inflate(mLayoutId, parent, false);
+        return new BaseViewHolder(itemView);
     }
 
     @Override
@@ -41,5 +51,6 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         return mDataList.size();
     }
 
-    public abstract void bindData(BaseViewHolder holder, T Data);
+    protected abstract void bindData(BaseViewHolder holder, T data);
+
 }
