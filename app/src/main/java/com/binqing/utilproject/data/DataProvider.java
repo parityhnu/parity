@@ -1,7 +1,7 @@
 package com.binqing.utilproject.data;
 
 import com.binqing.utilproject.Callback;
-import com.binqing.utilproject.data.object.GoodObject;
+import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.data.object.UserObject;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -38,11 +38,11 @@ public class DataProvider {
         mExecutor.execute(command);
     }
 
-    public void searchGood(final GoodObject goodObject, final Callback<GoodObject> callback) {
+    public void searchGood(final SearchObject searchObject, final Callback<SearchObject> callback) {
         mExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                DataCenter.getInstance().searchGood(goodObject, callback);
+                DataCenter.getInstance().searchGood(searchObject, callback);
             }
         });
     }

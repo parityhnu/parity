@@ -1,6 +1,6 @@
 package com.binqing.utilproject.data.object;
 
-public class GoodObject {
+public class SearchObject {
     private String mGoodName;
 
     private String mPage;
@@ -23,7 +23,7 @@ public class GoodObject {
 
     @Override
     public String toString() {
-        return "GoodObject{" +
+        return "SearchObject{" +
                 "mGoodName='" + mGoodName + '\'' +
                 ", mPage='" + mPage + '\'' +
                 '}';

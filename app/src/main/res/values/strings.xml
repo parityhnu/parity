@@ -1,10 +1,19 @@
 <resources>
-    <string name="app_name">UtilProject</string>
+    <string name="app_name">慢慢比</string>
 
     <!--IconFont字符串，粘贴须验证 -->
+    <!-- 不明原因不显示图标，暂时弃用 -->
     <string name="icon_test">&#xe77d;</string>
+    <string name="icon_back">&#xe660;</string>
+    <string name="icon_search">&#xe651;</string>
+    <string name="icon_home">&#xe62e;</string>
+    <string name="icon_mine">&#xe62f;</string>
+
 
     <!-- 以下为设置其他类型的字符串 -->
-
+    <string name="text_parity">比价</string>
+    <string name="text_category">分类</string>
+    <string name="text_mine">我的</string>
+    <string name="text_search">搜索</string>
 
 </resources>

@@ -1,19 +1,15 @@
 package com.binqing.utilproject.biz.test;
 
-import android.database.Cursor;
 import android.os.Looper;
 import android.util.Log;
 
-import com.binqing.utilproject.Activity.MainActivity;
+import com.binqing.utilproject.Activity.TestActivity;
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.MainLoopHandler;
 import com.binqing.utilproject.Utils.LogUtils;
 import com.binqing.utilproject.data.DataProvider;
-import com.binqing.utilproject.data.db.DBManager;
-import com.binqing.utilproject.data.db.SqliteOpenHelperUtil;
 import com.binqing.utilproject.data.entry.EntryTest;
 import com.binqing.utilproject.data.entry.interfaceEntry.AbsEntry;
-import com.binqing.utilproject.data.object.GoodObject;
 import com.binqing.utilproject.data.object.TestObject;
 import com.binqing.utilproject.data.object.UserObject;
 import com.binqing.utilproject.data.parse.AnnoParse;
@@ -21,29 +17,26 @@ import com.binqing.utilproject.data.parse.AnnoParse;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
+public class TestPresenter implements TestContract.Presenter {
 
-public class MainPresenter implements MainContract.Presenter {
+    private TestActivity mView;
 
-    private MainActivity mView;
-
-    public MainPresenter(MainActivity activity) {
+    public TestPresenter(TestActivity activity) {
         bindView(activity);
     }
 
-    private void bindView(MainActivity activity) {
+    private void bindView(TestActivity activity) {
         mView = activity;
         MainLoopHandler.getInstance().post(new Runnable() {
             @Override
             public void run() {
-                LogUtils.e("[MainPresenter]" ,String.valueOf(Looper.getMainLooper().getThread() == Thread.currentThread()));
+                LogUtils.e("[TestPresenter]" ,String.valueOf(Looper.getMainLooper().getThread() == Thread.currentThread()));
             }
         });
     }
 
     public void testAnnotation() {
-        LogUtils.e("[MainPresenter]", AnnoParse.initTableInfo(EntryTest.class).toString());
+        LogUtils.e("[TestPresenter]", AnnoParse.initTableInfo(EntryTest.class).toString());
         List<Object> testObjects = new ArrayList<>();
         final TestObject testObject = new TestObject(1, "123123123", "11111");
         testObjects.add(testObject);
@@ -62,7 +55,7 @@ public class MainPresenter implements MainContract.Presenter {
 //            public void onResult(List<TestObject> object) {
 //
 //                for (TestObject testObject1 : object) {
-//                    LogUtils.e("[MainPresenter]", testObject1.toString());
+//                    LogUtils.e("[TestPresenter]", testObject1.toString());
 //                }
 //            }
 //            @Override
@@ -76,9 +69,9 @@ public class MainPresenter implements MainContract.Presenter {
             @Override
             public void onResult(UserObject object) {
                 if (object == null){
-                    Log.e("[MainPresenter]", "账号注册过了");
+                    Log.e("[TestPresenter]", "账号注册过了");
                 } else {
-                    Log.e("[MainPresenter]", object.toString());
+                    Log.e("[TestPresenter]", object.toString());
                 }
 
             }
@@ -88,7 +81,7 @@ public class MainPresenter implements MainContract.Presenter {
                 Log.e(code, reason);
             }
         };
-//        GoodObject object = new GoodObject();
+//        SearchObject object = new SearchObject();
 //        object.setGoodName("欧舒丹");
 //        object.setPage("0");
 //        DataProvider.getInstance().searchGood(object, callback);

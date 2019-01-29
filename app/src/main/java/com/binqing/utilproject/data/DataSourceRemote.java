@@ -1,13 +1,12 @@
 package com.binqing.utilproject.data;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.data.annotation.Member;
-import com.binqing.utilproject.data.model.GoodModel;
+import com.binqing.utilproject.data.model.SearchModel;
 import com.binqing.utilproject.data.model.UserModel;
-import com.binqing.utilproject.data.object.GoodObject;
+import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.http.HttpUtil;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -22,7 +21,6 @@ import java.util.Set;
 import retrofit2.Call;
 import retrofit2.Response;
 
-//todo path的自动化
 public class DataSourceRemote {
 
     private static volatile DataSourceRemote mInstance;
@@ -38,19 +36,19 @@ public class DataSourceRemote {
         return mInstance;
     }
 
-    public void searchGood(GoodObject goodObject, final Callback<GoodModel> callback) {
-        if (goodObject == null) {
+    public void searchGood(SearchObject searchObject, final Callback<SearchModel> callback) {
+        if (searchObject == null) {
             return;
         }
         String path = "search";
         Map<String, String> options = new HashMap<>();
-        options.put("name", goodObject.getGoodName());
-        options.put("page", goodObject.getPage());
+        options.put("name", searchObject.getGoodName());
+        options.put("page", searchObject.getPage());
         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (callback != null) {
-                    callback.onResult((GoodModel) parseObject(GoodModel.class, response));
+                    callback.onResult((SearchModel) parseObject(SearchModel.class, response));
                 }
             }
 
@@ -133,7 +131,6 @@ public class DataSourceRemote {
         if (body == null) {
             return null;
         }
-
         for(LinkedTreeMap linkedTreeMap : body) {
             if (linkedTreeMap == null) {
                 continue;

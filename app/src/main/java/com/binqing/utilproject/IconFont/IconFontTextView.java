@@ -22,6 +22,6 @@ public class IconFontTextView extends android.support.v7.widget.AppCompatTextVie
 
     private void setIconFontType(Context context) {
         Typeface iconfont = Typeface.createFromAsset(context.getAssets(), "iconfont/iconfont.ttf");
-        setTypeface(iconfont);
+        this.setTypeface(iconfont);
     }
 }

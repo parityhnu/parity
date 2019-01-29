@@ -4,9 +4,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.binqing.utilproject.Callback;
-import com.binqing.utilproject.data.model.GoodModel;
+import com.binqing.utilproject.data.model.SearchModel;
 import com.binqing.utilproject.data.model.UserModel;
-import com.binqing.utilproject.data.object.GoodObject;
+import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.data.object.UserObject;
 
 public class DataCenter {
@@ -27,18 +27,18 @@ public class DataCenter {
     private DataCenter() {
     }
 
-    public void searchGood(GoodObject goodObject, final Callback<GoodObject> callback) {
-        if (goodObject == null) {
+    public void searchGood(SearchObject searchObject, final Callback<SearchObject> callback) {
+        if (searchObject == null) {
             return;
         }
 
-        Callback<GoodModel> modelCallback = new Callback<GoodModel>() {
+        Callback<SearchModel> modelCallback = new Callback<SearchModel>() {
             @Override
-            public void onResult(GoodModel object) {
+            public void onResult(SearchModel object) {
                 if (object != null && callback != null) {
                     callback.onResult(object.fromModel());
                 } else {
-                    Log.e("[DataCenter] searchGood", " GoodModel is null");
+                    Log.e("[DataCenter] searchGood", " SearchModel is null");
                 }
             }
 
@@ -50,7 +50,7 @@ public class DataCenter {
             }
         };
 
-        DataSourceRemote.getInstance().searchGood(goodObject, modelCallback);
+        DataSourceRemote.getInstance().searchGood(searchObject, modelCallback);
     }
 
     public void register(String account, String password, final Callback<UserObject> callback) {

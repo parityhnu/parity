@@ -13,5 +13,7 @@ public class Consts {
     public static String INTERNET_BASEURL = "http://10.0.2.2:9090/";
     public static String INTERNET_PATH = "";
 
+    public static String INTENT_KEY_SEARCH_GOOD_HINT_NAME = "intent_key_search_good_hint_name";
+
 
 }
