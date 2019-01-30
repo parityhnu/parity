@@ -10,7 +10,7 @@ public class SearchContract {
     }
 
     public interface Presenter{
-        void search(String goodName);
+        void search(String goodsName);
 
         List<String> getHistory();
 

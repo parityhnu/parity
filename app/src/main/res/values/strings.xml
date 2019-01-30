@@ -15,6 +15,10 @@
     <string name="text_category">分类</string>
     <string name="text_mine">我的</string>
     <string name="text_search">搜索</string>
+    <string name="text_search_history">历史搜索</string>
     <string name="text_clear_search_history">清除搜索历史</string>
+    <string name="text_comprehensive">综合</string>
+    <string name="text_price">价格</string>
+    <string name="text_sales_volume_or_comment">销量/评论</string>
 
 </resources>

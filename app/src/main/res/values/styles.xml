@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity" >
+        <item name="android:activityOpenEnterAnimation">@anim/up_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/down_out</item>
+    </style>
+
 </resources>

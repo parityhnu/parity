@@ -1,16 +1,16 @@
 package com.binqing.utilproject.data.object;
 
 public class SearchObject {
-    private String mGoodName;
+    private String mGoodsName;
 
     private String mPage;
 
-    public String getGoodName() {
-        return mGoodName;
+    public String getGoodsName() {
+        return mGoodsName;
     }
 
-    public void setGoodName(String goodName) {
-        mGoodName = goodName;
+    public void setGoodsName(String goodsName) {
+        mGoodsName = goodsName;
     }
 
     public String getPage() {
@@ -24,7 +24,7 @@ public class SearchObject {
     @Override
     public String toString() {
         return "SearchObject{" +
-                "mGoodName='" + mGoodName + '\'' +
+                "mGoodsName='" + mGoodsName + '\'' +
                 ", mPage='" + mPage + '\'' +
                 '}';
     }

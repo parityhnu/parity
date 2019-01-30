@@ -82,9 +82,9 @@ public class TestPresenter implements TestContract.Presenter {
             }
         };
 //        SearchObject object = new SearchObject();
-//        object.setGoodName("欧舒丹");
+//        object.setGoodsName("欧舒丹");
 //        object.setPage("0");
-//        DataProvider.getInstance().searchGood(object, callback);
+//        DataProvider.getInstance().searchGoods(object, callback);
 
         DataProvider.getInstance().register("qing14", "qing1234", callback);
     }

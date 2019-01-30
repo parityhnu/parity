@@ -38,7 +38,7 @@ public class DataCenter {
                 if (object != null && callback != null) {
                     callback.onResult(object.fromModel());
                 } else {
-                    Log.e("[DataCenter] searchGood", " SearchModel is null");
+                    Log.e("[DataCenter] searchGoods", " SearchModel is null");
                 }
             }
 
@@ -50,7 +50,7 @@ public class DataCenter {
             }
         };
 
-        DataSourceRemote.getInstance().searchGood(searchObject, modelCallback);
+        DataSourceRemote.getInstance().searchGoods(searchObject, modelCallback);
     }
 
     public void register(String account, String password, final Callback<UserObject> callback) {

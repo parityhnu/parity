@@ -36,13 +36,13 @@ public class DataSourceRemote {
         return mInstance;
     }
 
-    public void searchGood(SearchObject searchObject, final Callback<SearchModel> callback) {
+    public void searchGoods(SearchObject searchObject, final Callback<SearchModel> callback) {
         if (searchObject == null) {
             return;
         }
         String path = "search";
         Map<String, String> options = new HashMap<>();
-        options.put("name", searchObject.getGoodName());
+        options.put("name", searchObject.getGoodsName());
         options.put("page", searchObject.getPage());
         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
             @Override

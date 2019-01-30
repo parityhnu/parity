@@ -14,7 +14,7 @@ public class SearchModel {
     public SearchObject fromModel() {
         SearchObject object = new SearchObject();
         object.setPage(page);
-        object.setGoodName(goodname);
+        object.setGoodsName(goodname);
         return object;
     }
 

@@ -51,6 +51,11 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         return mDataList.size();
     }
 
+    public void setDataList(List<T> dataList) {
+        this.mDataList = dataList;
+        notifyDataSetChanged();
+    }
+
     protected abstract void bindData(BaseViewHolder holder, T data);
 
 }

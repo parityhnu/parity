@@ -2,23 +2,25 @@ package com.binqing.utilproject.biz.presenter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
-import com.binqing.utilproject.Activity.SearchActivity;
+import com.binqing.utilproject.Activity.GoodsListActivity;
 import com.binqing.utilproject.Consts.Consts;
-import com.binqing.utilproject.Utils.NavUtil;
 import com.binqing.utilproject.Utils.PreferenceUtil;
-import com.binqing.utilproject.biz.contract.SearchContract;
+import com.binqing.utilproject.biz.contract.GoodsListContract;
+import com.binqing.utilproject.data.object.SearchObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPresenter implements SearchContract.Presenter {
+public class GoodsListPresenter implements GoodsListContract.Presenter {
 
-    private SearchActivity mView;
+    private GoodsListActivity mView;
+    private String mGoodsName;
 
-    public SearchPresenter(SearchActivity activity) {
+    public GoodsListPresenter(GoodsListActivity activity) {
         bindView(activity);
         dealWithIntent();
     }
@@ -26,14 +28,14 @@ public class SearchPresenter implements SearchContract.Presenter {
     private void dealWithIntent() {
         Intent intent = mView.getIntent();
         Bundle bundle = intent.getExtras();
-        String hint = bundle.getString(Consts.INTENT_KEY_SEARCH_GOODS_HINT_NAME);
-        mView.updateSearchEdit(hint);
+        String goodsName = bundle.getString(Consts.INTENT_KEY_SEARCH_GOODS_NAME);
+        mGoodsName = goodsName;
+        mView.updateSearchEdit(mGoodsName);
     }
 
-    private void bindView(SearchActivity activity) {
+    private void bindView(GoodsListActivity activity) {
         mView = activity;
     }
-
 
     @Override
     public void search(String goodsName) {
@@ -53,23 +55,27 @@ public class SearchPresenter implements SearchContract.Presenter {
         list.add(0,goodsName);
         history = gson.toJson(list);
         PreferenceUtil.setUserString(mView, Consts.PREDERENCE_SEARCH_HISTORY, history);
-        NavUtil.Nav2GoodsListActivity(mView, goodsName);
+        mGoodsName = goodsName;
+        requsetGoods("0");
     }
 
     @Override
-    public List<String> getHistory() {
-        String history = PreferenceUtil.getUserString(mView, Consts.PREDERENCE_SEARCH_HISTORY);
-        List<String> list = new ArrayList<>();
-        Gson gson = new Gson();
-        if (!"".equals(history)) {
-            list = gson.fromJson(history, new TypeToken<List<String>>(){}.getType());
-        }
-        return list;
+    public void requsetGoods(String page) {
+        SearchObject object = new SearchObject();
+        object.setPage(page);
+        object.setGoodsName(mGoodsName);
+        Toast.makeText(mView, "正在网络加载，请稍候", Toast.LENGTH_SHORT).show();
+//        DataProvider.getInstance().searchGood(object, new Callback<SearchObject>() {
+//            @Override
+//            public void onResult(SearchObject object) {
+//                mView.refreshList();
+//            }
+//
+//            @Override
+//            public void onException(String code, String reason) {
+//
+//            }
+//        });
     }
 
-    @Override
-    public void clearHistory() {
-        PreferenceUtil.setUserString(mView, Consts.PREDERENCE_SEARCH_HISTORY, "");
-        mView.refreshRecyclerView();
-    }
 }

@@ -14,7 +14,8 @@ public class Consts {
     public static String INTERNET_PATH = "";
 
     //intent
-    public static String INTENT_KEY_SEARCH_GOOD_HINT_NAME = "intent_key_search_good_hint_name";
+    public static String INTENT_KEY_SEARCH_GOODS_HINT_NAME = "intent_key_search_goods_hint_name";
+    public static String INTENT_KEY_SEARCH_GOODS_NAME = "intent_key_search_goods_name";
 
     //sp，不准带有数字
     public static String PREDERENCE_SEARCH_HISTORY = "preference_search_history";

@@ -6,4 +6,5 @@
     <color name="colorBaseTheme">#FFFAFA</color>
     <color name="color_first_gray">#F4F4F4</color>
     <color name="color_second_gray">#F0F0F0</color>
+    <color name="color_third_gray">#D0D0D0</color>
 </resources>
