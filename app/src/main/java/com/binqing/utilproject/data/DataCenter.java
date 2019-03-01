@@ -4,10 +4,13 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.binqing.utilproject.Callback;
-import com.binqing.utilproject.data.model.SearchModel;
+import com.binqing.utilproject.data.model.GoodsListModel;
 import com.binqing.utilproject.data.model.UserModel;
+import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.data.object.UserObject;
+
+import java.util.List;
 
 public class DataCenter {
 
@@ -27,18 +30,18 @@ public class DataCenter {
     private DataCenter() {
     }
 
-    public void searchGood(SearchObject searchObject, final Callback<SearchObject> callback) {
+    public void searchGood(SearchObject searchObject, final Callback<GoodsListObject> callback) {
         if (searchObject == null) {
             return;
         }
 
-        Callback<SearchModel> modelCallback = new Callback<SearchModel>() {
+        Callback<GoodsListModel> modelCallback = new Callback<GoodsListModel>() {
             @Override
-            public void onResult(SearchModel object) {
-                if (object != null && callback != null) {
-                    callback.onResult(object.fromModel());
+            public void onResult(GoodsListModel modelList) {
+                if (modelList != null && callback != null) {
+                    callback.onResult(modelList.toObjct());
                 } else {
-                    Log.e("[DataCenter] searchGoods", " SearchModel is null");
+                    Log.e("[DataCenter]searchGoods", " modelList is null");
                 }
             }
 

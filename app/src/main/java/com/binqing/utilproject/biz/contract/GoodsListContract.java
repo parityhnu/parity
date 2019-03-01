@@ -1,8 +1,12 @@
 package com.binqing.utilproject.biz.contract;
 
+import com.binqing.utilproject.data.object.GoodsListObject;
+
+import java.util.List;
+
 public class GoodsListContract {
     public interface View {
-        void refreshList();
+        void refreshList(GoodsListObject goodsListObject);
 
         void updateSearchEdit(String hint);
     }

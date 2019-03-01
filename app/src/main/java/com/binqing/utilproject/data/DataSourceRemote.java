@@ -4,7 +4,9 @@ import android.text.TextUtils;
 
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.data.annotation.Member;
-import com.binqing.utilproject.data.model.SearchModel;
+import com.binqing.utilproject.data.model.GoodsListModel;
+import com.binqing.utilproject.data.model.JDModel;
+import com.binqing.utilproject.data.model.TBModel;
 import com.binqing.utilproject.data.model.UserModel;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.http.HttpUtil;
@@ -36,11 +38,11 @@ public class DataSourceRemote {
         return mInstance;
     }
 
-    public void searchGoods(SearchObject searchObject, final Callback<SearchModel> callback) {
+    public void searchGoods(SearchObject searchObject, final Callback<GoodsListModel> callback) {
         if (searchObject == null) {
             return;
         }
-        String path = "search";
+        final String path = "ip/search";
         Map<String, String> options = new HashMap<>();
         options.put("name", searchObject.getGoodsName());
         options.put("page", searchObject.getPage());
@@ -48,7 +50,35 @@ public class DataSourceRemote {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (callback != null) {
-                    callback.onResult((SearchModel) parseObject(SearchModel.class, response));
+                    GoodsListModel goodsListModel = new GoodsListModel();
+                    LinkedTreeMap<Integer, LinkedTreeMap> body = (LinkedTreeMap<Integer, LinkedTreeMap>) response.body();
+                    Set<Map.Entry<Integer, LinkedTreeMap>> set = body.entrySet();
+                    for (Map.Entry entry : set) {
+                        ArrayList<LinkedTreeMap> arrayList = (ArrayList<LinkedTreeMap>) entry.getValue();
+                        String keyword = (String) entry.getKey();
+                        if ("jdModelList".equals(keyword)) {
+                            List<JDModel> jdModelList = new ArrayList<>();
+                            List<Object> objectList = parse(JDModel.class, arrayList);
+                            for (Object o : objectList) {
+                                if (o != null) {
+                                    JDModel model = (JDModel) o;
+                                    jdModelList.add(model);
+                                }
+                            }
+                            goodsListModel.jdModelList = jdModelList;
+                        } else if ("tbModelList".equals(keyword)) {
+                            List<TBModel> tbModelList = new ArrayList<>();
+                            List<Object> objectList = parse(TBModel.class, arrayList);
+                            for (Object o : objectList) {
+                                if (o != null) {
+                                    TBModel model = (TBModel) o;
+                                    tbModelList.add(model);
+                                }
+                            }
+                            goodsListModel.tbModelList = tbModelList;
+                        }
+                    }
+                    callback.onResult(goodsListModel);
                 }
             }
 
@@ -96,18 +126,16 @@ public class DataSourceRemote {
      */
     private List<Object> parseList(Class<?> clazz, Response<List<Object>> response) {
         List<Object> objectList = response.body();
-        List<Object> result = new ArrayList<>();
-        for(Object o : objectList) {
-            if (o == null) {
-                continue;
-            }
-            ArrayList<LinkedTreeMap> body = (ArrayList<LinkedTreeMap>) o;
-            Object object = parse(clazz, body);
-            if (object != null) {
-                result.add(object);
+        if (objectList == null) {
+            return null;
+        }
+        ArrayList<LinkedTreeMap> mapArrayList = new ArrayList<>();
+        for (Object o : objectList) {
+            if (o != null) {
+                mapArrayList.add((LinkedTreeMap) o);
             }
         }
-        return result;
+        return parse(clazz, mapArrayList);
     }
 
     /**
@@ -126,8 +154,14 @@ public class DataSourceRemote {
         return parse(clazz, body);
     }
 
-    private Object parse(Class<?> clazz, ArrayList<LinkedTreeMap> body) {
-        Object result = new Object();
+    /**
+     * 只能处理一层结构，如有嵌套需要在传进来之前进行拆分
+     * @param clazz
+     * @param body
+     * @return
+     */
+    private List<Object> parse(Class<?> clazz, ArrayList<LinkedTreeMap> body) {
+        List<Object> result = new ArrayList<>();
         if (body == null) {
             return null;
         }
@@ -155,7 +189,7 @@ public class DataSourceRemote {
                     }
                     index ++;
                 }
-                result = object;
+                result.add(object);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {

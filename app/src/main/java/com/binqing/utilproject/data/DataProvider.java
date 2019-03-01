@@ -1,9 +1,11 @@
 package com.binqing.utilproject.data;
 
 import com.binqing.utilproject.Callback;
+import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.data.object.UserObject;
 
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +40,7 @@ public class DataProvider {
         mExecutor.execute(command);
     }
 
-    public void searchGood(final SearchObject searchObject, final Callback<SearchObject> callback) {
+    public void searchGood(final SearchObject searchObject, final Callback<GoodsListObject> callback) {
         mExecutor.execute(new Runnable() {
             @Override
             public void run() {

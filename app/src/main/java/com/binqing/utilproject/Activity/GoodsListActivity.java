@@ -10,6 +10,9 @@ import com.binqing.utilproject.Activity.base.BaseActivity;
 import com.binqing.utilproject.R;
 import com.binqing.utilproject.biz.contract.GoodsListContract;
 import com.binqing.utilproject.biz.presenter.GoodsListPresenter;
+import com.binqing.utilproject.data.object.GoodsListObject;
+
+import java.util.List;
 
 public class GoodsListActivity extends BaseActivity implements GoodsListContract.View {
     
@@ -60,7 +63,7 @@ public class GoodsListActivity extends BaseActivity implements GoodsListContract
     }
 
     @Override
-    public void refreshList() {
+    public void refreshList(GoodsListObject goodsListObject) {
 
     }
 

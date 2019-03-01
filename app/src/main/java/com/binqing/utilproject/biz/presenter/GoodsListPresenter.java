@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.binqing.utilproject.Activity.GoodsListActivity;
+import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Consts.Consts;
 import com.binqing.utilproject.Utils.PreferenceUtil;
 import com.binqing.utilproject.biz.contract.GoodsListContract;
+import com.binqing.utilproject.data.DataProvider;
+import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -64,18 +67,18 @@ public class GoodsListPresenter implements GoodsListContract.Presenter {
         SearchObject object = new SearchObject();
         object.setPage(page);
         object.setGoodsName(mGoodsName);
-        Toast.makeText(mView, "正在网络加载，请稍候", Toast.LENGTH_SHORT).show();
-//        DataProvider.getInstance().searchGood(object, new Callback<SearchObject>() {
-//            @Override
-//            public void onResult(SearchObject object) {
-//                mView.refreshList();
-//            }
-//
-//            @Override
-//            public void onException(String code, String reason) {
-//
-//            }
-//        });
+        //todo 设置网络错误或超时的toast
+        DataProvider.getInstance().searchGood(object, new Callback<GoodsListObject>() {
+            @Override
+            public void onResult(GoodsListObject goodsListObject) {
+                mView.refreshList(goodsListObject);
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+
+            }
+        });
     }
 
 }

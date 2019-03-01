@@ -21,20 +21,20 @@ public class HttpUtil {
 
     public interface GetService {
         @GET("{path}")
-        Call<List<Object>> getList(@Path("path") String path, @QueryMap Map<String, String> options);
+        Call<List<Object>> getList(@Path(value = "path", encoded = true) String path, @QueryMap Map<String, String> options);
 
         @GET("{path}")
-        Call<Object> get(@Path("path") String path, @QueryMap Map<String, String> options);
+        Call<Object> get(@Path(value = "path", encoded = true) String path, @QueryMap Map<String, String> options);
     }
 
     public interface PostService {
         @POST("{path}")
         @FormUrlEncoded
-        Call<List<Object>> postList(@Path("path") String path, @FieldMap Map<String, String> options);
+        Call<List<Object>> postList(@Path(value = "path", encoded = true) String path, @FieldMap Map<String, String> options);
 
         @POST("{path}")
         @FormUrlEncoded
-        Call<Object> post(@Path("path") String path, @FieldMap Map<String, String> options);
+        Call<Object> post(@Path(value = "path", encoded = true) String path, @FieldMap Map<String, String> options);
     }
 
     public static void get(String path, Map<String, String> options, Callback<Object> callback) {
