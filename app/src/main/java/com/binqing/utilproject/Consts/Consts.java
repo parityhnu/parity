@@ -20,5 +20,6 @@ public class Consts {
 
     //sp，不准带有数字
     public static String PREDERENCE_SEARCH_HISTORY = "preference_search_history";
+    public static String PREDERENCE_USERID = "prederence_user_id";
 
 }

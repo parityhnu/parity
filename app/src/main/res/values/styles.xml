@@ -13,4 +13,10 @@
         <item name="android:activityCloseExitAnimation">@anim/down_out</item>
     </style>
 
+    <declare-styleable name="StatusBarHeightView">
+        <attr name="use_type" format="integer">
+            <enum name="use_height" value="0" />
+            <enum name="use_padding_top" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>

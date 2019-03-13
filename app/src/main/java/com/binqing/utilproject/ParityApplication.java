@@ -2,6 +2,9 @@ package com.binqing.utilproject;
 
 import android.app.Application;
 
+import com.binqing.utilproject.Consts.Consts;
+import com.binqing.utilproject.Utils.PreferenceUtil;
+
 public class ParityApplication extends Application {
     private static ParityApplication mInstance;
     private int mUserId;
@@ -10,7 +13,15 @@ public class ParityApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        mUserId = 0;
+        getUser();
+    }
+
+    public boolean isSignIn() {
+        return mUserId != 0;
+    }
+
+    private void getUser() {
+        mUserId = PreferenceUtil.getInt(this, Consts.PREDERENCE_USERID);
     }
 
     public static ParityApplication getInstance() {

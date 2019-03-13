@@ -1,17 +1,15 @@
 package com.binqing.utilproject.Activity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.binqing.utilproject.Activity.base.BaseActivity;
-import com.binqing.utilproject.IconFont.IconFontTextView;
 import com.binqing.utilproject.R;
-import com.binqing.utilproject.biz.test.TestContract;
-import com.binqing.utilproject.biz.test.TestPresenter;
+import com.binqing.utilproject.biz.contract.SignUpContract;
+import com.binqing.utilproject.biz.presenter.SignUpPresenter;
 
-public class TestActivity extends BaseActivity implements TestContract.View {
+public class SignUpActivity extends BaseActivity implements SignUpContract.View {
 
-    private TestPresenter mPresenter;
+    private SignUpPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +21,7 @@ public class TestActivity extends BaseActivity implements TestContract.View {
     }
 
     private void initPresenter() {
-        mPresenter = new TestPresenter(this);
+        mPresenter = new SignUpPresenter(this);
     }
 
     private void initView() {

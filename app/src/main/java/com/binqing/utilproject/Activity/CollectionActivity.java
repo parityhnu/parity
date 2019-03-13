@@ -1,17 +1,16 @@
 package com.binqing.utilproject.Activity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.binqing.utilproject.Activity.base.BaseActivity;
-import com.binqing.utilproject.IconFont.IconFontTextView;
 import com.binqing.utilproject.R;
-import com.binqing.utilproject.biz.test.TestContract;
+import com.binqing.utilproject.biz.contract.CollectionContract;
+import com.binqing.utilproject.biz.presenter.CollectionPresenter;
 import com.binqing.utilproject.biz.test.TestPresenter;
 
-public class TestActivity extends BaseActivity implements TestContract.View {
+public class CollectionActivity extends BaseActivity implements CollectionContract.View {
 
-    private TestPresenter mPresenter;
+    private CollectionPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +22,7 @@ public class TestActivity extends BaseActivity implements TestContract.View {
     }
 
     private void initPresenter() {
-        mPresenter = new TestPresenter(this);
+        mPresenter = new CollectionPresenter(this);
     }
 
     private void initView() {

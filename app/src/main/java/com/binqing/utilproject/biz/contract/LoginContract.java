@@ -1,6 +1,6 @@
-package com.binqing.utilproject.biz.test;
+package com.binqing.utilproject.biz.contract;
 
-public class TestContract {
+public class LoginContract {
     public interface View {
 
     }

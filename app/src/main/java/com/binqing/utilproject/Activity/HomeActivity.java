@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.binqing.utilproject.Activity.base.BaseActivity;
@@ -20,6 +21,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private RelativeLayout mRlTabHome;
     private RelativeLayout mRlTabCategory;
     private RelativeLayout mRlTabMine;
+    private ImageView mIvHome;
+    private ImageView mIvCategory;
+    private ImageView mIvMine;
 
     private Fragment mFmHome;
     private Fragment mFmCategory;
@@ -45,6 +49,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mRlTabHome = findViewById(R.id.rl_home_tab);
         mRlTabCategory = findViewById(R.id.rl_category_tab);
         mRlTabMine = findViewById(R.id.rl_mine_tab);
+        mIvHome = findViewById(R.id.iv_home);
+        mIvCategory = findViewById(R.id.iv_category);
+        mIvMine = findViewById(R.id.iv_mine);
     }
 
     private void initListener() {
@@ -127,4 +134,5 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         category,
         mine
     }
+
 }

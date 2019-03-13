@@ -23,5 +23,7 @@
     <string name="text_load_more">正在加载更多，请稍候</string>
     <string name="qijian_shop">旗舰店</string>
     <string name="sale_myself">自营</string>
+    <string name="modify">资料修改</string>
+    <string name="collection">我的收藏</string>
 
 </resources>
