@@ -22,5 +22,13 @@ public class JDModel{
     public int page;
 
     @Member(order = 6)
+    public String shop;
+
+    @Member(order = 7)
+    public int score;
+
+    @Member(order = 8)
     public String comment;
+
+
 }

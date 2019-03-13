@@ -46,15 +46,26 @@ public class DataSourceRemote {
         Map<String, String> options = new HashMap<>();
         options.put("name", searchObject.getGoodsName());
         options.put("page", searchObject.getPage());
+        options.put("sort", searchObject.getSort());
         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (callback != null) {
                     GoodsListModel goodsListModel = new GoodsListModel();
                     LinkedTreeMap<Integer, LinkedTreeMap> body = (LinkedTreeMap<Integer, LinkedTreeMap>) response.body();
+                    if (body == null) {
+                        callback.onResult(null);
+                        return;
+                    }
                     Set<Map.Entry<Integer, LinkedTreeMap>> set = body.entrySet();
                     for (Map.Entry entry : set) {
-                        ArrayList<LinkedTreeMap> arrayList = (ArrayList<LinkedTreeMap>) entry.getValue();
+                        ArrayList<LinkedTreeMap> arrayList = new ArrayList<>();
+                        if (entry.getValue() instanceof ArrayList) {
+                            arrayList = (ArrayList<LinkedTreeMap>) entry.getValue();
+                        } else if (entry.getValue() instanceof LinkedTreeMap) {
+                            arrayList.add((LinkedTreeMap) entry.getValue());
+                        }
+
                         String keyword = (String) entry.getKey();
                         if ("jdModelList".equals(keyword)) {
                             List<JDModel> jdModelList = new ArrayList<>();
@@ -76,6 +87,32 @@ public class DataSourceRemote {
                                 }
                             }
                             goodsListModel.tbModelList = tbModelList;
+                        } else if ("parityJdModel".equals(keyword)) {
+                            List<JDModel> jdModelList = new ArrayList<>();
+                            List<Object> objectList = parse(JDModel.class, arrayList);
+                            for (Object o : objectList) {
+                                if (o != null) {
+                                    JDModel model = (JDModel) o;
+                                    jdModelList.add(model);
+                                }
+                            }
+                            if (jdModelList.isEmpty()) {
+                                continue;
+                            }
+                            goodsListModel.parityJdModel = jdModelList.get(0);
+                        } else if ("parityTbModel".equals(keyword)) {
+                            List<TBModel> tbModelList = new ArrayList<>();
+                            List<Object> objectList = parse(TBModel.class, arrayList);
+                            for (Object o : objectList) {
+                                if (o != null) {
+                                    TBModel model = (TBModel) o;
+                                    tbModelList.add(model);
+                                }
+                            }
+                            if (tbModelList.isEmpty()) {
+                                continue;
+                            }
+                            goodsListModel.parityTbModel = tbModelList.get(0);
                         }
                     }
                     callback.onResult(goodsListModel);
@@ -173,11 +210,15 @@ public class DataSourceRemote {
                 Object object = clazz.newInstance();
                 Field[] fields = clazz.getDeclaredFields();
                 List<Field> fieldList = getOrderedField(fields);
+                int length = fieldList.size();
                 Set<Map.Entry> set = linkedTreeMap.entrySet();
                 int index = 0;
                 for(Map.Entry entry : set) {
                     if (entry == null) {
                         continue;
+                    }
+                    if (index >= length) {
+                        break;
                     }
                     Field field = fieldList.get(index);
                     if (field.getType() == int.class || field.getType() == Integer.class) {

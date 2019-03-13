@@ -10,12 +10,13 @@ public class Consts {
     public static String DATABASE_SQLITE_MASTER_Column_NAME = "s_name";
 
     //网络请求相关
-    public static String INTERNET_BASEURL = "http://10.0.2.2:9090/";
+    public static String INTERNET_BASEURL = "http://47.100.108.8:9090/";
     public static String INTERNET_PATH = "";
 
     //intent
     public static String INTENT_KEY_SEARCH_GOODS_HINT_NAME = "intent_key_search_goods_hint_name";
     public static String INTENT_KEY_SEARCH_GOODS_NAME = "intent_key_search_goods_name";
+    public static String INTENT_KEY_PARITY_GOODS_DETAIL = "intent_key_parity_goods_detail";
 
     //sp，不准带有数字
     public static String PREDERENCE_SEARCH_HISTORY = "preference_search_history";

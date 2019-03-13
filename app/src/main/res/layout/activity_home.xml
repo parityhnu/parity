@@ -26,19 +26,19 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <com.binqing.utilproject.IconFont.IconFontTextView
-                android:id="@+id/icft_home"
+            <ImageView
+                android:id="@+id/iv_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
-                android:text="@string/icon_home"
+                android:src="@drawable/ic_home"
                 android:textSize="28dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/icft_home"
+                android:layout_below="@+id/iv_home"
                 android:layout_centerHorizontal="true"
                 android:text="@string/text_parity"
                 android:textSize="14dp"
@@ -52,19 +52,19 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <com.binqing.utilproject.IconFont.IconFontTextView
-                android:id="@+id/icft_category"
+            <ImageView
+                android:id="@+id/iv_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
-                android:text="@string/icon_test"
+                android:src="@drawable/ic_search"
                 android:textSize="28dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/icft_category"
+                android:layout_below="@+id/iv_category"
                 android:layout_centerHorizontal="true"
                 android:text="@string/text_category"
                 android:textSize="14dp"
@@ -78,19 +78,19 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <com.binqing.utilproject.IconFont.IconFontTextView
-                android:id="@+id/icft_mine"
+            <ImageView
+                android:id="@+id/iv_mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
-                android:text="@string/icon_mine"
+                android:src="@drawable/ic_mine"
                 android:textSize="28dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/icft_mine"
+                android:layout_below="@+id/iv_mine"
                 android:layout_centerHorizontal="true"
                 android:text="@string/text_mine"
                 android:textSize="14dp"

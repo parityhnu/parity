@@ -48,7 +48,21 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     @Override
     public int getItemCount() {
+        if (mDataList == null) {
+            return 0;
+        }
         return mDataList.size();
+    }
+
+    public T getItemData(int position){
+        if (mDataList != null && mDataList.size() > position) {
+            return mDataList.get(position);
+        }
+        return null;
+    }
+
+    public List<T> getDataList() {
+        return mDataList;
     }
 
     public void setDataList(List<T> dataList) {

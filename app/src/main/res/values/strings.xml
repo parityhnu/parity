@@ -20,5 +20,8 @@
     <string name="text_comprehensive">综合</string>
     <string name="text_price">价格</string>
     <string name="text_sales_volume_or_comment">销量/评论</string>
+    <string name="text_load_more">正在加载更多，请稍候</string>
+    <string name="qijian_shop">旗舰店</string>
+    <string name="sale_myself">自营</string>
 
 </resources>

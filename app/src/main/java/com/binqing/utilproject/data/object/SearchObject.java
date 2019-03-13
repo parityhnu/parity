@@ -5,20 +5,24 @@ public class SearchObject {
 
     private String mPage;
 
-    public String getGoodsName() {
-        return mGoodsName;
+    private String mSort;
+
+    public SearchObject(String goodsName, String page, String sort) {
+        mGoodsName = goodsName;
+        mPage = page;
+        mSort = sort;
     }
 
-    public void setGoodsName(String goodsName) {
-        mGoodsName = goodsName;
+    public String getGoodsName() {
+        return mGoodsName;
     }
 
     public String getPage() {
         return mPage;
     }
 
-    public void setPage(String page) {
-        mPage = page;
+    public String getSort() {
+        return mSort;
     }
 
     @Override

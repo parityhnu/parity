@@ -92,7 +92,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
                 if (position == size-1) {
                     mPresenter.clearHistory();
                 } else {
-                    mPresenter.search(dataList.get(position));
+                    mPresenter.search(mAdapter.getItemData(position));
                 }
             }
 

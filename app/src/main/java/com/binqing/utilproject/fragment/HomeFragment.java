@@ -1,6 +1,7 @@
 package com.binqing.utilproject.fragment;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -8,9 +9,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.binqing.utilproject.R;
+import com.binqing.utilproject.Utils.LogUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 @SuppressLint("ValidFragment")
 public class HomeFragment extends Fragment {
