@@ -19,4 +19,9 @@
             <enum name="use_padding_top" value="1" />
         </attr>
     </declare-styleable>
+    
+    <style name="NormalEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/color_theme</item>
+        <item name="colorControlActivated">@color/color_theme</item>
+    </style>
 </resources>

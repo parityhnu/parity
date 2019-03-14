@@ -4,13 +4,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.binqing.utilproject.Callback;
+import com.binqing.utilproject.ParityApplication;
 import com.binqing.utilproject.data.model.GoodsListModel;
 import com.binqing.utilproject.data.model.UserModel;
 import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.data.object.UserObject;
-
-import java.util.List;
 
 public class DataCenter {
 
@@ -65,7 +64,7 @@ public class DataCenter {
             @Override
             public void onResult(UserModel object) {
                 if (object != null && callback != null) {
-                    callback.onResult(object.fromModel());
+                    callback.onResult(object.toObject());
                 } else {
                     callback.onResult(null);
                     Log.e("[DataCenter] register", " UserModel is null");
@@ -81,5 +80,32 @@ public class DataCenter {
         };
 
         DataSourceRemote.getInstance().register(account, password, modelCallback);
+    }
+
+    public void login(String account, String password, final Callback<UserObject> callback) {
+        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
+            return;
+        }
+
+        Callback<UserModel> modelCallback = new Callback<UserModel>() {
+            @Override
+            public void onResult(UserModel model) {
+                if (model != null && callback != null) {
+                    callback.onResult(model.toObject());
+                } else {
+                    callback.onResult(null);
+                    Log.e("[DataCenter] login", " UserModel is null");
+                }
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                if (callback != null) {
+                    callback.onException(code, reason);
+                }
+            }
+        };
+
+        DataSourceRemote.getInstance().login(account, password, modelCallback);
     }
 }

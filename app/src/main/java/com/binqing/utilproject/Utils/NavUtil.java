@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.binqing.utilproject.Activity.CollectionActivity;
+import com.binqing.utilproject.Activity.ForgetPasswordActivity;
 import com.binqing.utilproject.Activity.GoodsListActivity;
 import com.binqing.utilproject.Activity.GoodsParityDetailActivity;
+import com.binqing.utilproject.Activity.LoginActivity;
 import com.binqing.utilproject.Activity.ModifyActivity;
 import com.binqing.utilproject.Activity.SearchActivity;
 import com.binqing.utilproject.Activity.SignUpActivity;
@@ -51,6 +53,12 @@ public class NavUtil {
         context.startActivity(intent);
     }
 
+    public static void Nav2LoginActivity(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
+
     public static void Nav2ModifyActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, ModifyActivity.class);
@@ -60,6 +68,12 @@ public class NavUtil {
     public static void Nav2CollectionActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, CollectionActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void Nav2ForgetPasswordActivity(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, ForgetPasswordActivity.class);
         context.startActivity(intent);
     }
 

@@ -13,7 +13,7 @@ public class UserModel {
     @Member (order = 2)
     public String uname;
 
-    public UserObject fromModel() {
+    public UserObject toObject() {
         UserObject object = new UserObject();
         object.setAccount(account);
         object.setUid(uid);

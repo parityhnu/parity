@@ -10,7 +10,7 @@ public class Consts {
     public static String DATABASE_SQLITE_MASTER_Column_NAME = "s_name";
 
     //网络请求相关
-    public static String INTERNET_BASEURL = "http://47.100.108.8:9090/";
+    public static String INTERNET_BASEURL = "http://10.0.2.2:9090/";
     public static String INTERNET_PATH = "";
 
     //intent
@@ -21,5 +21,6 @@ public class Consts {
     //sp，不准带有数字
     public static String PREDERENCE_SEARCH_HISTORY = "preference_search_history";
     public static String PREDERENCE_USERID = "prederence_user_id";
+    public static String PREDERENCE_ACCOUNT_NAME = "prederence_account_name";
 
 }

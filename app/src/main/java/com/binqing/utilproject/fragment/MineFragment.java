@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.binqing.utilproject.ParityApplication;
 import com.binqing.utilproject.R;
@@ -18,6 +19,7 @@ public class MineFragment extends Fragment {
     private RelativeLayout mRlSignIn;
     private RelativeLayout mRlModify;
     private RelativeLayout mRlCollection;
+    private TextView mTvName;
 
     private boolean mIsSignIn;
 
@@ -41,6 +43,13 @@ public class MineFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIsSignIn = ParityApplication.getInstance().isSignIn();
+        refreshView();
+    }
+
     private void initData() {
         mIsSignIn = ParityApplication.getInstance().isSignIn();
     }
@@ -50,9 +59,15 @@ public class MineFragment extends Fragment {
         mRlSignIn = view.findViewById(R.id.rl_content_signin);
         mRlModify = view.findViewById(R.id.rl_modify);
         mRlCollection = view.findViewById(R.id.rl_collection);
+        mTvName = view.findViewById(R.id.tv_name);
+        refreshView();
+    }
+
+    private void refreshView() {
         if (mIsSignIn) {
             mRlSignIn.setVisibility(View.VISIBLE);
             mRlUnSignIn.setVisibility(View.GONE);
+            mTvName.setText(ParityApplication.getInstance().getAccountName());
         } else {
             mRlSignIn.setVisibility(View.GONE);
             mRlUnSignIn.setVisibility(View.VISIBLE);
@@ -66,7 +81,7 @@ public class MineFragment extends Fragment {
                 if (mIsSignIn) {
                     return;
                 }
-                NavUtil.Nav2SignUpActivity(getActivity());
+                NavUtil.Nav2LoginActivity(getActivity());
             }
         });
 
@@ -83,14 +98,23 @@ public class MineFragment extends Fragment {
         mRlCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavUtil.Nav2CollectionActivity(getActivity());
+                if (mIsSignIn) {
+                    NavUtil.Nav2CollectionActivity(getActivity());
+                } else {
+                    NavUtil.Nav2LoginActivity(getActivity());
+                }
             }
         });
 
         mRlModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavUtil.Nav2ModifyActivity(getActivity());
+                if (mIsSignIn) {
+                    NavUtil.Nav2ModifyActivity(getActivity());
+                } else {
+                    NavUtil.Nav2LoginActivity(getActivity());
+                }
+
             }
         });
     }

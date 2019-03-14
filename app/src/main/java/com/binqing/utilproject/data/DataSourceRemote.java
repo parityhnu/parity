@@ -155,6 +155,32 @@ public class DataSourceRemote {
         HttpUtil.post(path, options, callback1);
     }
 
+    public void login(String account, String password, final Callback<UserModel> callback) {
+        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
+            return;
+        }
+        String path = "login";
+        Map<String, String> options = new HashMap<>();
+        options.put("account", account);
+        options.put("password", password);
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    callback.onResult((UserModel) parseObject(UserModel.class, response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("connectionException", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.post(path, options, callback1);
+    }
+
     /**
      * 需要解析列表时使用
      * @param clazz
@@ -185,10 +211,18 @@ public class DataSourceRemote {
         if (response.body() instanceof LinkedTreeMap) {
             ArrayList<LinkedTreeMap> arrayList = new ArrayList<>(1);
             arrayList.add((LinkedTreeMap) response.body());
-            return parse(clazz, arrayList);
+            List<Object> o = parse(clazz, arrayList);
+            if (o != null && !o.isEmpty()) {
+                return o.get(0);
+            }
+            return null;
         }
         ArrayList<LinkedTreeMap> body = (ArrayList<LinkedTreeMap>) response.body();
-        return parse(clazz, body);
+        List<Object> o = parse(clazz, body);
+        if (o != null && !o.isEmpty()) {
+            return o.get(0);
+        }
+        return null;
     }
 
     /**

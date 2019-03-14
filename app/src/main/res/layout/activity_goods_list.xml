@@ -40,7 +40,7 @@
             android:layout_height="28dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:background="@drawable/ic_search"/>
+            android:background="@drawable/ic_back"/>
 
     </RelativeLayout>
 

@@ -50,21 +50,23 @@ public class DataProvider {
     }
 
     public void register(final String account, final String password, final Callback<UserObject> callback) {
-        mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                DataCenter.getInstance().register(account, password, callback);
-            }
-        });
+            mExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    DataCenter.getInstance().register(account, password, callback);
+                }
+            });
     }
 
 
-
-
-
-
-
-
+    public void login(final String account, final String password, final Callback<UserObject> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().login(account, password, callback);
+            }
+        });
+    }
 
 
     private ThreadPoolExecutor getThreadPoolExecutor() {
