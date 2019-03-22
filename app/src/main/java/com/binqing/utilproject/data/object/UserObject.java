@@ -7,6 +7,8 @@ public class UserObject {
 
     private String mUname;
 
+    private String mPhone;
+
     public Integer getUid() {
         return mUid;
     }
@@ -29,6 +31,14 @@ public class UserObject {
 
     public void setUname(String uname) {
         mUname = uname;
+    }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(String phone) {
+        mPhone = phone;
     }
 
     @Override

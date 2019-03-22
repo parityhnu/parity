@@ -10,9 +10,11 @@ import com.binqing.utilproject.Activity.GoodsListActivity;
 import com.binqing.utilproject.Activity.GoodsParityDetailActivity;
 import com.binqing.utilproject.Activity.LoginActivity;
 import com.binqing.utilproject.Activity.ModifyActivity;
+import com.binqing.utilproject.Activity.ModifyDetailActivity;
 import com.binqing.utilproject.Activity.SearchActivity;
 import com.binqing.utilproject.Activity.SignUpActivity;
 import com.binqing.utilproject.Consts.Consts;
+import com.binqing.utilproject.Enum.ModifyType;
 import com.binqing.utilproject.data.object.GoodsObject;
 
 import java.io.Serializable;
@@ -62,6 +64,13 @@ public class NavUtil {
     public static void Nav2ModifyActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, ModifyActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void Nav2ModifyDetailActivity(Context context, ModifyType modifyType) {
+        Intent intent = new Intent();
+        intent.putExtra(Consts.INTENT_KEY_MODIFY_TYPE, modifyType);
+        intent.setClass(context, ModifyDetailActivity.class);
         context.startActivity(intent);
     }
 

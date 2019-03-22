@@ -2,6 +2,7 @@ package com.binqing.utilproject.Activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -156,4 +157,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View{
         }
     }
 
+    @Override
+    public void alert(int type) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setMessage(type == -1?"账户名或者密码错误":"错误次数过多，请5分钟后再试");
+        builder.show();
+    }
 }

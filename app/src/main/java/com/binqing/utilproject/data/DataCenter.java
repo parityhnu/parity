@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.binqing.utilproject.Callback;
+import com.binqing.utilproject.Enum.ModifyType;
 import com.binqing.utilproject.ParityApplication;
 import com.binqing.utilproject.data.model.GoodsListModel;
 import com.binqing.utilproject.data.model.UserModel;
@@ -55,8 +56,8 @@ public class DataCenter {
         DataSourceRemote.getInstance().searchGoods(searchObject, modelCallback);
     }
 
-    public void register(String account, String password, final Callback<UserObject> callback) {
-        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
+    public void register(String account, String password, String phone, final Callback<UserObject> callback) {
+        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password) || TextUtils.isEmpty(phone)) {
             return;
         }
 
@@ -79,7 +80,7 @@ public class DataCenter {
             }
         };
 
-        DataSourceRemote.getInstance().register(account, password, modelCallback);
+        DataSourceRemote.getInstance().register(account, password, phone, modelCallback);
     }
 
     public void login(String account, String password, final Callback<UserObject> callback) {
@@ -107,5 +108,28 @@ public class DataCenter {
         };
 
         DataSourceRemote.getInstance().login(account, password, modelCallback);
+    }
+
+    public void modify(String s1, String s2, ModifyType modifyType, Callback<String> callback) {
+        int user = ParityApplication.getInstance().getUserId();
+        if (user == 0) {
+            return;
+        }
+        if (callback == null) {
+            return;
+        }
+        DataSourceRemote.getInstance().modify(user, s1, s2, modifyType.getValue(), callback);
+    }
+
+    public void forgetPassword(String account, String phone, String password, Callback<String> callback) {
+        DataSourceRemote.getInstance().forgetPassword(account, phone, password, callback);
+    }
+
+    public void requestPhone(Callback<String> callback) {
+        int user = ParityApplication.getInstance().getUserId();
+        if (user == 0) {
+            return;
+        }
+        DataSourceRemote.getInstance().requestPhone(user, callback);
     }
 }

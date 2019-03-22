@@ -30,5 +30,27 @@
     <string name="login">登录</string>
     <string name="forget_password">忘记密码</string>
     <string name="sign_up">注册</string>
+    <string name="user_name">昵称</string>
+    <string name="phone_number">手机号</string>
+    <string name="login_password">登录密码</string>
+    <string name="modify_password">修改</string>
+    <string name="enter_present_pwd">请输入当前登录密码</string>
+    <string name="enter_new_pwd">设置新的登录密码</string>
+    <string name="enter_present_phone">请输入当前绑定的手机号</string>
+    <string name="enter_new_phone">设置新的手机号</string>
+    <string name="achieve">完成</string>
+    <string name="title_modify_password">密码修改</string>
+    <string name="title_modify_name">昵称修改</string>
+    <string name="title_modify_phone">手机号修改</string>
+    <string name="tip_modify_password">请将密码设置为6-12位，并且由字母、数字和符号两种以上组合</string>
+    <string name="tip_modify_phone">请妥善保管您的账号和手机号</string>
+    <string name="tip_modify_name">正在为您设置新的昵称,新的昵称应不超过12个字符</string>
+    <string name="password_illegal">不合法的密码</string>
+    <string name="phone_illegal">不合法的手机号</string>
+    <string name="name_illegal">不合法的昵称</string>
+    <string name="tip_account_phone">请妥善保管您的账号和手机号，将作为修改密码的凭证</string>
+    <string name="enter_phone">请输入手机号</string>
+    <string name="tip_account">以英文字母为开头，仅包含字母与数字</string>
+    <string name="check_password">重复确认密码</string>
 
 </resources>

@@ -129,14 +129,15 @@ public class DataSourceRemote {
         HttpUtil.get(path, options, callback1);
     }
 
-    public void register(String account, String password, final Callback<UserModel> callback) {
-        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
+    public void register(String account, String password, String phone, final Callback<UserModel> callback) {
+        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password) || TextUtils.isEmpty(phone)) {
             return;
         }
-        String path = "register";
+        String path = "user/register";
         Map<String, String> options = new HashMap<>();
         options.put("account", account);
         options.put("password", password);
+        options.put("phone", phone);
         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -159,7 +160,7 @@ public class DataSourceRemote {
         if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
             return;
         }
-        String path = "login";
+        String path = "user/login";
         Map<String, String> options = new HashMap<>();
         options.put("account", account);
         options.put("password", password);
@@ -175,6 +176,95 @@ public class DataSourceRemote {
             public void onFailure(Call<Object> call, Throwable t) {
                 if (callback != null) {
                     callback.onException("connectionException", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.post(path, options, callback1);
+    }
+
+    public void requestPhone(int user, final Callback<String> callback) {
+        if (user == 0) {
+            return;
+        }
+        String path = "user/requestPhone";
+        Map<String, String> options = new HashMap<>();
+        options.put("user", String.valueOf(user));
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    callback.onResult((String) parseObject(String.class, response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("-1", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.post(path, options, callback1);
+    }
+
+    public void modify(int user, String s1, String s2, String modifyType, final Callback<String> callback) {
+        if (modifyType == null || "".equals(modifyType)) {
+            return;
+        }
+        if (user == 0) {
+            return;
+        }
+        String path = "user/modify";
+        Map<String, String> options = new HashMap<>();
+        options.put("user", String.valueOf(user));
+        options.put("s1", s1);
+        options.put("s2", s2);
+        options.put("modifyType", modifyType);
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    callback.onResult((String) parseObject(String.class, response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("-1", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.post(path, options, callback1);
+    }
+
+    public void forgetPassword(String account, String phone, String password, final Callback<String> callback) {
+        if (phone == null || "".equals(phone)) {
+            return;
+        }
+        if (password == null || "".equals(password)) {
+            return;
+        }
+        if (account == null || "".equals(account)) {
+            return;
+        }
+        String path = "user/forgetPassword";
+        Map<String, String> options = new HashMap<>();
+        options.put("account", account);
+        options.put("phone", phone);
+        options.put("password", password);
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    callback.onResult((String) parseObject(String.class, response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("-1", String.valueOf(t));
                 }
             }
         };

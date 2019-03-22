@@ -17,10 +17,11 @@ public class Consts {
     public static String INTENT_KEY_SEARCH_GOODS_HINT_NAME = "intent_key_search_goods_hint_name";
     public static String INTENT_KEY_SEARCH_GOODS_NAME = "intent_key_search_goods_name";
     public static String INTENT_KEY_PARITY_GOODS_DETAIL = "intent_key_parity_goods_detail";
+    public static String INTENT_KEY_MODIFY_TYPE = "intent_key_modify_type";
 
     //sp，不准带有数字
     public static String PREDERENCE_SEARCH_HISTORY = "preference_search_history";
     public static String PREDERENCE_USERID = "prederence_user_id";
     public static String PREDERENCE_ACCOUNT_NAME = "prederence_account_name";
-
+    public static String PREDERENCE_PHONE = "prederence_phone";
 }

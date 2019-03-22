@@ -1,8 +1,13 @@
 package com.binqing.utilproject.Activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.binqing.utilproject.Activity.base.BaseActivity;
+import com.binqing.utilproject.ParityApplication;
 import com.binqing.utilproject.R;
 import com.binqing.utilproject.biz.contract.ModifyContract;
 import com.binqing.utilproject.biz.presenter.ModifyPresenter;
@@ -11,10 +16,17 @@ public class ModifyActivity extends BaseActivity implements ModifyContract.View 
 
     private ModifyPresenter mPresenter;
 
+    private RelativeLayout mRlName;
+    private RelativeLayout mRlPhone;
+    private RelativeLayout mRlPassword;
+    private Button mBtSignOut;
+    private TextView mTvName;
+    private TextView mTvPhone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_modify);
         initView();
         initPresenter();
         initListener();
@@ -25,10 +37,43 @@ public class ModifyActivity extends BaseActivity implements ModifyContract.View 
     }
 
     private void initView() {
-
+        mRlName = findViewById(R.id.rl_name);
+        mRlPassword = findViewById(R.id.rl_password);
+        mRlPhone = findViewById(R.id.rl_phone);
+        mBtSignOut = findViewById(R.id.bt_sign_out);
+        mTvName = findViewById(R.id.tv_user_name);
+        mTvPhone = findViewById(R.id.tv_user_phone);
+        mTvName.setText(ParityApplication.getInstance().getAccountName());
+        mTvPhone.setText(ParityApplication.getInstance().getPhone());
     }
 
     private void initListener() {
+        mRlName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.modifyName();
+            }
+        });
 
+        mRlPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.modifyPhone();
+            }
+        });
+
+        mRlPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.modifyPassword();
+            }
+        });
+
+        mBtSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.signOut();
+            }
+        });
     }
 }

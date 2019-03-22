@@ -9,6 +9,7 @@ public class ParityApplication extends Application {
     private static ParityApplication mInstance;
     private int mUserId;
     private String mAccountName;
+    private String mPhone;
 
     @Override
     public void onCreate() {
@@ -16,6 +17,7 @@ public class ParityApplication extends Application {
         mInstance = this;
         getUser();
         getAccount();
+        getPhoneNumber();
     }
 
     public boolean isSignIn() {
@@ -30,6 +32,11 @@ public class ParityApplication extends Application {
     private void getAccount() {
         mAccountName = PreferenceUtil.getUserString(this, Consts.PREDERENCE_ACCOUNT_NAME);
     }
+
+    public void getPhoneNumber() {
+        mPhone = PreferenceUtil.getUserString(this, Consts.PREDERENCE_PHONE);
+    }
+
 
     public static ParityApplication getInstance() {
         return mInstance;
@@ -52,4 +59,16 @@ public class ParityApplication extends Application {
         mAccountName = accountName;
         PreferenceUtil.setUserString(this, Consts.PREDERENCE_ACCOUNT_NAME, mAccountName);
     }
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(String phone) {
+        StringBuilder builder = new StringBuilder(phone);
+        phone = builder.replace(3, 3+4, "****").toString();
+        mPhone = phone;
+        PreferenceUtil.setUserString(this, Consts.PREDERENCE_PHONE, mPhone);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.binqing.utilproject.data;
 
 import com.binqing.utilproject.Callback;
+import com.binqing.utilproject.Enum.ModifyType;
 import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.data.object.UserObject;
@@ -49,11 +50,11 @@ public class DataProvider {
         });
     }
 
-    public void register(final String account, final String password, final Callback<UserObject> callback) {
+    public void register(final String account, final String password, final String phone, final Callback<UserObject> callback) {
             mExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    DataCenter.getInstance().register(account, password, callback);
+                    DataCenter.getInstance().register(account, password, phone, callback);
                 }
             });
     }
@@ -64,6 +65,33 @@ public class DataProvider {
             @Override
             public void run() {
                 DataCenter.getInstance().login(account, password, callback);
+            }
+        });
+    }
+
+    public void requestPhone(final Callback<String> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().requestPhone(callback);
+            }
+        });
+    }
+
+    public void modify(final String s1, final String s2, final ModifyType modifyType, final Callback<String> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().modify(s1, s2, modifyType, callback);
+            }
+        });
+    }
+
+    public void forgetPassword(final String account, final String phone, final String passwrod, final Callback<String> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().forgetPassword(account, phone, passwrod, callback);
             }
         });
     }

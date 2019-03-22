@@ -190,24 +190,6 @@
                 android:layout_above="@+id/rl_content_tab"
                 android:background="@color/divider_color"></View>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:id="@+id/bt_sign_out"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:background="@color/color_theme"
-                    android:textColor="@color/color_white"
-                    android:textSize="20dp"
-                    android:text="退出登录"/>
-            </RelativeLayout>
-
         </LinearLayout>
     </com.binqing.utilproject.view.StatusBarHeightView>
 
