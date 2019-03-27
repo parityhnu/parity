@@ -62,7 +62,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_category"
@@ -78,9 +79,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_category"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
                 android:text="@string/text_category"
-                android:textSize="14dp"
-                android:layout_marginBottom="8dp"/>
+                android:textSize="14dp"/>
         </RelativeLayout>
 
         <RelativeLayout

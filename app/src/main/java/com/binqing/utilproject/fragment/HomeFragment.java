@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.binqing.utilproject.R;
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.target.Target;
 @SuppressLint("ValidFragment")
 public class HomeFragment extends Fragment {
 
+    private LinearLayout mLlSearch;
     private TextView mTvSearch;
     private OnSearchListener mOnSearchListener;
 
@@ -50,10 +52,11 @@ public class HomeFragment extends Fragment {
 
     private void initView(View view) {
         mTvSearch = view.findViewById(R.id.tv_search);
+        mLlSearch = view.findViewById(R.id.ll_search);
     }
 
     private void initLisenter() {
-        mTvSearch.setOnClickListener(new View.OnClickListener() {
+        mLlSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mOnSearchListener != null) {
