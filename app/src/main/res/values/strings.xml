@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">慢慢比</string>
+    <string name="app_name">parity</string>
 
     <!--IconFont字符串，粘贴须验证 -->
     <!-- 不明原因不显示图标，暂时弃用 -->

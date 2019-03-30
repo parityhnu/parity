@@ -49,9 +49,27 @@
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/iv_goods_image"
         android:layout_below="@id/tv_gprcie"
-        android:textColor="@color/color_mine_background"
+        android:textColor="@color/color_second_black"
         android:text="京东自营"
         android:textSize="14dp"/>
+
+    <ImageView
+        android:id="@+id/iv_ic_tb"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_above="@id/tv_gcomment_sale"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/tb"/>
+
+    <ImageView
+        android:id="@+id/iv_ic_jd"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_above="@id/tv_gcomment_sale"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/jd"/>
 
     <TextView
         android:id="@+id/tv_gcomment_sale"
@@ -61,7 +79,7 @@
         android:layout_marginTop="8dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/tv_gprcie"
-        android:textColor="@color/color_mine_background"
+        android:textColor="@color/color_second_black"
         android:text="有1000评价"
         android:textSize="14dp"/>
 

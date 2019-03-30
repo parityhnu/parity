@@ -1,6 +1,7 @@
 package com.binqing.utilproject.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.binqing.utilproject.R;
@@ -45,8 +46,12 @@ public class GoodsListAdapter extends BaseRecyclerViewAdapter<GoodsObject> imple
             Glide.with(mContext).load("https:" + Data.getImage()).into(imageView);
             if (Data.getParityObjects() == null || Data.getParityObjects().isEmpty()) {
                 if (Data instanceof TBObject) {
+                    holder.setViewVisivility(R.id.iv_ic_tb, View.VISIBLE);
+                    holder.setViewVisivility(R.id.iv_ic_jd, View.GONE);
                     holder.setText(R.id.tv_gcomment_sale, ((TBObject) Data).getSale());
                 } else if (Data instanceof JDObject) {
+                    holder.setViewVisivility(R.id.iv_ic_tb, View.GONE);
+                    holder.setViewVisivility(R.id.iv_ic_jd, View.VISIBLE);
                     holder.setText(R.id.tv_gcomment_sale, ((JDObject) Data).getComment() + "+评论");
                 }
                 holder.setText(R.id.tv_gshop, Data.getShop());
