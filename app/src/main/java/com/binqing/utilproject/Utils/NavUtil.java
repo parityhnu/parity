@@ -13,6 +13,7 @@ import com.binqing.utilproject.Activity.ModifyActivity;
 import com.binqing.utilproject.Activity.ModifyDetailActivity;
 import com.binqing.utilproject.Activity.SearchActivity;
 import com.binqing.utilproject.Activity.SignUpActivity;
+import com.binqing.utilproject.Activity.WebViewActivity;
 import com.binqing.utilproject.Consts.Consts;
 import com.binqing.utilproject.Enum.ModifyType;
 import com.binqing.utilproject.data.object.GoodsObject;
@@ -44,9 +45,10 @@ public class NavUtil {
     }
 
     public static void Nav2Web(Context context, String url) {
-        Uri uri = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        context.startActivity(intent);
+        Nav2WebViewActivity(context, url);
+//        Uri uri = Uri.parse(url);
+//        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//        context.startActivity(intent);
     }
 
     public static void Nav2SignUpActivity(Context context) {
@@ -83,6 +85,13 @@ public class NavUtil {
     public static void Nav2ForgetPasswordActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, ForgetPasswordActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void Nav2WebViewActivity(Context context, String href) {
+        Intent intent = new Intent();
+        intent.putExtra(Consts.INTENT_KEY_WEBVIEW_HREF, href);
+        intent.setClass(context, WebViewActivity.class);
         context.startActivity(intent);
     }
 

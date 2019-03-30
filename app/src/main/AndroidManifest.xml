@@ -29,6 +29,9 @@
         <activity android:name=".Activity.SignUpActivity"></activity>
         <activity android:name=".Activity.ForgetPasswordActivity"></activity>
         <activity android:name=".Activity.ModifyDetailActivity"></activity>
+        <activity android:name=".Activity.WebViewActivity"></activity>
+
+
     </application>
 
 </manifest>
