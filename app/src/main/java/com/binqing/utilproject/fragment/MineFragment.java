@@ -3,15 +3,20 @@ package com.binqing.utilproject.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.ParityApplication;
 import com.binqing.utilproject.R;
+import com.binqing.utilproject.Utils.LogUtils;
 import com.binqing.utilproject.Utils.NavUtil;
+import com.binqing.utilproject.data.DataProvider;
 
 public class MineFragment extends Fragment {
 
@@ -52,6 +57,28 @@ public class MineFragment extends Fragment {
 
     private void initData() {
         mIsSignIn = ParityApplication.getInstance().isSignIn();
+        DataProvider.getInstance().requestName(new Callback<String>() {
+            @Override
+            public void onResult(String result) {
+                refreshView();
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                LogUtils.e(code, reason);
+            }
+        });
+        DataProvider.getInstance().requestPhone(new Callback<String>() {
+            @Override
+            public void onResult(String result) {
+
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                LogUtils.e(code, reason);
+            }
+        });
     }
 
     private void initView(View view) {

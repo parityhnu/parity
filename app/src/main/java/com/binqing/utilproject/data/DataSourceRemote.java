@@ -3,9 +3,11 @@ package com.binqing.utilproject.data;
 import android.text.TextUtils;
 
 import com.binqing.utilproject.Callback;
+import com.binqing.utilproject.Utils.LogUtils;
 import com.binqing.utilproject.data.annotation.Member;
 import com.binqing.utilproject.data.model.GoodsListModel;
 import com.binqing.utilproject.data.model.JDModel;
+import com.binqing.utilproject.data.model.StringModel;
 import com.binqing.utilproject.data.model.TBModel;
 import com.binqing.utilproject.data.model.UserModel;
 import com.binqing.utilproject.data.object.SearchObject;
@@ -182,18 +184,18 @@ public class DataSourceRemote {
         HttpUtil.post(path, options, callback1);
     }
 
-    public void requestPhone(int user, final Callback<String> callback) {
+    public void requestName(int user, final Callback<StringModel> callback) {
         if (user == 0) {
             return;
         }
-        String path = "user/requestPhone";
+        String path = "user/requestName";
         Map<String, String> options = new HashMap<>();
         options.put("user", String.valueOf(user));
         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (callback != null) {
-                    callback.onResult((String) parseObject(String.class, response));
+                    callback.onResult((StringModel) parseObject(StringModel.class, response));
                 }
             }
 
@@ -207,7 +209,32 @@ public class DataSourceRemote {
         HttpUtil.post(path, options, callback1);
     }
 
-    public void modify(int user, String s1, String s2, String modifyType, final Callback<String> callback) {
+    public void requestPhone(int user, final Callback<StringModel> callback) {
+        if (user == 0) {
+            return;
+        }
+        String path = "user/requestPhone";
+        Map<String, String> options = new HashMap<>();
+        options.put("user", String.valueOf(user));
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    callback.onResult((StringModel) parseObject(StringModel.class, response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("-1", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.post(path, options, callback1);
+    }
+
+    public void modify(int user, String s1, String s2, String modifyType, final Callback<StringModel> callback) {
         if (modifyType == null || "".equals(modifyType)) {
             return;
         }
@@ -224,7 +251,7 @@ public class DataSourceRemote {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (callback != null) {
-                    callback.onResult((String) parseObject(String.class, response));
+                    callback.onResult((StringModel) parseObject(StringModel.class, response));
                 }
             }
 
@@ -238,7 +265,7 @@ public class DataSourceRemote {
         HttpUtil.post(path, options, callback1);
     }
 
-    public void forgetPassword(String account, String phone, String password, final Callback<String> callback) {
+    public void forgetPassword(String account, String phone, String password, final Callback<StringModel> callback) {
         if (phone == null || "".equals(phone)) {
             return;
         }
@@ -257,7 +284,7 @@ public class DataSourceRemote {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (callback != null) {
-                    callback.onResult((String) parseObject(String.class, response));
+                    callback.onResult((StringModel) parseObject(StringModel.class, response));
                 }
             }
 
@@ -306,13 +333,18 @@ public class DataSourceRemote {
                 return o.get(0);
             }
             return null;
+        } else if (response.body() instanceof ArrayList ) {
+            ArrayList<LinkedTreeMap> body = (ArrayList<LinkedTreeMap>) response.body();
+            List<Object> o = parse(clazz, body);
+            if (o != null && !o.isEmpty()) {
+                return o.get(0);
+            }
+            return null;
+        } else {
+            LogUtils.e("parseObject error", "type error " + response.getClass());
+            return null;
         }
-        ArrayList<LinkedTreeMap> body = (ArrayList<LinkedTreeMap>) response.body();
-        List<Object> o = parse(clazz, body);
-        if (o != null && !o.isEmpty()) {
-            return o.get(0);
-        }
-        return null;
+
     }
 
     /**

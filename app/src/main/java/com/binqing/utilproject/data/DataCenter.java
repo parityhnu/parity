@@ -7,6 +7,7 @@ import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Enum.ModifyType;
 import com.binqing.utilproject.ParityApplication;
 import com.binqing.utilproject.data.model.GoodsListModel;
+import com.binqing.utilproject.data.model.StringModel;
 import com.binqing.utilproject.data.model.UserModel;
 import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.SearchObject;
@@ -110,7 +111,7 @@ public class DataCenter {
         DataSourceRemote.getInstance().login(account, password, modelCallback);
     }
 
-    public void modify(String s1, String s2, ModifyType modifyType, Callback<String> callback) {
+    public void modify(String s1, String s2, final ModifyType modifyType, final Callback<String> callback) {
         int user = ParityApplication.getInstance().getUserId();
         if (user == 0) {
             return;
@@ -118,18 +119,120 @@ public class DataCenter {
         if (callback == null) {
             return;
         }
-        DataSourceRemote.getInstance().modify(user, s1, s2, modifyType.getValue(), callback);
+        Callback<StringModel> callback1 = new Callback<StringModel>() {
+            @Override
+            public void onResult(StringModel result) {
+                if (callback == null) {
+                    return;
+                }
+                if (result == null) {
+                    callback.onException("-1", "stringmodel is null");
+                    return;
+                }
+                switch (modifyType) {
+                    case PHONE:
+                        ParityApplication.getInstance().setPhone(result.string);
+                        break;
+                    case NAME:
+                        ParityApplication.getInstance().setAccountName(result.string);
+                        break;
+                    default:
+                        break;
+                }
+                callback.onResult(result.string);
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                if (callback != null) {
+                    callback.onException(code, reason);
+                }
+            }
+        };
+
+        DataSourceRemote.getInstance().modify(user, s1, s2, modifyType.getValue(), callback1);
     }
 
-    public void forgetPassword(String account, String phone, String password, Callback<String> callback) {
-        DataSourceRemote.getInstance().forgetPassword(account, phone, password, callback);
+    public void forgetPassword(String account, String phone, String password, final Callback<String> callback) {
+        Callback<StringModel> callback1 = new Callback<StringModel>() {
+            @Override
+            public void onResult(StringModel result) {
+                if (callback == null) {
+                    return;
+                }
+                if (result == null) {
+                    callback.onException("-1", "stringmodel is null");
+                    return;
+                }
+                callback.onResult(result.string);
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                if (callback != null) {
+                    callback.onException(code, reason);
+                }
+            }
+        };
+        DataSourceRemote.getInstance().forgetPassword(account, phone, password, callback1);
     }
 
-    public void requestPhone(Callback<String> callback) {
+    public void requestPhone(final Callback<String> callback) {
         int user = ParityApplication.getInstance().getUserId();
         if (user == 0) {
             return;
         }
-        DataSourceRemote.getInstance().requestPhone(user, callback);
+
+        Callback<StringModel> callback1 = new Callback<StringModel>() {
+            @Override
+            public void onResult(StringModel result) {
+                if (callback == null) {
+                    return;
+                }
+                if (result == null) {
+                    callback.onException("-1", "stringmodel is null");
+                    return;
+                }
+                ParityApplication.getInstance().setPhone(result.string);
+                callback.onResult(result.string);
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                if (callback != null) {
+                    callback.onException(code, reason);
+                }
+            }
+        };
+        DataSourceRemote.getInstance().requestPhone(user, callback1);
+    }
+
+    public void requestName(final Callback<String> callback) {
+        int user = ParityApplication.getInstance().getUserId();
+        if (user == 0) {
+            return;
+        }
+        Callback<StringModel> callback1 = new Callback<StringModel>() {
+            @Override
+            public void onResult(StringModel result) {
+                if (callback == null) {
+                    return;
+                }
+                if (result == null) {
+                    callback.onException("-1", "stringmodel is null");
+                    return;
+                }
+                ParityApplication.getInstance().setAccountName(result.string);
+                callback.onResult(result.string);
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                if (callback != null) {
+                    callback.onException(code, reason);
+                }
+            }
+        };
+        DataSourceRemote.getInstance().requestName(user, callback1);
     }
 }

@@ -32,6 +32,12 @@ public class ModifyActivity extends BaseActivity implements ModifyContract.View 
         initListener();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshView();
+    }
+
     private void initPresenter() {
         mPresenter = new ModifyPresenter(this);
     }
@@ -43,8 +49,7 @@ public class ModifyActivity extends BaseActivity implements ModifyContract.View 
         mBtSignOut = findViewById(R.id.bt_sign_out);
         mTvName = findViewById(R.id.tv_user_name);
         mTvPhone = findViewById(R.id.tv_user_phone);
-        mTvName.setText(ParityApplication.getInstance().getAccountName());
-        mTvPhone.setText(ParityApplication.getInstance().getPhone());
+        refreshView();
     }
 
     private void initListener() {
@@ -75,5 +80,11 @@ public class ModifyActivity extends BaseActivity implements ModifyContract.View 
                 mPresenter.signOut();
             }
         });
+    }
+
+    @Override
+    public void refreshView() {
+        mTvName.setText(ParityApplication.getInstance().getAccountName());
+        mTvPhone.setText(ParityApplication.getInstance().getPhone());
     }
 }

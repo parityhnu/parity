@@ -69,6 +69,15 @@ public class DataProvider {
         });
     }
 
+    public void requestName(final Callback<String> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().requestName(callback);
+            }
+        });
+    }
+
     public void requestPhone(final Callback<String> callback) {
         mExecutor.execute(new Runnable() {
             @Override
