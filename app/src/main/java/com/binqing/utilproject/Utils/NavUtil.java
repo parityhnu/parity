@@ -17,6 +17,7 @@ import com.binqing.utilproject.Activity.WebViewActivity;
 import com.binqing.utilproject.Consts.Consts;
 import com.binqing.utilproject.Enum.ModifyType;
 import com.binqing.utilproject.data.object.GoodsObject;
+import com.binqing.utilproject.data.object.ParityObject;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,7 +38,7 @@ public class NavUtil {
         context.startActivity(intent);
     }
 
-    public static void Nav2GoodsParityDetailActivity(Context context, List<GoodsObject> goodsObjectList) {
+    public static void Nav2GoodsParityDetailActivity(Context context, List<ParityObject> goodsObjectList) {
         Intent intent = new Intent();
         intent.putExtra(Consts.INTENT_KEY_PARITY_GOODS_DETAIL, (Serializable) goodsObjectList);
         intent.setClass(context, GoodsParityDetailActivity.class);

@@ -6,9 +6,9 @@ import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Utils.LogUtils;
 import com.binqing.utilproject.data.annotation.Member;
 import com.binqing.utilproject.data.model.GoodsListModel;
-import com.binqing.utilproject.data.model.JDModel;
+import com.binqing.utilproject.data.model.GoodsModel;
+import com.binqing.utilproject.data.model.ParityModel;
 import com.binqing.utilproject.data.model.StringModel;
-import com.binqing.utilproject.data.model.TBModel;
 import com.binqing.utilproject.data.model.UserModel;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.http.HttpUtil;
@@ -62,59 +62,41 @@ public class DataSourceRemote {
                     Set<Map.Entry<Integer, LinkedTreeMap>> set = body.entrySet();
                     for (Map.Entry entry : set) {
                         ArrayList<LinkedTreeMap> arrayList = new ArrayList<>();
+                        Object value = null;
                         if (entry.getValue() instanceof ArrayList) {
                             arrayList = (ArrayList<LinkedTreeMap>) entry.getValue();
                         } else if (entry.getValue() instanceof LinkedTreeMap) {
                             arrayList.add((LinkedTreeMap) entry.getValue());
+                        } else {
+                            value = entry.getValue();
                         }
 
                         String keyword = (String) entry.getKey();
-                        if ("jdModelList".equals(keyword)) {
-                            List<JDModel> jdModelList = new ArrayList<>();
-                            List<Object> objectList = parse(JDModel.class, arrayList);
+                        if ("maxPage".equals(keyword)) {
+                            goodsListModel.maxPage = ((Double) value).intValue();
+                        } else if ("parityGoodsList".equals(keyword)) {
+                            List<ParityModel> parityModelList = new ArrayList<>();
+                            List<Object> objectList = parse(ParityModel.class, arrayList);
                             for (Object o : objectList) {
                                 if (o != null) {
-                                    JDModel model = (JDModel) o;
-                                    jdModelList.add(model);
+                                    ParityModel model = (ParityModel) o;
+                                    parityModelList.add(model);
                                 }
                             }
-                            goodsListModel.jdModelList = jdModelList;
-                        } else if ("tbModelList".equals(keyword)) {
-                            List<TBModel> tbModelList = new ArrayList<>();
-                            List<Object> objectList = parse(TBModel.class, arrayList);
+                            goodsListModel.parityGoodsList = parityModelList;
+                        } else if ("goodsModelList".equals(keyword)) {
+                            List<GoodsModel> goodsModelList = new ArrayList<>();
+                            List<Object> objectList = parse(GoodsModel.class, arrayList);
                             for (Object o : objectList) {
                                 if (o != null) {
-                                    TBModel model = (TBModel) o;
-                                    tbModelList.add(model);
+                                    GoodsModel model = (GoodsModel) o;
+                                    goodsModelList.add(model);
                                 }
                             }
-                            goodsListModel.tbModelList = tbModelList;
-                        } else if ("parityJdModel".equals(keyword)) {
-                            List<JDModel> jdModelList = new ArrayList<>();
-                            List<Object> objectList = parse(JDModel.class, arrayList);
-                            for (Object o : objectList) {
-                                if (o != null) {
-                                    JDModel model = (JDModel) o;
-                                    jdModelList.add(model);
-                                }
-                            }
-                            if (jdModelList.isEmpty()) {
+                            if (goodsModelList.isEmpty()) {
                                 continue;
                             }
-                            goodsListModel.parityJdModel = jdModelList.get(0);
-                        } else if ("parityTbModel".equals(keyword)) {
-                            List<TBModel> tbModelList = new ArrayList<>();
-                            List<Object> objectList = parse(TBModel.class, arrayList);
-                            for (Object o : objectList) {
-                                if (o != null) {
-                                    TBModel model = (TBModel) o;
-                                    tbModelList.add(model);
-                                }
-                            }
-                            if (tbModelList.isEmpty()) {
-                                continue;
-                            }
-                            goodsListModel.parityTbModel = tbModelList.get(0);
+                            goodsListModel.goodsModelList = goodsModelList;
                         }
                     }
                     callback.onResult(goodsListModel);
