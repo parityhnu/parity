@@ -5,10 +5,14 @@ import android.text.TextUtils;
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Utils.LogUtils;
 import com.binqing.utilproject.data.annotation.Member;
+import com.binqing.utilproject.data.model.CommentReturnModel;
 import com.binqing.utilproject.data.model.GoodsListModel;
 import com.binqing.utilproject.data.model.GoodsModel;
+import com.binqing.utilproject.data.model.JDCommentModel;
 import com.binqing.utilproject.data.model.ParityModel;
 import com.binqing.utilproject.data.model.StringModel;
+import com.binqing.utilproject.data.model.TBCommentModel;
+import com.binqing.utilproject.data.model.TMCommentModel;
 import com.binqing.utilproject.data.model.UserModel;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.http.HttpUtil;
@@ -278,6 +282,88 @@ public class DataSourceRemote {
             }
         };
         HttpUtil.post(path, options, callback1);
+    }
+
+    public void getComments(List<String> ids, String index, final Callback<CommentReturnModel> callback) {
+        if (ids == null || ids.isEmpty()) {
+            return;
+        }
+        if (index == null || "".equals(index)) {
+            index = "1";
+        }
+        final String path = "comment/get";
+        Map<String, String> options = new HashMap<>();
+        options.put("ids", String.valueOf(ids));
+        options.put("index", index);
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    CommentReturnModel commentReturnModel = new CommentReturnModel();
+                    LinkedTreeMap<Integer, LinkedTreeMap> body = (LinkedTreeMap<Integer, LinkedTreeMap>) response.body();
+                    if (body == null) {
+                        callback.onResult(null);
+                        return;
+                    }
+                    Set<Map.Entry<Integer, LinkedTreeMap>> set = body.entrySet();
+                    for (Map.Entry entry : set) {
+                        ArrayList<LinkedTreeMap> arrayList = new ArrayList<>();
+                        Object value = null;
+                        if (entry.getValue() instanceof ArrayList) {
+                            arrayList = (ArrayList<LinkedTreeMap>) entry.getValue();
+                        } else if (entry.getValue() instanceof LinkedTreeMap) {
+                            arrayList.add((LinkedTreeMap) entry.getValue());
+                        } else {
+                            value = entry.getValue();
+                        }
+
+                        String keyword = (String) entry.getKey();
+                        if ("maxPage".equals(keyword)) {
+                            commentReturnModel.maxPage = ((Double) value).intValue();
+                        } else if ("jdCommentModels".equals(keyword)) {
+                            List<JDCommentModel> jdCommentModels = new ArrayList<>();
+                            List<Object> objectList = parse(JDCommentModel.class, arrayList);
+                            for (Object o : objectList) {
+                                if (o != null) {
+                                    JDCommentModel model = (JDCommentModel) o;
+                                    jdCommentModels.add(model);
+                                }
+                            }
+                            commentReturnModel.jdCommentModels = jdCommentModels;
+                        } else if ("tbCommentModels".equals(keyword)) {
+                            List<TBCommentModel> tbCommentModels = new ArrayList<>();
+                            List<Object> objectList = parse(TBCommentModel.class, arrayList);
+                            for (Object o : objectList) {
+                                if (o != null) {
+                                    TBCommentModel model = (TBCommentModel) o;
+                                    tbCommentModels.add(model);
+                                }
+                            }
+                            commentReturnModel.tbCommentModels = tbCommentModels;
+                        } else if ("tmCommentModels".equals(keyword)) {
+                            List<TMCommentModel> tmCommentModels = new ArrayList<>();
+                            List<Object> objectList = parse(TMCommentModel.class, arrayList);
+                            for (Object o : objectList) {
+                                if (o != null) {
+                                    TMCommentModel model = (TMCommentModel) o;
+                                    tmCommentModels.add(model);
+                                }
+                            }
+                            commentReturnModel.tmCommentModels = tmCommentModels;
+                        }
+                    }
+                    callback.onResult(commentReturnModel);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("connectionException", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.get(path, options, callback1);
     }
 
     /**
