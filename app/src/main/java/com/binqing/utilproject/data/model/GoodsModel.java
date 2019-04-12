@@ -37,6 +37,9 @@ public class GoodsModel {
     @Member(order = 10)
     public int type;
 
+    @Member(order = 11)
+    public String id;
+
     public GoodsObject toObject() {
         GoodsObject goodsObject = new GoodsObject();
         goodsObject.setName(name);
@@ -50,6 +53,7 @@ public class GoodsModel {
         goodsObject.setShop(shop);
         goodsObject.setSort(sort);
         goodsObject.setType(type);
+        goodsObject.setId(id);
         return goodsObject;
     }
 

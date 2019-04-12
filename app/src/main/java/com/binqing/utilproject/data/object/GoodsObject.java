@@ -29,6 +29,8 @@ public class GoodsObject implements  Serializable{
 
     private int mType;
 
+    private String mId;
+
     private List<List<ParityObject>> mParityObjects;
 
     public String getName() {
@@ -121,6 +123,21 @@ public class GoodsObject implements  Serializable{
 
     public void setType(int type) {
         mType = type;
+    }
+
+    public String getId() {
+        if (mType == 0) {
+            return "jd:" + mId;
+        } else if (mType == 1) {
+            return "tb:" + mId;
+        } else if (mType == 2) {
+            return "tm:" + mId;
+        }
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
     }
 
     public List<List<ParityObject>> getParityObjects() {
