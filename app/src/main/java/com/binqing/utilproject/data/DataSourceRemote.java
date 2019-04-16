@@ -284,6 +284,76 @@ public class DataSourceRemote {
         HttpUtil.post(path, options, callback1);
     }
 
+    public void favorite(int user, String id1, String id2, final Callback<StringModel> callback) {
+        if (user == 0) {
+            return;
+        }
+        if (id1 == null || TextUtils.isEmpty(id1) || id2 == null || TextUtils.isEmpty(id2)) {
+            return;
+        }
+        String path = "user/favorite";
+        Map<String, String> options = new HashMap<>();
+        options.put("user", String.valueOf(user));
+        options.put("id1", id1);
+        options.put("id2", id2);
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    callback.onResult((StringModel) parseObject(StringModel.class, response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("-1", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.post(path, options, callback1);
+    }
+
+    public void getFavorites(int user, String id1, String id2, final Callback<List<ParityModel>> callback) {
+        if (user == 0) {
+            return;
+        }
+        if (id1 == null || TextUtils.isEmpty(id1) || id2 == null || TextUtils.isEmpty(id2)) {
+            return;
+        }
+        String path = "user/getFavorites";
+        Map<String, String> options = new HashMap<>();
+        options.put("user", String.valueOf(user));
+        options.put("id1", id1);
+        options.put("id2", id2);
+        retrofit2.Callback<List<Object>> callback1 = new retrofit2.Callback<List<Object>>() {
+            @Override
+            public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
+                if (callback != null) {
+                    List<Object> objectList = parseList(ParityModel.class, response);
+                    List<ParityModel> parityModelList = new ArrayList<>();
+                    for (Object o : objectList) {
+                        if (o == null) {
+                            continue;
+                        }
+                        parityModelList.add((ParityModel) o);
+                    }
+                    callback.onResult(parityModelList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Object>> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("-1", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.postList(path, options, callback1);
+    }
+
+
+
     public void getComments(List<String> ids, String index, final Callback<CommentReturnModel> callback) {
         if (ids == null || ids.isEmpty()) {
             return;
