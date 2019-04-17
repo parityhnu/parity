@@ -4,43 +4,33 @@ import java.util.List;
 
 public class GoodsListObject {
 
-    private JDObject mParityJdObjct;
+    private int mMaxPage;
 
-    private TBObject mParityTbObjct;
+    private List<ParityObject> mParityObjectList;
 
-    private List<JDObject> mJDObjectList;
+    private List<GoodsObject> mGoodsObjectList;
 
-    private List<TBObject> mTBObjectList;
-
-    public JDObject getParityJdObjct() {
-        return mParityJdObjct;
+    public int getMaxPage() {
+        return mMaxPage;
     }
 
-    public void setParityJdObjct(JDObject parityJdObjct) {
-        mParityJdObjct = parityJdObjct;
+    public void setMaxPage(int maxPage) {
+        mMaxPage = maxPage;
     }
 
-    public TBObject getParityTbObjct() {
-        return mParityTbObjct;
+    public List<ParityObject> getParityObjectList() {
+        return mParityObjectList;
     }
 
-    public void setParityTbObjct(TBObject parityTbObjct) {
-        mParityTbObjct = parityTbObjct;
+    public void setParityObjectList(List<ParityObject> parityObjectList) {
+        mParityObjectList = parityObjectList;
     }
 
-    public List<JDObject> getJDObjectList() {
-        return mJDObjectList;
+    public List<GoodsObject> getGoodsObjectList() {
+        return mGoodsObjectList;
     }
 
-    public void setJDObjectList(List<JDObject> JDObjectList) {
-        mJDObjectList = JDObjectList;
-    }
-
-    public List<TBObject> getTBObjectList() {
-        return mTBObjectList;
-    }
-
-    public void setTBObjectList(List<TBObject> TBObjectList) {
-        mTBObjectList = TBObjectList;
+    public void setGoodsObjectList(List<GoodsObject> goodsObjectList) {
+        mGoodsObjectList = goodsObjectList;
     }
 }

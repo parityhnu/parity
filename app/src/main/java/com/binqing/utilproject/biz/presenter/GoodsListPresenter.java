@@ -8,15 +8,13 @@ import com.binqing.utilproject.Activity.GoodsListActivity;
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Consts.Consts;
 import com.binqing.utilproject.Enum.SortType;
-import com.binqing.utilproject.R;
 import com.binqing.utilproject.Utils.PreferenceUtil;
 import com.binqing.utilproject.biz.contract.GoodsListContract;
 import com.binqing.utilproject.data.DataProvider;
 import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.GoodsObject;
-import com.binqing.utilproject.data.object.JDObject;
+import com.binqing.utilproject.data.object.ParityObject;
 import com.binqing.utilproject.data.object.SearchObject;
-import com.binqing.utilproject.data.object.TBObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -87,23 +85,38 @@ public class GoodsListPresenter implements GoodsListContract.Presenter {
                 mView.onLoadFinish();
                 mPage = page;
                 List<GoodsObject> dataList = new ArrayList<>();
-                JDObject jdObject = goodsListObject.getParityJdObjct();
-                TBObject tbObject = goodsListObject.getParityTbObjct();
-                List<GoodsObject> parityObjects = new ArrayList<>();
-                if (jdObject != null) {
-                    parityObjects.add(jdObject);
+                List<ParityObject> parityObjects = goodsListObject.getParityObjectList();
+                if (parityObjects != null && !parityObjects.isEmpty()) {
+                    GoodsObject goodsObject = new GoodsObject();
+                    goodsObject.setKeyword(parityObjects.get(0).getKeyword());
+                    List<List<ParityObject>> listList = new ArrayList<>();
+                    int num = 0;
+                    int index = 0;
+                    for (ParityObject parityObject : parityObjects) {
+                        if (parityObject == null) {
+                            continue;
+                        }
+                        if (index == 0) {
+                            listList.add(new ArrayList<ParityObject>());
+                            listList.get(num).add(parityObject);
+                            index = 1;
+                        } else {
+                            if (parityObject.getOrder() == listList.get(num).get(0).getOrder()) {
+                                listList.get(num).add(parityObject);
+                                num ++;
+                                index = 0;
+                            } else {
+                                num ++;
+                                listList.add(new ArrayList<ParityObject>());
+                                listList.get(num).add(parityObject);
+                                index = 1;
+                            }
+                        }
+                    }
+                    goodsObject.setParityObjects(listList);
+                    dataList.add(goodsObject);
                 }
-                if (tbObject != null) {
-                    parityObjects.add(tbObject);
-                }
-                dataList.addAll(goodsListObject.getJDObjectList());
-                dataList.addAll(goodsListObject.getTBObjectList());
-                sortGoods(dataList, sort);
-                if (!parityObjects.isEmpty()) {
-                    GoodsObject goodsObject = parityObjects.get(0);
-                    goodsObject.setParityObjects(parityObjects);
-                    dataList.add(0,goodsObject);
-                }
+                dataList.addAll(goodsListObject.getGoodsObjectList());
                 if (!dataList.isEmpty()) {
                     dataList.add(new GoodsObject());
                 }
@@ -136,45 +149,5 @@ public class GoodsListPresenter implements GoodsListContract.Presenter {
         return mPage;
     }
 
-    private List<GoodsObject> sortGoods(List<GoodsObject> dataList, SortType sort) {
-        switch (sort) {
-            case INIT:
-                Collections.sort(dataList, new Comparator<GoodsObject>() {
-                    @Override
-                    public int compare(GoodsObject o1, GoodsObject o2) {
-                        return o2.getScore() - o1.getScore();
-                    }
-                });
-                return dataList;
-            case PRICE_ASC:
-                Collections.sort(dataList, new Comparator<GoodsObject>() {
-                    @Override
-                    public int compare(GoodsObject o1, GoodsObject o2) {
-                        double d = Double.parseDouble(o1.getPrice()) - Double.parseDouble(o2.getPrice());
-                        return (int) (d * 100);
-                    }
-                });
-                return dataList;
-            case PRICE_DESC:
-                Collections.sort(dataList, new Comparator<GoodsObject>() {
-                    @Override
-                    public int compare(GoodsObject o1, GoodsObject o2) {
-                        double d = Double.parseDouble(o2.getPrice()) - Double.parseDouble(o1.getPrice());
-                        return (int) (d * 100);
-                    }
-                });
-                return dataList;
-            case SALE_COMMENT_DESC:
-                Collections.sort(dataList, new Comparator<GoodsObject>() {
-                    @Override
-                    public int compare(GoodsObject o1, GoodsObject o2) {
-                        return o2.getSaleOrComment() - o1.getSaleOrComment();
-                    }
-                });
-                return dataList;
-            default:
-                return dataList;
-        }
-    }
 
 }

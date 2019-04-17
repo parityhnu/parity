@@ -76,5 +76,18 @@ public class HttpUtil {
         repos.enqueue(callback);
     }
 
+    public static void postList(String path, Map<String, String> options, Callback<List<Object>> callback) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Consts.INTERNET_BASEURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        PostService service = retrofit.create(PostService.class);
+
+        Call<List<Object>> repos = service.postList(path, options);
+
+        repos.enqueue(callback);
+    }
+
 
 }

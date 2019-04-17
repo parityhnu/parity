@@ -6,12 +6,16 @@ import android.util.Log;
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Enum.ModifyType;
 import com.binqing.utilproject.ParityApplication;
+import com.binqing.utilproject.data.model.CommentReturnModel;
 import com.binqing.utilproject.data.model.GoodsListModel;
 import com.binqing.utilproject.data.model.StringModel;
 import com.binqing.utilproject.data.model.UserModel;
+import com.binqing.utilproject.data.object.CommentReturnObject;
 import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.data.object.UserObject;
+
+import java.util.List;
 
 public class DataCenter {
 
@@ -234,5 +238,34 @@ public class DataCenter {
             }
         };
         DataSourceRemote.getInstance().requestName(user, callback1);
+    }
+
+    public void getComments(List<String> ids, String index, final Callback<CommentReturnObject> callback) {
+        if (ids == null || ids.isEmpty()) {
+            return;
+        }
+        if (index == null || "".equals(index)) {
+            index = "1";
+        }
+
+        Callback<CommentReturnModel> modelCallback = new Callback<CommentReturnModel>() {
+            @Override
+            public void onResult(CommentReturnModel commentReturnModel) {
+                if (commentReturnModel != null && callback != null) {
+                    callback.onResult(commentReturnModel.toObject());
+                } else {
+                    Log.e("[DataCenter]searchGoods", " modelList is null");
+                }
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                if (callback != null) {
+                    callback.onException(code, reason);
+                }
+            }
+        };
+
+        DataSourceRemote.getInstance().getComments(ids, index, modelCallback);
     }
 }

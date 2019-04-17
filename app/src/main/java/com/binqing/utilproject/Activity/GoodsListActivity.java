@@ -8,17 +8,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.binqing.utilproject.Activity.base.BaseActivity;
 import com.binqing.utilproject.Enum.SortType;
 import com.binqing.utilproject.R;
 import com.binqing.utilproject.Utils.NavUtil;
 import com.binqing.utilproject.adapter.GoodsListAdapter;
+import com.binqing.utilproject.adapter.ParityListAdapter;
 import com.binqing.utilproject.adapter.base.BaseViewHolder;
 import com.binqing.utilproject.biz.contract.GoodsListContract;
 import com.binqing.utilproject.biz.presenter.GoodsListPresenter;
 import com.binqing.utilproject.data.object.GoodsObject;
+import com.binqing.utilproject.data.object.ParityObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,12 +145,8 @@ public class GoodsListActivity extends BaseActivity implements GoodsListContract
             @Override
             public void onItemClickListener(int position) {
                 GoodsObject goodsObject = mGoodsListAdapter.getItemData(position);
-                if (goodsObject.getParityObjects() != null && !goodsObject.getParityObjects().isEmpty()) {
-                    NavUtil.Nav2GoodsParityDetailActivity(getApplication(), goodsObject.getParityObjects());
-                } else {
-                    String url = goodsObject.getHref();
-                    NavUtil.Nav2Web(getApplication(), "https:" + url);
-                }
+                String url = goodsObject.getHref();
+                NavUtil.Nav2Web(getApplication(), "https:" + url);
             }
 
             @Override
@@ -158,6 +155,10 @@ public class GoodsListActivity extends BaseActivity implements GoodsListContract
             }
         });
         mRvGoodsList.setAdapter(mGoodsListAdapter);
+
+
+
+
     }
 
     @Override

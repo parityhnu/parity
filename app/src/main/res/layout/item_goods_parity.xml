@@ -1,64 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-
-    <ImageView
-        android:id="@+id/iv_goods_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"/>
-
-    <TextView
-        android:id="@+id/tv_gname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/iv_goods_image"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:maxLines="2"
-        android:textColor="@color/color_first_black"
-        android:text="11231231231231231232123123123123123123123123123123123123123213213123213123123123123123"
-        android:textSize="16dp"/>
-
-    <TextView
-        android:id="@+id/tv_gprcie"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_gname"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:background="@color/color_first_gray"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:layout_toRightOf="@+id/iv_goods_image"
-        android:maxLines="1"
-        android:text="900.00"
-        android:textColor="@color/color_price"
-        android:textSize="16dp"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
 
-    <TextView
-        android:id="@+id/tv_gparity_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_toRightOf="@+id/iv_goods_image"
-        android:layout_below="@id/tv_gprcie"
-        android:textColor="@color/color_mine_background"
-        android:text="京东自营"
-        android:textSize="14dp"/>
+        <ImageView
+            android:id="@+id/iv_goods_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_below="@+id/iv_goods_image"
-        android:background="@color/color_third_gray">
-    </View>
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/tv_gname"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_goods_image"
+
+            android:layout_marginTop="4dp"
+
+            android:maxLines="2"
+            android:text="iphone xs max 澳门 代购收拾是是是是  是"
+            android:textColor="@color/color_first_black"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:id="@+id/tv_gprcie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_gname"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:maxLines="1"
+            android:text="900.00"
+            android:textColor="@color/color_price"
+            android:textSize="12dp"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="22dp"
+            android:layout_alignBottom="@+id/iv_goods_image"
+            android:layout_alignLeft="@+id/iv_goods_image"
+            android:background="#80e0e0e0">
+
+            <TextView
+                android:id="@+id/tv_gparity_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="两个比价"
+                android:textColor="@color/color_white"
+                android:textSize="12dp"/>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
 </RelativeLayout>
