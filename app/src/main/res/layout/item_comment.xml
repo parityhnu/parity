@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/attribute_background1"
+              android:paddingTop="16dp"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/comment_user"
+        android:textSize="16dp"
+        android:text="用户1"/>
+
+    <TextView
+        android:id="@+id/tv_time_sku"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/comment_sku"
+        android:layout_marginTop="8dp"
+        android:textSize="14dp"
+        android:text="TextView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_ratecontent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/comment_content"
+            android:layout_marginTop="8dp"
+            android:textSize="15dp"
+            android:text="TextView"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_pics"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/divider_color">
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_append_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#d1043c"
+            android:textSize="15dp"
+            android:layout_marginTop="8dp"
+            android:text="用户追评"/>
+
+        <TextView
+            android:id="@+id/tv_append_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@color/comment_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_append_pics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -10,6 +10,11 @@ import com.binqing.utilproject.biz.contract.GoodsParityDetailContract;
 import com.binqing.utilproject.biz.presenter.GoodsParityDetailPresenter;
 import com.binqing.utilproject.biz.test.TestContract;
 import com.binqing.utilproject.biz.test.TestPresenter;
+import com.binqing.utilproject.data.object.AttributeObject;
+import com.binqing.utilproject.data.object.BaseCommentObject;
+import com.binqing.utilproject.data.object.ParityObject;
+
+import java.util.List;
 
 public class GoodsParityDetailActivity extends BaseActivity implements GoodsParityDetailContract.View {
 
@@ -33,5 +38,20 @@ public class GoodsParityDetailActivity extends BaseActivity implements GoodsPari
     }
 
     private void initListener() {
+    }
+
+    @Override
+    public void refreshView(List<ParityObject> parityObjectList) {
+
+    }
+
+    @Override
+    public void refreshComment(List<BaseCommentObject> baseCommentObjects) {
+
+    }
+
+    @Override
+    public void refreshAttribute(List<AttributeObject> attributeObjects) {
+
     }
 }

@@ -38,9 +38,9 @@ public class NavUtil {
         context.startActivity(intent);
     }
 
-    public static void Nav2GoodsParityDetailActivity(Context context, List<ParityObject> goodsObjectList) {
+    public static void Nav2GoodsParityDetailActivity(Context context, List<ParityObject> parityObjects) {
         Intent intent = new Intent();
-        intent.putExtra(Consts.INTENT_KEY_PARITY_GOODS_DETAIL, (Serializable) goodsObjectList);
+        intent.putExtra(Consts.INTENT_KEY_PARITY_GOODS_DETAIL, (Serializable) parityObjects);
         intent.setClass(context, GoodsParityDetailActivity.class);
         context.startActivity(intent);
     }
