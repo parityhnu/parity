@@ -1,12 +1,12 @@
 package com.binqing.utilproject.data.object;
 
-import com.binqing.utilproject.data.model.GoodsModel;
+import com.binqing.utilproject.data.model.ParityModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoodsObject implements  Serializable{
+public class ParityObject implements Serializable{
     private String mName;
 
     private String mPrice;
@@ -29,9 +29,11 @@ public class GoodsObject implements  Serializable{
 
     private int mType;
 
-    private String mGid;
+    private int mDistance;
 
-    private List<List<ParityObject>> mParityObjects;
+    private int mOrder;
+
+    private String mGid;
 
     public String getName() {
         return mName;
@@ -47,6 +49,14 @@ public class GoodsObject implements  Serializable{
 
     public void setPrice(String price) {
         mPrice = price;
+    }
+
+    public int getSalecomment() {
+        return mSalecomment;
+    }
+
+    public void setSalecomment(int salecomment) {
+        mSalecomment = salecomment;
     }
 
     public String getHref() {
@@ -82,23 +92,11 @@ public class GoodsObject implements  Serializable{
     }
 
     public String getShop() {
-        if (mShop != null && mShop.length() >= 15) {
-            mShop = mShop.substring(0,15);
-            mShop += "...";
-        }
         return mShop;
     }
 
     public void setShop(String shop) {
         mShop = shop;
-    }
-
-    public int getSalecomment() {
-        return mSalecomment;
-    }
-
-    public void setSalecomment(int salecomment) {
-        mSalecomment = salecomment;
     }
 
     public int getSort() {
@@ -125,29 +123,48 @@ public class GoodsObject implements  Serializable{
         mType = type;
     }
 
+    public int getDistance() {
+        return mDistance;
+    }
+
+    public void setDistance(int distance) {
+        mDistance = distance;
+    }
+
+    public int getOrder() {
+        return mOrder;
+    }
+
+    public void setOrder(int order) {
+        mOrder = order;
+    }
+
     public String getGid() {
         return mGid;
     }
 
+    public String getTypeGid() {
+        if (mType == 0) {
+            return "jd:" + mGid;
+        } else if (mType == 1) {
+            return "tb:" + mGid;
+        } else if (mType == 2) {
+            return "tm:" + mGid;
+        }
+        return mGid;
+    }
+
     public void setGid(String gid) {
-        mGid = gid;
+        this.mGid = gid;
     }
 
-    public List<List<ParityObject>> getParityObjects() {
-        return mParityObjects;
-    }
-
-    public void setParityObjects(List<List<ParityObject>> parityObjects) {
-        mParityObjects = parityObjects;
-    }
-
-    public static List<GoodsObject> fromModels(List<GoodsModel> models) {
-        List<GoodsObject> result = new ArrayList<>();
-        for (GoodsModel goodsModel : models) {
-            if (goodsModel == null) {
+    public static List<ParityObject> fromModels(List<ParityModel> models) {
+        List<ParityObject> result = new ArrayList<>();
+        for (ParityModel parityModel : models) {
+            if (parityModel == null) {
                 continue;
             }
-            result.add(goodsModel.toObject());
+            result.add(parityModel.toObject());
         }
         return result;
     }

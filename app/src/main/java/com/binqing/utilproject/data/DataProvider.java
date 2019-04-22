@@ -2,7 +2,10 @@ package com.binqing.utilproject.data;
 
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Enum.ModifyType;
+import com.binqing.utilproject.data.object.AttributeObject;
+import com.binqing.utilproject.data.object.CommentReturnObject;
 import com.binqing.utilproject.data.object.GoodsListObject;
+import com.binqing.utilproject.data.object.ParityObject;
 import com.binqing.utilproject.data.object.SearchObject;
 import com.binqing.utilproject.data.object.UserObject;
 
@@ -105,6 +108,41 @@ public class DataProvider {
         });
     }
 
+    public void getComments(final List<String> ids, final String index, final Callback<CommentReturnObject> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().getComments(ids, index, callback);
+            }
+        });
+    }
+
+    public void getAttributes(final List<String> ids, final Callback<List<AttributeObject>> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().getAttributes(ids, callback);
+            }
+        });
+    }
+
+    public void favorite(final String id, final String keyword, final String sort, final boolean cancel, final Callback<String> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().favorite(id, keyword, sort, cancel, callback);
+            }
+        });
+    }
+
+    public void getFavorite(final Callback<List<ParityObject>> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().getFavorites(callback);
+            }
+        });
+    }
 
     private ThreadPoolExecutor getThreadPoolExecutor() {
         return new ThreadPoolExecutor(1,

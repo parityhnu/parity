@@ -47,6 +47,18 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         return this;
     }
 
+    public BaseViewHolder setLayoutManager(int viewId, RecyclerView.LayoutManager manager) {
+        RecyclerView recyclerView = getView(viewId);
+        recyclerView.setLayoutManager(manager);
+        return this;
+    }
+
+    public BaseViewHolder setRecyclerViewAdapter(int viewId, BaseRecyclerViewAdapter adapter) {
+        RecyclerView recyclerView = getView(viewId);
+        recyclerView.setAdapter(adapter);
+        return this;
+    }
+
     public interface onItemBaseClickListener {
 
         void onItemClickListener(int position);

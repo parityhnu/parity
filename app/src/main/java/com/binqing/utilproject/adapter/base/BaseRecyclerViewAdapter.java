@@ -61,6 +61,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         return null;
     }
 
+
     public List<T> getDataList() {
         return mDataList;
     }

@@ -3,6 +3,7 @@ package com.binqing.utilproject.biz.contract;
 import com.binqing.utilproject.Enum.SortType;
 import com.binqing.utilproject.data.object.GoodsListObject;
 import com.binqing.utilproject.data.object.GoodsObject;
+import com.binqing.utilproject.data.object.ParityObject;
 
 import java.util.List;
 

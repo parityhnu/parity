@@ -1,0 +1,488 @@
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+index cc51e58..dc34569 100644
+--- a/.idea/misc.xml
++++ b/.idea/misc.xml
+@@ -25,7 +25,7 @@
+       </value>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+diff --git a/app/src/main/java/com/binqing/utilproject/data/DataCenter.java b/app/src/main/java/com/binqing/utilproject/data/DataCenter.java
+index 3fbcdc1..641682b 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/DataCenter.java
++++ b/app/src/main/java/com/binqing/utilproject/data/DataCenter.java
+@@ -6,12 +6,16 @@ import android.util.Log;
+ import com.binqing.utilproject.Callback;
+ import com.binqing.utilproject.Enum.ModifyType;
+ import com.binqing.utilproject.ParityApplication;
++import com.binqing.utilproject.data.model.AttributeModel;
+ import com.binqing.utilproject.data.model.CommentReturnModel;
+ import com.binqing.utilproject.data.model.GoodsListModel;
++import com.binqing.utilproject.data.model.ParityModel;
+ import com.binqing.utilproject.data.model.StringModel;
+ import com.binqing.utilproject.data.model.UserModel;
++import com.binqing.utilproject.data.object.AttributeObject;
+ import com.binqing.utilproject.data.object.CommentReturnObject;
+ import com.binqing.utilproject.data.object.GoodsListObject;
++import com.binqing.utilproject.data.object.ParityObject;
+ import com.binqing.utilproject.data.object.SearchObject;
+ import com.binqing.utilproject.data.object.UserObject;
+ 
+@@ -268,4 +272,90 @@ public class DataCenter {
+ 
+         DataSourceRemote.getInstance().getComments(ids, index, modelCallback);
+     }
++
++    public void getAttributes(List<String> ids, final Callback<List<AttributeObject>> callback) {
++        if (ids == null || ids.isEmpty()) {
++            return;
++        }
++
++        Callback<List<AttributeModel>> modelCallback = new Callback<List<AttributeModel>>() {
++            @Override
++            public void onResult(List<AttributeModel> attributeModels) {
++                if (attributeModels != null && callback != null) {
++                    callback.onResult(AttributeObject.fromModels(attributeModels));
++                } else {
++                    Log.e("[DataCenter]searchGoods", " modelList is null");
++                }
++            }
++
++            @Override
++            public void onException(String code, String reason) {
++                if (callback != null) {
++                    callback.onException(code, reason);
++                }
++            }
++        };
++
++        DataSourceRemote.getInstance().getAttributes(ids, modelCallback);
++    }
++
++    public void favorite(String id, String keyword, String sort, boolean cancel, final Callback<String> callback) {
++        int user = ParityApplication.getInstance().getUserId();
++        if (user == 0) {
++            return;
++        }
++        if (id == null || TextUtils.isEmpty(id)
++                || keyword == null || TextUtils.isEmpty(keyword)
++                || sort == null || TextUtils.isEmpty(sort)) {
++            return;
++        }
++        Callback<StringModel> callback1 = new Callback<StringModel>() {
++            @Override
++            public void onResult(StringModel result) {
++                if (callback == null) {
++                    return;
++                }
++                if (result == null) {
++                    callback.onException("-1", "stringmodel is null");
++                    return;
++                }
++                callback.onResult(result.string);
++            }
++
++            @Override
++            public void onException(String code, String reason) {
++                if (callback != null) {
++                    callback.onException(code, reason);
++                }
++            }
++        };
++        DataSourceRemote.getInstance().favorite(user, id, keyword, sort, cancel, callback1);
++    }
++
++    public void getFavorites(final Callback<List<ParityObject>> callback) {
++        int user = ParityApplication.getInstance().getUserId();
++        if (user == 0) {
++            return;
++        }
++
++        Callback<List<ParityModel>> modelCallback = new Callback<List<ParityModel>>() {
++            @Override
++            public void onResult(List<ParityModel> result) {
++                if (result != null && callback != null) {
++                    callback.onResult(ParityObject.fromModels(result));
++                } else {
++                    Log.e("[DataCenter]searchGoods", " modelList is null");
++                }
++            }
++
++            @Override
++            public void onException(String code, String reason) {
++                if (callback != null) {
++                    callback.onException(code, reason);
++                }
++            }
++        };
++
++        DataSourceRemote.getInstance().getFavorites(user, modelCallback);
++    }
+ }
+diff --git a/app/src/main/java/com/binqing/utilproject/data/DataProvider.java b/app/src/main/java/com/binqing/utilproject/data/DataProvider.java
+index 4e42bc2..bebd66e 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/DataProvider.java
++++ b/app/src/main/java/com/binqing/utilproject/data/DataProvider.java
+@@ -2,8 +2,10 @@ package com.binqing.utilproject.data;
+ 
+ import com.binqing.utilproject.Callback;
+ import com.binqing.utilproject.Enum.ModifyType;
++import com.binqing.utilproject.data.object.AttributeObject;
+ import com.binqing.utilproject.data.object.CommentReturnObject;
+ import com.binqing.utilproject.data.object.GoodsListObject;
++import com.binqing.utilproject.data.object.ParityObject;
+ import com.binqing.utilproject.data.object.SearchObject;
+ import com.binqing.utilproject.data.object.UserObject;
+ 
+@@ -115,6 +117,33 @@ public class DataProvider {
+         });
+     }
+ 
++    public void getAttributes(final List<String> ids, final Callback<List<AttributeObject>> callback) {
++        mExecutor.execute(new Runnable() {
++            @Override
++            public void run() {
++                DataCenter.getInstance().getAttributes(ids, callback);
++            }
++        });
++    }
++
++    public void favorite(final String id, final String keyword, final String sort, final boolean cancel, final Callback<String> callback) {
++        mExecutor.execute(new Runnable() {
++            @Override
++            public void run() {
++                DataCenter.getInstance().favorite(id, keyword, sort, cancel, callback);
++            }
++        });
++    }
++
++    public void getFavorite(final Callback<List<ParityObject>> callback) {
++        mExecutor.execute(new Runnable() {
++            @Override
++            public void run() {
++                DataCenter.getInstance().getFavorites(callback);
++            }
++        });
++    }
++
+     private ThreadPoolExecutor getThreadPoolExecutor() {
+         return new ThreadPoolExecutor(1,
+                 1,
+diff --git a/app/src/main/java/com/binqing/utilproject/data/DataSourceRemote.java b/app/src/main/java/com/binqing/utilproject/data/DataSourceRemote.java
+index f4b97cd..f0be42e 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/DataSourceRemote.java
++++ b/app/src/main/java/com/binqing/utilproject/data/DataSourceRemote.java
+@@ -5,6 +5,7 @@ import android.text.TextUtils;
+ import com.binqing.utilproject.Callback;
+ import com.binqing.utilproject.Utils.LogUtils;
+ import com.binqing.utilproject.data.annotation.Member;
++import com.binqing.utilproject.data.model.AttributeModel;
+ import com.binqing.utilproject.data.model.CommentReturnModel;
+ import com.binqing.utilproject.data.model.GoodsListModel;
+ import com.binqing.utilproject.data.model.GoodsModel;
+@@ -284,18 +285,22 @@ public class DataSourceRemote {
+         HttpUtil.post(path, options, callback1);
+     }
+ 
+-    public void favorite(int user, String id1, String id2, final Callback<StringModel> callback) {
++    public void favorite(int user, String id, String keyword, String sort, boolean cancel, final Callback<StringModel> callback) {
+         if (user == 0) {
+             return;
+         }
+-        if (id1 == null || TextUtils.isEmpty(id1) || id2 == null || TextUtils.isEmpty(id2)) {
++        if (id == null || TextUtils.isEmpty(id)
++                || keyword == null || TextUtils.isEmpty(keyword)
++                || sort == null || TextUtils.isEmpty(sort)) {
+             return;
+         }
+         String path = "user/favorite";
+         Map<String, String> options = new HashMap<>();
+         options.put("user", String.valueOf(user));
+-        options.put("id1", id1);
+-        options.put("id2", id2);
++        options.put("id", id);
++        options.put("name", keyword);
++        options.put("sort", sort);
++        options.put("cancel", String.valueOf(cancel));
+         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+             @Override
+             public void onResponse(Call<Object> call, Response<Object> response) {
+@@ -314,18 +319,13 @@ public class DataSourceRemote {
+         HttpUtil.post(path, options, callback1);
+     }
+ 
+-    public void getFavorites(int user, String id1, String id2, final Callback<List<ParityModel>> callback) {
++    public void getFavorites(int user, final Callback<List<ParityModel>> callback) {
+         if (user == 0) {
+             return;
+         }
+-        if (id1 == null || TextUtils.isEmpty(id1) || id2 == null || TextUtils.isEmpty(id2)) {
+-            return;
+-        }
+         String path = "user/getFavorites";
+         Map<String, String> options = new HashMap<>();
+         options.put("user", String.valueOf(user));
+-        options.put("id1", id1);
+-        options.put("id2", id2);
+         retrofit2.Callback<List<Object>> callback1 = new retrofit2.Callback<List<Object>>() {
+             @Override
+             public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
+@@ -352,7 +352,38 @@ public class DataSourceRemote {
+         HttpUtil.postList(path, options, callback1);
+     }
+ 
++    public void getAttributes(List<String> ids, final Callback<List<AttributeModel>> callback) {
++        if (ids == null || ids.isEmpty()) {
++            return;
++        }
++        String path = "attribute/get";
++        Map<String, String> options = new HashMap<>();
++        options.put("ids", String.valueOf(ids));
++        retrofit2.Callback<List<Object>> callback1 = new retrofit2.Callback<List<Object>>() {
++            @Override
++            public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
++                if (callback != null) {
++                    List<Object> objectList = parseList(AttributeModel.class, response);
++                    List<AttributeModel> attributeModels = new ArrayList<>();
++                    for (Object o : objectList) {
++                        if (o == null) {
++                            continue;
++                        }
++                        attributeModels.add((AttributeModel) o);
++                    }
++                    callback.onResult(attributeModels);
++                }
++            }
+ 
++            @Override
++            public void onFailure(Call<List<Object>> call, Throwable t) {
++                if (callback != null) {
++                    callback.onException("-1", String.valueOf(t));
++                }
++            }
++        };
++        HttpUtil.postList(path, options, callback1);
++    }
+ 
+     public void getComments(List<String> ids, String index, final Callback<CommentReturnModel> callback) {
+         if (ids == null || ids.isEmpty()) {
+diff --git a/app/src/main/java/com/binqing/utilproject/data/model/AttributeModel.java b/app/src/main/java/com/binqing/utilproject/data/model/AttributeModel.java
+index 7078467..1307b21 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/model/AttributeModel.java
++++ b/app/src/main/java/com/binqing/utilproject/data/model/AttributeModel.java
+@@ -1,23 +1,20 @@
+-package com.binqing.parity.Model;
++package com.binqing.utilproject.data.model;
+ 
+-public class AttributeModel {
+-    private String gid;
+-
+-    private String attribute;
++import com.binqing.utilproject.data.annotation.Member;
++import com.binqing.utilproject.data.object.AttributeObject;
+ 
+-    public String getGid() {
+-        return gid;
+-    }
++public class AttributeModel {
+ 
+-    public void setGid(String gid) {
+-        this.gid = gid;
+-    }
++    @Member(order = 0)
++    public String gid;
+ 
+-    public String getAttribute() {
+-        return attribute;
+-    }
++    @Member(order = 1)
++    public String attribute;
+ 
+-    public void setAttribute(String attribute) {
+-        this.attribute = attribute;
++    public AttributeObject toObject() {
++        AttributeObject attributeObject = new AttributeObject();
++        attributeObject.setAttribute(attribute);
++        attributeObject.setGid(gid);
++        return attributeObject;
+     }
+ }
+diff --git a/app/src/main/java/com/binqing/utilproject/data/model/GoodsModel.java b/app/src/main/java/com/binqing/utilproject/data/model/GoodsModel.java
+index 3ae9833..5539de0 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/model/GoodsModel.java
++++ b/app/src/main/java/com/binqing/utilproject/data/model/GoodsModel.java
+@@ -38,7 +38,7 @@ public class GoodsModel {
+     public int type;
+ 
+     @Member(order = 11)
+-    public String id;
++    public String gid;
+ 
+     public GoodsObject toObject() {
+         GoodsObject goodsObject = new GoodsObject();
+@@ -53,7 +53,7 @@ public class GoodsModel {
+         goodsObject.setShop(shop);
+         goodsObject.setSort(sort);
+         goodsObject.setType(type);
+-        goodsObject.setId(id);
++        goodsObject.setGid(gid);
+         return goodsObject;
+     }
+ 
+diff --git a/app/src/main/java/com/binqing/utilproject/data/model/ParityModel.java b/app/src/main/java/com/binqing/utilproject/data/model/ParityModel.java
+index 2952fa7..a46168d 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/model/ParityModel.java
++++ b/app/src/main/java/com/binqing/utilproject/data/model/ParityModel.java
+@@ -43,6 +43,9 @@ public class ParityModel {
+     @Member(order = 12)
+     public int order;
+ 
++    @Member(order = 13)
++    public String gid;
++
+     public ParityObject toObject() {
+         ParityObject parityObject = new ParityObject();
+         parityObject.setName(name);
+@@ -58,6 +61,7 @@ public class ParityModel {
+         parityObject.setShop(shop);
+         parityObject.setSort(sort);
+         parityObject.setType(type);
++        parityObject.setGid(gid);
+         return parityObject;
+     }
+ }
+diff --git a/app/src/main/java/com/binqing/utilproject/data/object/AttributeObject.java b/app/src/main/java/com/binqing/utilproject/data/object/AttributeObject.java
+index 7078467..67bd3ff 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/object/AttributeObject.java
++++ b/app/src/main/java/com/binqing/utilproject/data/object/AttributeObject.java
+@@ -1,23 +1,42 @@
+-package com.binqing.parity.Model;
++package com.binqing.utilproject.data.object;
+ 
+-public class AttributeModel {
+-    private String gid;
++import com.binqing.utilproject.data.model.AttributeModel;
+ 
+-    private String attribute;
++import java.util.ArrayList;
++import java.util.List;
++
++public class AttributeObject {
++    private String mGid;
++
++    private String mAttribute;
+ 
+     public String getGid() {
+-        return gid;
++        return mGid;
+     }
+ 
+     public void setGid(String gid) {
+-        this.gid = gid;
++        mGid = gid;
+     }
+ 
+     public String getAttribute() {
+-        return attribute;
++        return mAttribute;
+     }
+ 
+     public void setAttribute(String attribute) {
+-        this.attribute = attribute;
++        mAttribute = attribute;
++    }
++
++    public static List<AttributeObject> fromModels(List<AttributeModel> models) {
++        if (models == null || models.isEmpty()) {
++            return new ArrayList<>();
++        }
++        List<AttributeObject> result = new ArrayList<>();
++        for (AttributeModel model : models) {
++            if (model == null) {
++                continue;
++            }
++            result.add(model.toObject());
++        }
++        return result;
+     }
+ }
+diff --git a/app/src/main/java/com/binqing/utilproject/data/object/GoodsObject.java b/app/src/main/java/com/binqing/utilproject/data/object/GoodsObject.java
+index af26364..b644d8f 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/object/GoodsObject.java
++++ b/app/src/main/java/com/binqing/utilproject/data/object/GoodsObject.java
+@@ -29,7 +29,7 @@ public class GoodsObject implements  Serializable{
+ 
+     private int mType;
+ 
+-    private String mId;
++    private String mGid;
+ 
+     private List<List<ParityObject>> mParityObjects;
+ 
+@@ -125,19 +125,12 @@ public class GoodsObject implements  Serializable{
+         mType = type;
+     }
+ 
+-    public String getId() {
+-        if (mType == 0) {
+-            return "jd:" + mId;
+-        } else if (mType == 1) {
+-            return "tb:" + mId;
+-        } else if (mType == 2) {
+-            return "tm:" + mId;
+-        }
+-        return mId;
++    public String getGid() {
++        return mGid;
+     }
+ 
+-    public void setId(String id) {
+-        mId = id;
++    public void setGid(String gid) {
++        mGid = gid;
+     }
+ 
+     public List<List<ParityObject>> getParityObjects() {
+diff --git a/app/src/main/java/com/binqing/utilproject/data/object/ParityObject.java b/app/src/main/java/com/binqing/utilproject/data/object/ParityObject.java
+index 689958f..b8cb47a 100644
+--- a/app/src/main/java/com/binqing/utilproject/data/object/ParityObject.java
++++ b/app/src/main/java/com/binqing/utilproject/data/object/ParityObject.java
+@@ -33,6 +33,8 @@ public class ParityObject implements Serializable{
+ 
+     private int mOrder;
+ 
++    private String mGid;
++
+     public String getName() {
+         return mName;
+     }
+@@ -137,6 +139,25 @@ public class ParityObject implements Serializable{
+         mOrder = order;
+     }
+ 
++    public String getGid() {
++        return mGid;
++    }
++
++    public String getTypeGid() {
++        if (mType == 0) {
++            return "jd:" + mGid;
++        } else if (mType == 1) {
++            return "tb:" + mGid;
++        } else if (mType == 2) {
++            return "tm:" + mGid;
++        }
++        return mGid;
++    }
++
++    public void setGid(String gid) {
++        this.mGid = gid;
++    }
++
+     public static List<ParityObject> fromModels(List<ParityModel> models) {
+         List<ParityObject> result = new ArrayList<>();
+         for (ParityModel parityModel : models) {

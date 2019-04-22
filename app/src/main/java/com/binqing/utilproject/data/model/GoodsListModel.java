@@ -2,31 +2,27 @@ package com.binqing.utilproject.data.model;
 
 import com.binqing.utilproject.data.annotation.Member;
 import com.binqing.utilproject.data.object.GoodsListObject;
-import com.binqing.utilproject.data.object.JDObject;
-import com.binqing.utilproject.data.object.TBObject;
+import com.binqing.utilproject.data.object.GoodsObject;
+import com.binqing.utilproject.data.object.ParityObject;
 
 import java.util.List;
 
 public class GoodsListModel {
 
     @Member(order = 0)
-    public JDModel parityJdModel;
+    public int maxPage;
 
     @Member(order = 1)
-    public TBModel parityTbModel;
+    public List<ParityModel> parityGoodsList;
 
     @Member(order = 2)
-    public List<JDModel> jdModelList;
-
-    @Member(order = 3)
-    public List<TBModel> tbModelList;
+    public List<GoodsModel> goodsModelList;
 
     public GoodsListObject toObjct() {
         GoodsListObject goodsListObject = new GoodsListObject();
-        goodsListObject.setParityJdObjct(JDObject.fromModel(parityJdModel));
-        goodsListObject.setParityTbObjct(TBObject.fromModel(parityTbModel));
-        goodsListObject.setJDObjectList(JDObject.fromModels(jdModelList));
-        goodsListObject.setTBObjectList(TBObject.fromModels(tbModelList));
+        goodsListObject.setMaxPage(maxPage);
+        goodsListObject.setParityObjectList(ParityObject.fromModels(parityGoodsList));
+        goodsListObject.setGoodsObjectList(GoodsObject.fromModels(goodsModelList));
         return goodsListObject;
     }
 }
