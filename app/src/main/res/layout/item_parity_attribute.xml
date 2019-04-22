@@ -57,6 +57,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_attribute2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.2">
@@ -74,14 +75,14 @@
             android:id="@+id/tv_attribute2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:layout_below="@id/iv_attribute2"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:maxLines="2"
-            android:layout_centerVertical="true"
             android:text="商品"
             android:textSize="16dp"/>
     </RelativeLayout>
