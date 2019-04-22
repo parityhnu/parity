@@ -33,6 +33,8 @@ public class ParityObject implements Serializable{
 
     private int mOrder;
 
+    private String mGid;
+
     public String getName() {
         return mName;
     }
@@ -135,6 +137,25 @@ public class ParityObject implements Serializable{
 
     public void setOrder(int order) {
         mOrder = order;
+    }
+
+    public String getGid() {
+        return mGid;
+    }
+
+    public String getTypeGid() {
+        if (mType == 0) {
+            return "jd:" + mGid;
+        } else if (mType == 1) {
+            return "tb:" + mGid;
+        } else if (mType == 2) {
+            return "tm:" + mGid;
+        }
+        return mGid;
+    }
+
+    public void setGid(String gid) {
+        this.mGid = gid;
     }
 
     public static List<ParityObject> fromModels(List<ParityModel> models) {

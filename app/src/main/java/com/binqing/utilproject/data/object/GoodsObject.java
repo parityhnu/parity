@@ -29,7 +29,7 @@ public class GoodsObject implements  Serializable{
 
     private int mType;
 
-    private String mId;
+    private String mGid;
 
     private List<List<ParityObject>> mParityObjects;
 
@@ -125,19 +125,12 @@ public class GoodsObject implements  Serializable{
         mType = type;
     }
 
-    public String getId() {
-        if (mType == 0) {
-            return "jd:" + mId;
-        } else if (mType == 1) {
-            return "tb:" + mId;
-        } else if (mType == 2) {
-            return "tm:" + mId;
-        }
-        return mId;
+    public String getGid() {
+        return mGid;
     }
 
-    public void setId(String id) {
-        mId = id;
+    public void setGid(String gid) {
+        mGid = gid;
     }
 
     public List<List<ParityObject>> getParityObjects() {

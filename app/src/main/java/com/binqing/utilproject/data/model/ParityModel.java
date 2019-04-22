@@ -43,6 +43,9 @@ public class ParityModel {
     @Member(order = 12)
     public int order;
 
+    @Member(order = 13)
+    public String gid;
+
     public ParityObject toObject() {
         ParityObject parityObject = new ParityObject();
         parityObject.setName(name);
@@ -58,6 +61,7 @@ public class ParityModel {
         parityObject.setShop(shop);
         parityObject.setSort(sort);
         parityObject.setType(type);
+        parityObject.setGid(gid);
         return parityObject;
     }
 }

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.binqing.utilproject.Callback;
 import com.binqing.utilproject.Utils.LogUtils;
 import com.binqing.utilproject.data.annotation.Member;
+import com.binqing.utilproject.data.model.AttributeModel;
 import com.binqing.utilproject.data.model.CommentReturnModel;
 import com.binqing.utilproject.data.model.GoodsListModel;
 import com.binqing.utilproject.data.model.GoodsModel;
@@ -284,18 +285,22 @@ public class DataSourceRemote {
         HttpUtil.post(path, options, callback1);
     }
 
-    public void favorite(int user, String id1, String id2, final Callback<StringModel> callback) {
+    public void favorite(int user, String id, String keyword, String sort, boolean cancel, final Callback<StringModel> callback) {
         if (user == 0) {
             return;
         }
-        if (id1 == null || TextUtils.isEmpty(id1) || id2 == null || TextUtils.isEmpty(id2)) {
+        if (id == null || TextUtils.isEmpty(id)
+                || keyword == null || TextUtils.isEmpty(keyword)
+                || sort == null || TextUtils.isEmpty(sort)) {
             return;
         }
         String path = "user/favorite";
         Map<String, String> options = new HashMap<>();
         options.put("user", String.valueOf(user));
-        options.put("id1", id1);
-        options.put("id2", id2);
+        options.put("id", id);
+        options.put("name", keyword);
+        options.put("sort", sort);
+        options.put("cancel", String.valueOf(cancel));
         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -314,18 +319,13 @@ public class DataSourceRemote {
         HttpUtil.post(path, options, callback1);
     }
 
-    public void getFavorites(int user, String id1, String id2, final Callback<List<ParityModel>> callback) {
+    public void getFavorites(int user, final Callback<List<ParityModel>> callback) {
         if (user == 0) {
-            return;
-        }
-        if (id1 == null || TextUtils.isEmpty(id1) || id2 == null || TextUtils.isEmpty(id2)) {
             return;
         }
         String path = "user/getFavorites";
         Map<String, String> options = new HashMap<>();
         options.put("user", String.valueOf(user));
-        options.put("id1", id1);
-        options.put("id2", id2);
         retrofit2.Callback<List<Object>> callback1 = new retrofit2.Callback<List<Object>>() {
             @Override
             public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
@@ -352,7 +352,38 @@ public class DataSourceRemote {
         HttpUtil.postList(path, options, callback1);
     }
 
+    public void getAttributes(List<String> ids, final Callback<List<AttributeModel>> callback) {
+        if (ids == null || ids.isEmpty()) {
+            return;
+        }
+        String path = "attribute/get";
+        Map<String, String> options = new HashMap<>();
+        options.put("ids", String.valueOf(ids));
+        retrofit2.Callback<List<Object>> callback1 = new retrofit2.Callback<List<Object>>() {
+            @Override
+            public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
+                if (callback != null) {
+                    List<Object> objectList = parseList(AttributeModel.class, response);
+                    List<AttributeModel> attributeModels = new ArrayList<>();
+                    for (Object o : objectList) {
+                        if (o == null) {
+                            continue;
+                        }
+                        attributeModels.add((AttributeModel) o);
+                    }
+                    callback.onResult(attributeModels);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<Object>> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("-1", String.valueOf(t));
+                }
+            }
+        };
+        HttpUtil.postList(path, options, callback1);
+    }
 
     public void getComments(List<String> ids, String index, final Callback<CommentReturnModel> callback) {
         if (ids == null || ids.isEmpty()) {
