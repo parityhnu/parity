@@ -316,14 +316,14 @@ public class DataSourceRemote {
                 }
             }
         };
-        HttpUtil.post(path, options, callback1);
+        HttpUtil.get(path, options, callback1);
     }
 
     public void getFavorites(int user, final Callback<List<ParityModel>> callback) {
         if (user == 0) {
             return;
         }
-        String path = "user/getFavorites";
+        String path = "ip/getFavorite";
         Map<String, String> options = new HashMap<>();
         options.put("user", String.valueOf(user));
         retrofit2.Callback<List<Object>> callback1 = new retrofit2.Callback<List<Object>>() {
@@ -332,6 +332,10 @@ public class DataSourceRemote {
                 if (callback != null) {
                     List<Object> objectList = parseList(ParityModel.class, response);
                     List<ParityModel> parityModelList = new ArrayList<>();
+                    if (objectList == null) {
+                        callback.onResult(parityModelList);
+                        return;
+                    }
                     for (Object o : objectList) {
                         if (o == null) {
                             continue;
@@ -349,22 +353,26 @@ public class DataSourceRemote {
                 }
             }
         };
-        HttpUtil.postList(path, options, callback1);
+        HttpUtil.getList(path, options, callback1);
     }
 
-    public void getAttributes(List<String> ids, final Callback<List<AttributeModel>> callback) {
+    public void getAttributes(String ids, final Callback<List<AttributeModel>> callback) {
         if (ids == null || ids.isEmpty()) {
             return;
         }
         String path = "attribute/get";
         Map<String, String> options = new HashMap<>();
-        options.put("ids", String.valueOf(ids));
+        options.put("ids", ids);
         retrofit2.Callback<List<Object>> callback1 = new retrofit2.Callback<List<Object>>() {
             @Override
             public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
                 if (callback != null) {
                     List<Object> objectList = parseList(AttributeModel.class, response);
                     List<AttributeModel> attributeModels = new ArrayList<>();
+                    if (objectList == null) {
+                        callback.onResult(attributeModels);
+                        return;
+                    }
                     for (Object o : objectList) {
                         if (o == null) {
                             continue;
@@ -382,10 +390,10 @@ public class DataSourceRemote {
                 }
             }
         };
-        HttpUtil.postList(path, options, callback1);
+        HttpUtil.getList(path, options, callback1);
     }
 
-    public void getComments(List<String> ids, String index, final Callback<CommentReturnModel> callback) {
+    public void getComments(String ids, String index, final Callback<CommentReturnModel> callback) {
         if (ids == null || ids.isEmpty()) {
             return;
         }
@@ -394,7 +402,7 @@ public class DataSourceRemote {
         }
         final String path = "comment/get";
         Map<String, String> options = new HashMap<>();
-        options.put("ids", String.valueOf(ids));
+        options.put("ids", ids);
         options.put("index", index);
         retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
             @Override
@@ -549,6 +557,10 @@ public class DataSourceRemote {
                     if (field.getType() == int.class || field.getType() == Integer.class) {
                         DecimalFormat df = new DecimalFormat("######0");
                         int x = Integer.parseInt(df.format(entry.getValue()));
+                        field.set(object, x);
+                    } else if (field.getType() == long.class || field.getType() == Long.class) {
+                        DecimalFormat df = new DecimalFormat("######0");
+                        long x = Long.parseLong(df.format(entry.getValue()));
                         field.set(object, x);
                     } else {
                         field.set(object, entry.getValue());
