@@ -194,6 +194,19 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
             String price = parityObject.getPrice();
             int saleComment = parityObject.getSalecomment();
             String shop = parityObject.getShop();
+            switch (parityObject.getType()) {
+                case 0:
+                    shop += "(京东)";
+                    break;
+                case 1:
+                    shop += "(淘宝)";
+                    break;
+                case 2:
+                    shop += "(天猫)";
+                    break;
+                default:
+                    break;
+            }
             stringListMap.get("商品").add(name);
             stringListMap.get("价格").add(price);
             stringListMap.get("销量").add(String.valueOf(saleComment));
@@ -205,6 +218,19 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 price = parityObject.getPrice();
                 saleComment = parityObject.getSalecomment();
                 shop = parityObject.getShop();
+                switch (parityObject.getType()) {
+                    case 0:
+                        shop += "(京东)";
+                        break;
+                    case 1:
+                        shop += "(淘宝)";
+                        break;
+                    case 2:
+                        shop += "(天猫)";
+                        break;
+                    default:
+                        break;
+                }
                 stringListMap.get("商品").add(name);
                 stringListMap.get("价格").add(price);
                 stringListMap.get("销量").add(String.valueOf(saleComment));
