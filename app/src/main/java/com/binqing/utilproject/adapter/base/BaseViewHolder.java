@@ -59,6 +59,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         return this;
     }
 
+    public BaseViewHolder setBackGround(int viewId, int resourceId) {
+        View view = getView(viewId);
+        view.setBackgroundResource(resourceId);
+        return this;
+    }
+
     public interface onItemBaseClickListener {
 
         void onItemClickListener(int position);

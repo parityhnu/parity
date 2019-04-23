@@ -15,6 +15,6 @@ public class GoodsParityDetailContract {
     }
 
     public interface Presenter{
-
+        void requestComment();
     }
 }

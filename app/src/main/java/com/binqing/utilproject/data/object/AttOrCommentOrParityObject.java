@@ -11,6 +11,9 @@ public class AttOrCommentOrParityObject {
 
     private BaseCommentObject mBaseCommentObject;
 
+    //背景色
+    private int index;
+
     public List<AttributeObject> getAttributeObjectList() {
         return mAttributeObjectList;
     }
@@ -33,5 +36,13 @@ public class AttOrCommentOrParityObject {
 
     public AttOrCommentOrParityObject(BaseCommentObject baseCommentObject) {
         mBaseCommentObject = baseCommentObject;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

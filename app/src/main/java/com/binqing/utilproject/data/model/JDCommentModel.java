@@ -8,34 +8,34 @@ import java.util.List;
 public class JDCommentModel {
 
     @Member(order = 0)
-    private String gid;
+    public String gid;
 
     @Member(order = 1)
-    private int index;
+    public int index;
 
     @Member(order = 2)
-    private long ctime;
+    public long ctime;
 
     @Member(order = 3)
-    private String rateContent;
+    public String rateContent;
 
     @Member(order = 4)
-    private List<String> pics;
+    public List<String> pics;
 
     @Member(order = 5)
-    private String displayUserNick;
+    public String displayUserNick;
 
     @Member(order = 6)
-    private String content;
+    public String content;
 
     @Member(order = 7)
-    private String mProductSize;
+    public String mProductSize;
 
     @Member(order = 8)
-    private String mProductColor;
+    public String mProductColor;
 
     @Member(order = 9)
-    private int mScore;
+    public int mScore;
 
     public JDCommentObject toObject() {
         JDCommentObject object = new JDCommentObject();

@@ -10,6 +10,9 @@ public class AttributeObject {
 
     private String mAttribute;
 
+    //与服务器字段不同之处，设定一下只有当需要加载图片时才使用
+    private String mImgUrl;
+
     public String getGid() {
         return mGid;
     }
@@ -38,5 +41,13 @@ public class AttributeObject {
             result.add(model.toObject());
         }
         return result;
+    }
+
+    public String getImgUrl() {
+        return mImgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        mImgUrl = imgUrl;
     }
 }

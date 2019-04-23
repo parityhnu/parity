@@ -57,6 +57,27 @@ public class GoodsParityDetailActivity extends BaseActivity implements GoodsPari
                 finish();
             }
         });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                //当前RecyclerView显示出来的最后一个的item的position
+                int lastPosition = -1;
+
+                //当前状态为停止滑动状态SCROLL_STATE_IDLE时
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    lastPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+
+                    //时判断界面显示的最后item的position是否等于itemCount总数-1也就是最后一个item的position
+                    //如果相等则说明已经滑动到最后了
+                    if(lastPosition == recyclerView.getLayoutManager().getItemCount()-1){
+                        mPresenter.requestComment();
+                    }
+
+                }
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -74,11 +95,19 @@ public class GoodsParityDetailActivity extends BaseActivity implements GoodsPari
             }
         });
         mRecyclerView.setAdapter(mParityDetailAdapter);
+
     }
 
     @Override
     public void refreshView(List<AttOrCommentOrParityObject> attOrCommentOrParityObjects) {
-
+        int size = attOrCommentOrParityObjects.size();
+        for (int i = 0; i < size; i ++) {
+            if (attOrCommentOrParityObjects.get(i) == null) {
+                continue;
+            }
+            attOrCommentOrParityObjects.get(i).setIndex(i);
+        }
+        mParityDetailAdapter.setDataList(attOrCommentOrParityObjects);
     }
 
     @Override

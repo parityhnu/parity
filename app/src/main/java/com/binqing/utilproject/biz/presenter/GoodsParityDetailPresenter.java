@@ -22,14 +22,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Presenter {
 
     private GoodsParityDetailActivity mView;
     private List<ParityObject> mData;
+    private int mCommentIndex = 1;
 
     public GoodsParityDetailPresenter(GoodsParityDetailActivity activity) {
         bindView(activity);
@@ -43,7 +46,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
 
     private void initData() {
         Intent intent = mView.getIntent();
-        mData = intent.getParcelableExtra(Consts.INTENT_KEY_PARITY_GOODS_DETAIL);
+        mData = (List<ParityObject>) intent.getSerializableExtra(Consts.INTENT_KEY_PARITY_GOODS_DETAIL);
         List<AttOrCommentOrParityObject> dataList = mView.getDataList();
         if (dataList == null) {
             dataList = new ArrayList<>();
@@ -67,7 +70,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
     }
 
     private void requestComment(List<String> ids) {
-        DataProvider.getInstance().getComments(ids, "1", new Callback<CommentReturnObject>() {
+        DataProvider.getInstance().getComments(ids, String.valueOf(mCommentIndex), new Callback<CommentReturnObject>() {
             @Override
             public void onResult(CommentReturnObject result) {
                 if (result == null) {
@@ -77,9 +80,15 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 List<TMCommentObject> tmCommentObjects = result.getTMCommentObjects();
                 List<TBCommentObject> tbCommentObjects = result.getTBCommentObjects();
                 List<BaseCommentObject> baseCommentObjects = new ArrayList<>();
-                baseCommentObjects.addAll(jdCommentObjects);
-                baseCommentObjects.addAll(tbCommentObjects);
-                baseCommentObjects.addAll(tmCommentObjects);
+                if (jdCommentObjects != null) {
+                    baseCommentObjects.addAll(jdCommentObjects);
+                }
+                if (tbCommentObjects != null) {
+                    baseCommentObjects.addAll(tbCommentObjects);
+                }
+                if (tmCommentObjects != null) {
+                    baseCommentObjects.addAll(tmCommentObjects);
+                }
                 Collections.sort(baseCommentObjects);
                 List<AttOrCommentOrParityObject> dataList = mView.getDataList();
                 if (dataList == null) {
@@ -91,6 +100,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                     }
                     dataList.add(new AttOrCommentOrParityObject(baseCommentObject));
                 }
+                mCommentIndex = mCommentIndex + 1;
                 mView.refreshView(dataList);
             }
 
@@ -108,20 +118,14 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 if (result == null) {
                     return;
                 }
-                Map<String, List<String>> stringListMap = new HashMap<>();
+                Map<String, List<AttributeObject>> attributeMap = new HashMap<>();
                 for (AttributeObject attributeObject : result) {
-                    String attribute = attributeObject.getAttribute();
-                    String[] strings = attribute.split(":",1);
-                    if (strings.length < 2) {
-                        strings = attribute.split("：", 1);
+                    if (attributeMap.get(attributeObject.getGid()) == null) {
+                        attributeMap.put(attributeObject.getGid(), new ArrayList<AttributeObject>());
                     }
-                    if (strings.length == 2) {
-                        if (stringListMap.get(strings[0]) == null) {
-                            stringListMap.put(strings[0], new ArrayList<String>());
-                        }
-                        stringListMap.get(strings[0]).add(strings[1]);
-                    }
+                    attributeMap.get(attributeObject.getGid()).add(attributeObject);
                 }
+                Map<String, List<String>> stringListMap = dealWithAtrributeMap(attributeMap);
 
                 List<AttOrCommentOrParityObject> dataList = mView.getDataList();
                 if (dataList == null) {
@@ -138,24 +142,62 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
         });
     }
 
+    private Map<String, List<String>> dealWithAtrributeMap(Map<String, List<AttributeObject>> attributeMap) {
+        if (attributeMap == null || attributeMap.isEmpty()) {
+            return null;
+        }
+        if (mData == null || mData.isEmpty()) {
+            return null;
+        }
+        Map<String, List<String>> stringListMap = new LinkedHashMap<>();
+        int index = 0;
+        for (ParityObject parityObject : mData) {
+            List<AttributeObject> attributeObjectList = attributeMap.get(parityObject.getGid());
+            if (attributeObjectList == null) {
+                index ++;
+                continue;
+            }
+            for (AttributeObject attributeObject : attributeObjectList) {
+                String attribute = attributeObject.getAttribute();
+                String[] strings = attribute.split(":",2);
+                if (strings.length < 2) {
+                    strings = attribute.split("：", 2);
+                }
+                if (strings.length == 2) {
+                    strings[0] = strings[0].replaceAll("\n", "");
+                    strings[1] = strings[1].replaceAll("\n", "");
+                    if (stringListMap.get(strings[0]) == null) {
+                        stringListMap.put(strings[0], new ArrayList<String>());
+                    }
+                    if (index == 1) {
+                        stringListMap.get(strings[0]).add(" ");
+                    }
+                    stringListMap.get(strings[0]).add(strings[1]);
+                }
+            }
+            index ++;
+        }
+        return stringListMap;
+    }
+
     private List<AttOrCommentOrParityObject> dataToData() {
         List<AttOrCommentOrParityObject> result = new ArrayList<>();
         if (mData != null && !mData.isEmpty()) {
-            Map<String, List<String>> stringListMap = new HashMap<>();
-            stringListMap.put("商品:", new ArrayList<String>());
-            stringListMap.put("价格:", new ArrayList<String>());
-            stringListMap.put("销量:", new ArrayList<String>());
-            stringListMap.put("店铺:", new ArrayList<String>());
+            Map<String, List<String>> stringListMap = new LinkedHashMap<>();
+            stringListMap.put("商品", new ArrayList<String>());
+            stringListMap.put("价格", new ArrayList<String>());
+            stringListMap.put("销量", new ArrayList<String>());
+            stringListMap.put("店铺", new ArrayList<String>());
 
             ParityObject parityObject = mData.get(0);
             String name = parityObject.getName();
             String price = parityObject.getPrice();
             int saleComment = parityObject.getSalecomment();
             String shop = parityObject.getShop();
-            stringListMap.get("商品:").add(name);
-            stringListMap.get("价格:").add(price);
-            stringListMap.get("销量:").add(String.valueOf(saleComment));
-            stringListMap.get("店铺:").add(shop);
+            stringListMap.get("商品").add(name);
+            stringListMap.get("价格").add(price);
+            stringListMap.get("销量").add(String.valueOf(saleComment));
+            stringListMap.get("店铺").add(shop);
 
             if (mData.size() > 1) {
                 parityObject = mData.get(1);
@@ -163,10 +205,10 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 price = parityObject.getPrice();
                 saleComment = parityObject.getSalecomment();
                 shop = parityObject.getShop();
-                stringListMap.get("商品:").add(name);
-                stringListMap.get("价格:").add(price);
-                stringListMap.get("销量:").add(String.valueOf(saleComment));
-                stringListMap.get("店铺:").add(shop);
+                stringListMap.get("商品").add(name);
+                stringListMap.get("价格").add(price);
+                stringListMap.get("销量").add(String.valueOf(saleComment));
+                stringListMap.get("店铺").add(shop);
             }
 
             result.addAll(dealWithStringListMap(stringListMap));
@@ -176,6 +218,9 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
     }
 
     private List<AttOrCommentOrParityObject> dealWithStringListMap(Map<String, List<String>> stringListMap) {
+        if (stringListMap == null) {
+            return new ArrayList<>();
+        }
         List<AttOrCommentOrParityObject> result = new ArrayList<>();
         Set<Map.Entry<String, List<String>>> set = stringListMap.entrySet();
         for (Map.Entry<String, List<String>> entry : set) {
@@ -185,13 +230,37 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
             if (value == null || value.isEmpty()) {
                 continue;
             }
-            for (String s : value) {
+            int size = value.size();
+            int ld;
+            if (mData != null) {
+                ld = mData.size();
+            } else {
+                ld = 0;
+            }
+            for (int i = 0; i < size; i ++) {
                 AttributeObject attributeObject = new AttributeObject();
-                attributeObject.setAttribute(key + s);
+                attributeObject.setAttribute(key + ":" + value.get(i));
+                if ("商品".equals(key)) {
+                    if (i < ld) {
+                        attributeObject.setImgUrl(mData.get(i).getImage());
+                    }
+                }
                 attributeObjectList.add(attributeObject);
             }
             result.add(new AttOrCommentOrParityObject(attributeObjectList));
         }
         return result;
+    }
+
+    @Override
+    public void requestComment() {
+        if (mData == null || mData.isEmpty()) {
+            return;
+        }
+        List<String> ids = new ArrayList<>();
+        for (ParityObject parityObject : mData) {
+            ids.add(parityObject.getTypeGid());
+        }
+        requestComment(ids);
     }
 }

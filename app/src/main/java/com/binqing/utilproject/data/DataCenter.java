@@ -251,6 +251,11 @@ public class DataCenter {
         if (index == null || "".equals(index)) {
             index = "1";
         }
+        StringBuilder id = new StringBuilder();
+        for (String s : ids) {
+            id.append(s).append(",");
+        }
+        id.deleteCharAt(id.length()-1);
 
         Callback<CommentReturnModel> modelCallback = new Callback<CommentReturnModel>() {
             @Override
@@ -270,13 +275,18 @@ public class DataCenter {
             }
         };
 
-        DataSourceRemote.getInstance().getComments(ids, index, modelCallback);
+        DataSourceRemote.getInstance().getComments(id.toString(), index, modelCallback);
     }
 
     public void getAttributes(List<String> ids, final Callback<List<AttributeObject>> callback) {
         if (ids == null || ids.isEmpty()) {
             return;
         }
+        StringBuilder id = new StringBuilder();
+        for (String s : ids) {
+            id.append(s).append(",");
+        }
+        id.deleteCharAt(id.length()-1);
 
         Callback<List<AttributeModel>> modelCallback = new Callback<List<AttributeModel>>() {
             @Override
@@ -296,7 +306,7 @@ public class DataCenter {
             }
         };
 
-        DataSourceRemote.getInstance().getAttributes(ids, modelCallback);
+        DataSourceRemote.getInstance().getAttributes(id.toString(), modelCallback);
     }
 
     public void favorite(String id, String keyword, String sort, boolean cancel, final Callback<String> callback) {
