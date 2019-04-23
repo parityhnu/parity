@@ -323,7 +323,7 @@ public class DataSourceRemote {
         if (user == 0) {
             return;
         }
-        String path = "user/getFavorites";
+        String path = "ip/getFavorite";
         Map<String, String> options = new HashMap<>();
         options.put("user", String.valueOf(user));
         retrofit2.Callback<List<Object>> callback1 = new retrofit2.Callback<List<Object>>() {

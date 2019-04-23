@@ -151,4 +151,5 @@ public class GoodsObject implements  Serializable{
         }
         return result;
     }
+
 }

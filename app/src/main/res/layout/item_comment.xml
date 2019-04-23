@@ -47,13 +47,6 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/divider_color">
-    </View>
-
     <LinearLayout
         android:id="@+id/ll_append"
         android:layout_width="match_parent"
@@ -85,5 +78,10 @@
             android:layout_marginTop="8dp"/>
     </LinearLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/divider_color">
+    </View>
 </LinearLayout>

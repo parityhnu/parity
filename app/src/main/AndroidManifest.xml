@@ -22,7 +22,7 @@
         <activity android:name=".Activity.SearchActivity"></activity>
         <activity android:name=".Activity.GoodsListActivity"></activity>
         <activity android:name=".Activity.GoodsParityDetailActivity"></activity>
-        <activity android:name=".Activity.CollectionActivity"></activity>
+        <activity android:name=".Activity.FavoriteActivity"></activity>
         <activity android:name=".Activity.ModifyActivity"></activity>
         <activity android:name=".Activity.LoginActivity">
         </activity>

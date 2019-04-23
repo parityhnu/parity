@@ -2,9 +2,8 @@ package com.binqing.utilproject.Utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 
-import com.binqing.utilproject.Activity.CollectionActivity;
+import com.binqing.utilproject.Activity.FavoriteActivity;
 import com.binqing.utilproject.Activity.ForgetPasswordActivity;
 import com.binqing.utilproject.Activity.GoodsListActivity;
 import com.binqing.utilproject.Activity.GoodsParityDetailActivity;
@@ -16,7 +15,6 @@ import com.binqing.utilproject.Activity.SignUpActivity;
 import com.binqing.utilproject.Activity.WebViewActivity;
 import com.binqing.utilproject.Consts.Consts;
 import com.binqing.utilproject.Enum.ModifyType;
-import com.binqing.utilproject.data.object.GoodsObject;
 import com.binqing.utilproject.data.object.ParityObject;
 
 import java.io.Serializable;
@@ -79,7 +77,7 @@ public class NavUtil {
 
     public static void Nav2CollectionActivity(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context, CollectionActivity.class);
+        intent.setClass(context, FavoriteActivity.class);
         context.startActivity(intent);
     }
 
