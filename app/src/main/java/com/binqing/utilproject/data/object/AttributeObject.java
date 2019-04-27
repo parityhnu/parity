@@ -13,6 +13,9 @@ public class AttributeObject {
     //与服务器字段不同之处，设定一下只有当需要加载图片时才使用
     private String mImgUrl;
 
+    //跳转
+    private String mHref;
+
     public String getGid() {
         return mGid;
     }
@@ -49,5 +52,13 @@ public class AttributeObject {
 
     public void setImgUrl(String imgUrl) {
         mImgUrl = imgUrl;
+    }
+
+    public String getHref() {
+        return mHref;
+    }
+
+    public void setHref(String href) {
+        mHref = href;
     }
 }

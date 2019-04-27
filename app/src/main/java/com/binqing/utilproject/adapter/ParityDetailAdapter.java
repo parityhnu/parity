@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.binqing.utilproject.R;
+import com.binqing.utilproject.Utils.NavUtil;
 import com.binqing.utilproject.adapter.base.BaseRecyclerViewAdapter;
 import com.binqing.utilproject.adapter.base.BaseViewHolder;
 import com.binqing.utilproject.adapter.base.MultiTypeLayout;
@@ -61,6 +62,14 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                 //图片加载
                 if (attributeObject.getImgUrl() == null || TextUtils.isEmpty(attributeObject.getImgUrl())) {
                     holder.setViewVisivility(R.id.iv_attribute1, View.GONE);
+                    ImageView imageView = holder.getView(R.id.iv_attribute1);
+                    final AttributeObject finalAttributeObject = attributeObject;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            NavUtil.Nav2WebViewActivity(mContext, finalAttributeObject.getHref());
+                        }
+                    });
                 } else {
                     holder.setViewVisivility(R.id.iv_attribute1, View.VISIBLE);
                     ImageView imageView = holder.getView(R.id.iv_attribute1);
@@ -78,6 +87,14 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                     attributeObject = attributeObjectList.get(1);
                     if (attributeObject.getImgUrl() == null || TextUtils.isEmpty(attributeObject.getImgUrl())) {
                         holder.setViewVisivility(R.id.iv_attribute2, View.GONE);
+                        ImageView imageView = holder.getView(R.id.iv_attribute2);
+                        final AttributeObject finalAttributeObject1 = attributeObject;
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                NavUtil.Nav2WebViewActivity(mContext, finalAttributeObject1.getHref());
+                            }
+                        });
                     } else {
                         holder.setViewVisivility(R.id.iv_attribute2, View.VISIBLE);
                         ImageView imageView = holder.getView(R.id.iv_attribute2);

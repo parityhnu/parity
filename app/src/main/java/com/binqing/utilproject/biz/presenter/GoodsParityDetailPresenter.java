@@ -269,6 +269,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 if ("商品".equals(key)) {
                     if (i < ld) {
                         attributeObject.setImgUrl(mData.get(i).getImage());
+                        attributeObject.setHref(mData.get(i).getHref());
                     }
                 }
                 attributeObjectList.add(attributeObject);
