@@ -10,11 +10,8 @@ public class AttributeObject {
 
     private String mAttribute;
 
-    //与服务器字段不同之处，设定一下只有当需要加载图片时才使用
-    private String mImgUrl;
-
-    //跳转
-    private String mHref;
+    //与服务器字段不同之处
+    private ParityObject mParityObject;
 
     public String getGid() {
         return mGid;
@@ -46,19 +43,11 @@ public class AttributeObject {
         return result;
     }
 
-    public String getImgUrl() {
-        return mImgUrl;
+    public ParityObject getParityObject() {
+        return mParityObject;
     }
 
-    public void setImgUrl(String imgUrl) {
-        mImgUrl = imgUrl;
-    }
-
-    public String getHref() {
-        return mHref;
-    }
-
-    public void setHref(String href) {
-        mHref = href;
+    public void setParityObject(ParityObject parityObject) {
+        mParityObject = parityObject;
     }
 }

@@ -32,6 +32,21 @@
                 android:textColor="@color/color_first_black"
                 android:textSize="22dp"/>
 
+            <TextView
+                android:id="@+id/tv_favorite"
+                android:gravity="center_vertical"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:text="收藏"
+                android:textColor="@color/color_first_black"
+                android:textSize="16dp"
+                />
+
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

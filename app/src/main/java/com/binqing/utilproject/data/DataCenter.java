@@ -342,6 +342,39 @@ public class DataCenter {
         DataSourceRemote.getInstance().favorite(user, id, keyword, sort, cancel, callback1);
     }
 
+    public void checkFavorite(String id, String keyword, String sort, final Callback<String> callback) {
+        int user = ParityApplication.getInstance().getUserId();
+        if (user == 0) {
+            return;
+        }
+        if (id == null || TextUtils.isEmpty(id)
+                || keyword == null || TextUtils.isEmpty(keyword)
+                || sort == null || TextUtils.isEmpty(sort)) {
+            return;
+        }
+        Callback<StringModel> callback1 = new Callback<StringModel>() {
+            @Override
+            public void onResult(StringModel result) {
+                if (callback == null) {
+                    return;
+                }
+                if (result == null) {
+                    callback.onException("checkFavorite", "stringmodel is null");
+                    return;
+                }
+                callback.onResult(result.string);
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+                if (callback != null) {
+                    callback.onException(code, reason);
+                }
+            }
+        };
+        DataSourceRemote.getInstance().checkFavorite(user, id, keyword, sort, callback1);
+    }
+
     public void getFavorites(final Callback<List<ParityObject>> callback) {
         int user = ParityApplication.getInstance().getUserId();
         if (user == 0) {

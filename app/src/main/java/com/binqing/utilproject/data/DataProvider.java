@@ -135,6 +135,15 @@ public class DataProvider {
         });
     }
 
+    public void checkFavorite(final String id, final String keyword, final String sort, final Callback<String> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                DataCenter.getInstance().checkFavorite(id, keyword, sort, callback);
+            }
+        });
+    }
+
     public void getFavorite(final Callback<List<ParityObject>> callback) {
         mExecutor.execute(new Runnable() {
             @Override
