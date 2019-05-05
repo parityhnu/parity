@@ -316,6 +316,39 @@ public class DataSourceRemote {
                 }
             }
         };
+        HttpUtil.post(path, options, callback1);
+    }
+
+    public void checkFavorite(int user, String id, String keyword, String sort, final Callback<StringModel> callback) {
+        if (user == 0) {
+            return;
+        }
+        if (id == null || TextUtils.isEmpty(id)
+                || keyword == null || TextUtils.isEmpty(keyword)
+                || sort == null || TextUtils.isEmpty(sort)) {
+            return;
+        }
+        String path = "user/checkfavorite";
+        Map<String, String> options = new HashMap<>();
+        options.put("user", String.valueOf(user));
+        options.put("id", id);
+        options.put("name", keyword);
+        options.put("sort", sort);
+        retrofit2.Callback<Object> callback1 = new retrofit2.Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (callback != null) {
+                    callback.onResult((StringModel) parseObject(StringModel.class, response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (callback != null) {
+                    callback.onException("-1", String.valueOf(t));
+                }
+            }
+        };
         HttpUtil.get(path, options, callback1);
     }
 

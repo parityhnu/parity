@@ -2,6 +2,7 @@ package com.binqing.utilproject.Utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.binqing.utilproject.Activity.FavoriteActivity;
 import com.binqing.utilproject.Activity.ForgetPasswordActivity;
@@ -44,10 +45,10 @@ public class NavUtil {
     }
 
     public static void Nav2Web(Context context, String url) {
-        Nav2WebViewActivity(context, url);
-//        Uri uri = Uri.parse(url);
-//        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//        context.startActivity(intent);
+//        Nav2WebViewActivity(context, url);
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(intent);
     }
 
     public static void Nav2SignUpActivity(Context context) {
@@ -88,10 +89,11 @@ public class NavUtil {
     }
 
     public static void Nav2WebViewActivity(Context context, String href) {
-        Intent intent = new Intent();
-        intent.putExtra(Consts.INTENT_KEY_WEBVIEW_HREF, href);
-        intent.setClass(context, WebViewActivity.class);
-        context.startActivity(intent);
+        Nav2Web(context, href);
+//        Intent intent = new Intent();
+//        intent.putExtra(Consts.INTENT_KEY_WEBVIEW_HREF, href);
+//        intent.setClass(context, WebViewActivity.class);
+//        context.startActivity(intent);
     }
 
 }
