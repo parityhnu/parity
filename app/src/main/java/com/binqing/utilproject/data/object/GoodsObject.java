@@ -143,6 +143,9 @@ public class GoodsObject implements  Serializable{
 
     public static List<GoodsObject> fromModels(List<GoodsModel> models) {
         List<GoodsObject> result = new ArrayList<>();
+        if (models == null) {
+            return result;
+        }
         for (GoodsModel goodsModel : models) {
             if (goodsModel == null) {
                 continue;

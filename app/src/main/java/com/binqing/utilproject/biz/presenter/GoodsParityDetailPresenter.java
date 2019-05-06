@@ -32,6 +32,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
 
     private GoodsParityDetailActivity mView;
     private List<ParityObject> mData;
+    private Map<String, Boolean> mFavoriteState = new HashMap<>();
     private int mCommentIndex = 1;
 
     public GoodsParityDetailPresenter(GoodsParityDetailActivity activity) {
@@ -54,7 +55,38 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
         List<AttOrCommentOrParityObject> attOrCommentOrParityObject = dataToData();
         dataList.addAll(attOrCommentOrParityObject);
         mView.refreshView(dataList);
+        checkFavoriteState();
         requestAttributeAndComment();
+    }
+
+    private void checkFavoriteState() {
+        if (mData == null) {
+            return;
+        }
+        for (final ParityObject parityObject : mData) {
+            if (parityObject == null) {
+                continue;
+            }
+            DataProvider.getInstance().checkFavorite(parityObject.getTypeGid(),
+                    parityObject.getKeyword(),
+                    String.valueOf(parityObject.getSort()),
+                    new Callback<String>() {
+                @Override
+                public void onResult(String result) {
+                    if (parityObject.getGid().equals(result)) {
+                        mFavoriteState.put(parityObject.getGid(), true);
+                    } else {
+                        mFavoriteState.put(parityObject.getGid(), false);
+                    }
+                    mView.initFavoriteState();
+                }
+
+                @Override
+                public void onException(String code, String reason) {
+
+                }
+            });
+        }
     }
 
     private void requestAttributeAndComment() {
@@ -278,7 +310,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 attributeObject.setAttribute(key + ":" + value.get(i));
                 if ("商品".equals(key)) {
                     if (i < ld) {
-                        attributeObject.setImgUrl(mData.get(i).getImage());
+                        attributeObject.setParityObject(mData.get(i));
                     }
                 }
                 attributeObjectList.add(attributeObject);
@@ -298,5 +330,55 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
             ids.add(parityObject.getTypeGid());
         }
         requestComment(ids);
+    }
+
+    @Override
+    public List<ParityObject> getParity() {
+        return mData;
+    }
+
+    @Override
+    public void favorite(final ParityObject parityObject) {
+        boolean cancel = mFavoriteState.get(parityObject.getGid());
+        DataProvider.getInstance().favorite(parityObject.getTypeGid(),
+                parityObject.getKeyword(),
+                String.valueOf(parityObject.getSort()),
+                cancel,
+                new Callback<String>() {
+            @Override
+            public void onResult(String result) {
+                if (result != null) {
+                    String [] strings = result.split("_");
+                    if (strings.length < 2) {
+                        return;
+                    }
+                    String id = strings[0];
+                    String canceled = strings[1];
+                    if (id.equals(parityObject.getGid())) {
+
+                        if ("true".equals(canceled)) {
+                            //已经取消收藏
+                            mFavoriteState.put(parityObject.getGid(), false);
+                            mView.updateFavoriteState(false);
+                            mView.alert(false);
+                        } else {
+                            mFavoriteState.put(parityObject.getGid(), true);
+                            mView.updateFavoriteState(true);
+                            mView.alert(true);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onException(String code, String reason) {
+
+            }
+        });
+    }
+
+    @Override
+    public boolean getFavoriteState(String gid) {
+        return mFavoriteState.get(gid);
     }
 }

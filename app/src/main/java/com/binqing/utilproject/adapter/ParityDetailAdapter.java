@@ -1,4 +1,4 @@
-package com.binqing.utilproject.adapter;
+﻿package com.binqing.utilproject.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.binqing.utilproject.R;
+import com.binqing.utilproject.Utils.NavUtil;
 import com.binqing.utilproject.adapter.base.BaseRecyclerViewAdapter;
 import com.binqing.utilproject.adapter.base.BaseViewHolder;
 import com.binqing.utilproject.adapter.base.MultiTypeLayout;
@@ -59,13 +60,21 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                 int size = attributeObjectList.size();
                 AttributeObject attributeObject = attributeObjectList.get(0);
 
-                //图片加载，只有imgUrl属性有值的时候，才加载图片，否则设为消失
-                if (attributeObject.getImgUrl() == null || TextUtils.isEmpty(attributeObject.getImgUrl())) {
+                ParityObject parityObject = attributeObject.getParityObject();
+                //图片加载
+                if (parityObject == null) {
                     holder.setViewVisivility(R.id.iv_attribute1, View.GONE);
                 } else {
                     holder.setViewVisivility(R.id.iv_attribute1, View.VISIBLE);
                     ImageView imageView = holder.getView(R.id.iv_attribute1);
-                    Glide.with(mContext).load("https:" + attributeObject.getImgUrl()).into(imageView);
+                    final AttributeObject finalAttributeObject = attributeObject;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            NavUtil.Nav2WebViewActivity(mContext, finalAttributeObject.getParityObject().getHref());
+                        }
+                    });
+                    Glide.with(mContext).load("https:" + parityObject.getImage()).into(imageView);
                 }
                 String attribute = attributeObject.getAttribute();
                 //根据冒号分割
@@ -75,25 +84,35 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                 if (strings.length >= 2) {
                     holder.setText(R.id.tv_attribute1, strings[1]);
                 }
-                if (size >= 2) {
-                    //如果size大于等于2，才显示，否则就隐藏第二列
-                    holder.setViewVisivility(R.id.rl_attribute2, View.VISIBLE);
-                    attributeObject = attributeObjectList.get(1);
-                    if (attributeObject.getImgUrl() == null || TextUtils.isEmpty(attributeObject.getImgUrl())) {
-                        holder.setViewVisivility(R.id.iv_attribute2, View.GONE);
-                    } else {
-                        holder.setViewVisivility(R.id.iv_attribute2, View.VISIBLE);
-                        ImageView imageView = holder.getView(R.id.iv_attribute2);
-                        Glide.with(mContext).load("https:" + attributeObject.getImgUrl()).into(imageView);
-                    }
-                    attribute = attributeObject.getAttribute();
-                    strings = splitAttibute(attribute);
-                    if (strings.length >= 2) {
-                        holder.setText(R.id.tv_attribute2, strings[1]);
-                    }
-                } else {
-                    holder.setViewVisivility(R.id.rl_attribute2, View.INVISIBLE);
+
+                if (size == 1) {
+                    AttributeObject attributeObject1 = new AttributeObject();
+                    attributeObject1.setAttribute("");
+                    attributeObjectList.add(attributeObject1);
                 }
+                holder.setViewVisivility(R.id.rl_attribute2, View.VISIBLE);
+                attributeObject = attributeObjectList.get(1);
+                parityObject = attributeObject.getParityObject();
+                if (parityObject == null) {
+                    holder.setViewVisivility(R.id.iv_attribute2, View.GONE);
+                } else {
+                    holder.setViewVisivility(R.id.iv_attribute2, View.VISIBLE);
+                    ImageView imageView = holder.getView(R.id.iv_attribute2);
+                    final AttributeObject finalAttributeObject1 = attributeObject;
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            NavUtil.Nav2WebViewActivity(mContext, finalAttributeObject1.getParityObject().getHref());
+                        }
+                    });
+                    Glide.with(mContext).load("https:" + parityObject.getImage()).into(imageView);
+                }
+                attribute = attributeObject.getAttribute();
+                strings = splitAttibute(attribute);
+                if (strings.length >= 2) {
+                    holder.setText(R.id.tv_attribute2, strings[1]);
+                }
+
             } else if (baseCommentObject != null) {
                 //将时间戳转为中文格式的时间
                 long time = baseCommentObject.getCtime();
