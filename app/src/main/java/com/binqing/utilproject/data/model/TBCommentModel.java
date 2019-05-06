@@ -9,31 +9,31 @@ import java.util.List;
 public class TBCommentModel {
 
     @Member(order = 0)
-    private String gid;
+    public String gid;
 
     @Member(order = 1)
-    private int index;
+    public int index;
 
     @Member(order = 2)
-    private long ctime;
+    public long ctime;
 
     @Member(order = 3)
-    private String rateContent;
+    public String rateContent;
 
     @Member(order = 4)
-    private List<String> pics;
+    public List<String> pics;
 
     @Member(order = 5)
-    private String displayUserNick;
+    public String displayUserNick;
 
     @Member(order = 6)
-    private String content;
+    public String content;
 
     @Member(order = 7)
-    private String auctionSku;
+    public String auctionSku;
 
     @Member(order = 8)
-    private List<String> attendpics;
+    public List<String> attendpics;
 
     public TBCommentObject toObject() {
         TBCommentObject object = new TBCommentObject();

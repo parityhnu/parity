@@ -16,6 +16,12 @@ import com.binqing.utilproject.fragment.CategoryFragment;
 import com.binqing.utilproject.fragment.HomeFragment;
 import com.binqing.utilproject.fragment.MineFragment;
 
+/**
+ * 首页的Activity
+ * 目前装载了两个Fragment
+ * “首页”tab对应HomeFragment
+ * “我的”tab对应MineFragment
+ */
 public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     private RelativeLayout mRlTabHome;

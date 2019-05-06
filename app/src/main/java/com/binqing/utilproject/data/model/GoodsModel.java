@@ -38,7 +38,7 @@ public class GoodsModel {
     public int type;
 
     @Member(order = 11)
-    public String id;
+    public String gid;
 
     public GoodsObject toObject() {
         GoodsObject goodsObject = new GoodsObject();
@@ -53,7 +53,7 @@ public class GoodsModel {
         goodsObject.setShop(shop);
         goodsObject.setSort(sort);
         goodsObject.setType(type);
-        goodsObject.setId(id);
+        goodsObject.setGid(gid);
         return goodsObject;
     }
 

@@ -2,9 +2,8 @@ package com.binqing.utilproject.Utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 
-import com.binqing.utilproject.Activity.CollectionActivity;
+import com.binqing.utilproject.Activity.FavoriteActivity;
 import com.binqing.utilproject.Activity.ForgetPasswordActivity;
 import com.binqing.utilproject.Activity.GoodsListActivity;
 import com.binqing.utilproject.Activity.GoodsParityDetailActivity;
@@ -16,12 +15,16 @@ import com.binqing.utilproject.Activity.SignUpActivity;
 import com.binqing.utilproject.Activity.WebViewActivity;
 import com.binqing.utilproject.Consts.Consts;
 import com.binqing.utilproject.Enum.ModifyType;
-import com.binqing.utilproject.data.object.GoodsObject;
 import com.binqing.utilproject.data.object.ParityObject;
 
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 跳转的工具
+ * 需要加数据时用putExtra(key,value)
+ * 取数据时intent.getSerializableExtra()
+ */
 public class NavUtil {
 
     public static void Nav2SearchActivity(Context context, String hint) {
@@ -38,9 +41,9 @@ public class NavUtil {
         context.startActivity(intent);
     }
 
-    public static void Nav2GoodsParityDetailActivity(Context context, List<ParityObject> goodsObjectList) {
+    public static void Nav2GoodsParityDetailActivity(Context context, List<ParityObject> parityObjects) {
         Intent intent = new Intent();
-        intent.putExtra(Consts.INTENT_KEY_PARITY_GOODS_DETAIL, (Serializable) goodsObjectList);
+        intent.putExtra(Consts.INTENT_KEY_PARITY_GOODS_DETAIL, (Serializable) parityObjects);
         intent.setClass(context, GoodsParityDetailActivity.class);
         context.startActivity(intent);
     }
@@ -79,7 +82,7 @@ public class NavUtil {
 
     public static void Nav2CollectionActivity(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context, CollectionActivity.class);
+        intent.setClass(context, FavoriteActivity.class);
         context.startActivity(intent);
     }
 

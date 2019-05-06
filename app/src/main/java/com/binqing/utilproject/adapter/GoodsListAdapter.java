@@ -16,6 +16,7 @@ import com.binqing.utilproject.data.object.GoodsObject;
 import com.binqing.utilproject.data.object.ParityObject;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoodsListAdapter extends BaseRecyclerViewAdapter<GoodsObject> implements MultiTypeLayout<GoodsObject> {

@@ -52,5 +52,6 @@
     <string name="enter_phone">请输入手机号</string>
     <string name="tip_account">以英文字母为开头，仅包含字母与数字</string>
     <string name="check_password">重复确认密码</string>
+    <string name="parity_detail">比价详情</string>
 
 </resources>

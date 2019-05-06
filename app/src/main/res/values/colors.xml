@@ -19,4 +19,9 @@
     <color name="icon_color">#515151</color>
     <color name="color_unSign">#ffa2b6</color>
     <color name="color_unsign_text">#ffcdd7</color>
+    <color name="attribute_background1">#f7f7f7</color>
+    <color name="attribute_background2">#f3f3f3</color>
+    <color name="comment_content">#323232</color>
+    <color name="comment_sku">#999999</color>
+    <color name="comment_user">#002320</color>
 </resources>
