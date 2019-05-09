@@ -47,7 +47,7 @@ public class ParityObjectListAdapter extends BaseRecyclerViewAdapter<ParityObjec
             if (Data.getType() == GoodsType.TB.getValue()) {
                 holder.setViewVisivility(R.id.iv_ic_tb, View.VISIBLE);
                 holder.setViewVisivility(R.id.iv_ic_jd, View.GONE);
-                holder.setText(R.id.tv_gcomment_sale, String.valueOf(Data.getSalecomment()));
+                holder.setText(R.id.tv_gcomment_sale, String.valueOf(Data.getSalecomment()) + "人付款");
             } else if (Data.getType() == GoodsType.JD.getValue()) {
                 holder.setViewVisivility(R.id.iv_ic_tb, View.GONE);
                 holder.setViewVisivility(R.id.iv_ic_jd, View.VISIBLE);
