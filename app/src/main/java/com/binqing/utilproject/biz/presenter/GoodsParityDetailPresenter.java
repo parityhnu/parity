@@ -98,7 +98,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
         for (ParityObject parityObject : mData) {
             ids.add(parityObject.getTypeGid());
         }
-        requestComment(ids);
+
         requestAttribute(ids);
     }
 
@@ -146,10 +146,11 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
         });
     }
 
-    private void requestAttribute(List<String> ids) {
+    private void requestAttribute(final List<String> ids) {
         DataProvider.getInstance().getAttributes(ids, new Callback<List<AttributeObject>>() {
             @Override
             public void onResult(List<AttributeObject> result) {
+                requestComment(ids);
                 if (result == null) {
                     return;
                 }
@@ -175,6 +176,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
 
             @Override
             public void onException(String code, String reason) {
+                requestComment(ids);
                 Toast.makeText(mView, reason, Toast.LENGTH_SHORT).show();
             }
         });
@@ -380,6 +382,9 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
 
     @Override
     public boolean getFavoriteState(String gid) {
+        if (mFavoriteState.get(gid) == null) {
+            return false;
+        }
         return mFavoriteState.get(gid);
     }
 }
