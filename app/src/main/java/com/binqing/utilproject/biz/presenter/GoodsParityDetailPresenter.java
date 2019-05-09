@@ -32,11 +32,12 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
 
     private GoodsParityDetailActivity mView;
     private List<ParityObject> mData;
-    private Map<String, Boolean> mFavoriteState = new HashMap<>();
+    private Map<String, Boolean> mFavoriteState;
     private int mCommentIndex = 1;
 
     public GoodsParityDetailPresenter(GoodsParityDetailActivity activity) {
         bindView(activity);
+        mFavoriteState = new HashMap<>();
         initData();
     }
 
