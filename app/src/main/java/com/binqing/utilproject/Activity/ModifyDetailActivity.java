@@ -19,6 +19,11 @@ import com.binqing.utilproject.R;
 import com.binqing.utilproject.biz.contract.ModifyDetailContract;
 import com.binqing.utilproject.biz.presenter.ModifyDetailPresenter;
 
+/**
+ * 修改昵称、密码、手机号
+ * 根据intent传过来的修改类型来确定，来修改相应的布局，包括显示消失，设置标题等等
+ *
+ */
 public class ModifyDetailActivity extends BaseActivity implements ModifyDetailContract.View {
 
     private ImageView mIvBack;

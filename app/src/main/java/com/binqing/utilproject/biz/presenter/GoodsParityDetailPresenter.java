@@ -32,11 +32,12 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
 
     private GoodsParityDetailActivity mView;
     private List<ParityObject> mData;
-    private Map<String, Boolean> mFavoriteState = new HashMap<>();
+    private Map<String, Boolean> mFavoriteState;
     private int mCommentIndex = 1;
 
     public GoodsParityDetailPresenter(GoodsParityDetailActivity activity) {
         bindView(activity);
+        mFavoriteState = new HashMap<>();
         initData();
     }
 
@@ -108,6 +109,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 if (result == null) {
                     return;
                 }
+                //以下几句是将得到的各种评论的对象，加到一个列表里排序
                 List<JDCommentObject> jdCommentObjects = result.getJDCommentObjects();
                 List<TMCommentObject> tmCommentObjects = result.getTMCommentObjects();
                 List<TBCommentObject> tbCommentObjects = result.getTBCommentObjects();
@@ -121,7 +123,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 if (tmCommentObjects != null) {
                     baseCommentObjects.addAll(tmCommentObjects);
                 }
-                Collections.sort(baseCommentObjects);
+                Collections.sort(baseCommentObjects);//排序
                 List<AttOrCommentOrParityObject> dataList = mView.getDataList();
                 if (dataList == null) {
                     dataList = new ArrayList<>();
@@ -130,6 +132,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                     if (baseCommentObject == null) {
                         continue;
                     }
+                    //这个AttOrCommentOrParityObject的属性，参数或者评论只能取其一
                     dataList.add(new AttOrCommentOrParityObject(baseCommentObject));
                 }
                 mCommentIndex = mCommentIndex + 1;
@@ -151,14 +154,17 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                     return;
                 }
                 Map<String, List<AttributeObject>> attributeMap = new HashMap<>();
+                //下面这个循环，是根据id来散列，将列表根据id的不同分开
                 for (AttributeObject attributeObject : result) {
                     if (attributeMap.get(attributeObject.getGid()) == null) {
                         attributeMap.put(attributeObject.getGid(), new ArrayList<AttributeObject>());
                     }
                     attributeMap.get(attributeObject.getGid()).add(attributeObject);
                 }
+                //以下这一句是将上述的结果，根据参数名进行散列
                 Map<String, List<String>> stringListMap = dealWithAtrributeMap(attributeMap);
 
+                //以下几句的意思是，得到现有在列表里的数据，然后将新的数据加进去，然后刷新列表
                 List<AttOrCommentOrParityObject> dataList = mView.getDataList();
                 if (dataList == null) {
                     dataList = new ArrayList<>();
@@ -175,6 +181,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
     }
 
     private Map<String, List<String>> dealWithAtrributeMap(Map<String, List<AttributeObject>> attributeMap) {
+        //传进来的变量是根据id散列好的
         if (attributeMap == null || attributeMap.isEmpty()) {
             return null;
         }
@@ -183,6 +190,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
         }
         Map<String, List<String>> stringListMap = new LinkedHashMap<>();
         int index = 0;
+        //此处的id一定是和ParityObjects中的一一对应的，不然就是错的
         for (ParityObject parityObject : mData) {
             List<AttributeObject> attributeObjectList = attributeMap.get(parityObject.getGid());
             if (attributeObjectList == null) {
@@ -191,6 +199,7 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
             }
             for (AttributeObject attributeObject : attributeObjectList) {
                 String attribute = attributeObject.getAttribute();
+                //参数都是形如 "前置摄像头：1200万像素" ，因此根据冒号分割
                 String[] strings = attribute.split(":",2);
                 if (strings.length < 2) {
                     strings = attribute.split("：", 2);
@@ -198,11 +207,13 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
                 if (strings.length == 2) {
                     strings[0] = strings[0].replaceAll("\n", "");
                     strings[1] = strings[1].replaceAll("\n", "");
+                    //如果有这个key了，那么会将value插到这个key下面， 如果没有的话就新建一个key-value
                     if (stringListMap.get(strings[0]) == null) {
                         stringListMap.put(strings[0], new ArrayList<String>());
-                    }
-                    if (index == 1) {
-                        stringListMap.get(strings[0]).add(" ");
+                        //前面一个商品没有该参数，占位用
+                        if (index == 1) {
+                            stringListMap.get(strings[0]).add(" ");
+                        }
                     }
                     stringListMap.get(strings[0]).add(strings[1]);
                 }

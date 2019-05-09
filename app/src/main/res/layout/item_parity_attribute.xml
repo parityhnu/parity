@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/ll_background"
               android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:src="@drawable/tb"
-            android:visibility="visible"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_attribute1"

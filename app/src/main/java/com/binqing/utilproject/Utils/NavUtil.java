@@ -21,6 +21,11 @@ import com.binqing.utilproject.data.object.ParityObject;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 跳转的工具
+ * 需要加数据时用putExtra(key,value)
+ * 取数据时intent.getSerializableExtra()
+ */
 public class NavUtil {
 
     public static void Nav2SearchActivity(Context context, String hint) {

@@ -2,8 +2,6 @@ package com.binqing.utilproject.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,6 +45,7 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
     @Override
     public void bindData(BaseViewHolder holder, AttOrCommentOrParityObject Data) {
         if (Data != null) {
+            //对于这个数据来源来说，下面两条语句分别代表参数与评论，二者只能取一个存在
             List<AttributeObject> attributeObjectList = Data.getAttributeObjectList();
             BaseCommentObject baseCommentObject = Data.getBaseCommentObject();
             int index = Data.getIndex();
@@ -58,6 +57,7 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
 
                 int size = attributeObjectList.size();
                 AttributeObject attributeObject = attributeObjectList.get(0);
+
                 ParityObject parityObject = attributeObject.getParityObject();
                 //图片加载
                 if (parityObject == null) {
@@ -75,6 +75,7 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                     Glide.with(mContext).load("https:" + parityObject.getImage()).into(imageView);
                 }
                 String attribute = attributeObject.getAttribute();
+                //根据冒号分割
                 String[] strings = splitAttibute(attribute);
 
                 holder.setText(R.id.tv_attribute_name, strings[0]);
@@ -111,17 +112,22 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                 }
 
             } else if (baseCommentObject != null) {
+                //将时间戳转为中文格式的时间
                 long time = baseCommentObject.getCtime();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
                 Date date = new Date(time);
                 String resultTime = simpleDateFormat.format(date);
 
+                //设置名字、评论
                 holder.setText(R.id.tv_user, baseCommentObject.getDisplayUserNick());
                 holder.setText(R.id.tv_ratecontent, baseCommentObject.getRateContent());
+
+                //评论中图片列表的适配器，用的是网格布局，3列
                 CommentPicAdapter commentPicAdapter = new CommentPicAdapter(mContext, baseCommentObject.getPics());
                 holder.setLayoutManager(R.id.rv_pics, new GridLayoutManager(mContext, 3));
                 holder.setRecyclerViewAdapter(R.id.rv_pics, commentPicAdapter);
 
+                //京东没有追加评论的图片，而淘宝和天猫都有
                 if (baseCommentObject instanceof JDCommentObject) {
                     holder.setText(R.id.tv_time_sku, resultTime + " "
                             + ((JDCommentObject) baseCommentObject).getProductSize()

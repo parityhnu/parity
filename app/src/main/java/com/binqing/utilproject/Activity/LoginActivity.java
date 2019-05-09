@@ -100,6 +100,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View{
             }
         });
 
+
         mEtPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

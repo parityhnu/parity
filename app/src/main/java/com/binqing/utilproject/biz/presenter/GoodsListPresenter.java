@@ -27,7 +27,7 @@ public class GoodsListPresenter implements GoodsListContract.Presenter {
 
     private GoodsListActivity mView;
     private String mGoodsName;
-    private String mPage = "";
+    private String mPage = "0";
 
     public GoodsListPresenter(GoodsListActivity activity) {
         bindView(activity);
@@ -91,7 +91,7 @@ public class GoodsListPresenter implements GoodsListContract.Presenter {
                     goodsObject.setKeyword(parityObjects.get(0).getKeyword());
                     List<List<ParityObject>> listList = new ArrayList<>();
                     int num = 0;
-                    int index = 0;
+                    int index = 0;//用index=0或1来判断比价商品两个一组
                     for (ParityObject parityObject : parityObjects) {
                         if (parityObject == null) {
                             continue;

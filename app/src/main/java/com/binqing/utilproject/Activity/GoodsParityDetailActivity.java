@@ -151,7 +151,7 @@ public class GoodsParityDetailActivity extends BaseActivity implements GoodsPari
                 break;
             }
         }
-        updateFavoriteState(true);
+        updateFavoriteState(hasFavorited);
     }
 
     @Override

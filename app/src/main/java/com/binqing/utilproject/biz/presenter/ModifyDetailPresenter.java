@@ -41,6 +41,7 @@ public class ModifyDetailPresenter implements ModifyDetailContract.Presenter {
         mView.refreshView(mModifyType);
     }
 
+
     @Override
     public void modify(final String s1, final String s2, String checkPwd) {
         Callback<String> callback = new Callback<String>() {
@@ -109,7 +110,7 @@ public class ModifyDetailPresenter implements ModifyDetailContract.Presenter {
                 break;
         }
     }
-
+    //ctrl+左键 方法！！！
     @Override
     public ModifyType getModifyTyoe() {
         return mModifyType;
