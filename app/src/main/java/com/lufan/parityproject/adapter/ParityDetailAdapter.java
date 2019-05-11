@@ -6,21 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-<<<<<<< HEAD:app/src/main/java/com/binqing/utilproject/adapter/ParityDetailAdapter.java
-import com.binqing.utilproject.Activity.GoodsParityDetailActivity;
-import com.binqing.utilproject.R;
-import com.binqing.utilproject.Utils.NavUtil;
-import com.binqing.utilproject.adapter.base.BaseRecyclerViewAdapter;
-import com.binqing.utilproject.adapter.base.BaseViewHolder;
-import com.binqing.utilproject.adapter.base.MultiTypeLayout;
-import com.binqing.utilproject.data.object.AttOrCommentOrParityObject;
-import com.binqing.utilproject.data.object.AttributeObject;
-import com.binqing.utilproject.data.object.BaseCommentObject;
-import com.binqing.utilproject.data.object.JDCommentObject;
-import com.binqing.utilproject.data.object.ParityObject;
-import com.binqing.utilproject.data.object.TBCommentObject;
-import com.binqing.utilproject.data.object.TMCommentObject;
-=======
 import com.lufan.parityproject.R;
 import com.lufan.parityproject.Utils.NavUtil;
 import com.lufan.parityproject.adapter.base.BaseRecyclerViewAdapter;
@@ -33,7 +18,6 @@ import com.lufan.parityproject.data.object.JDCommentObject;
 import com.lufan.parityproject.data.object.ParityObject;
 import com.lufan.parityproject.data.object.TBCommentObject;
 import com.lufan.parityproject.data.object.TMCommentObject;
->>>>>>> 8f24b4f0c75b35ea0097077535c8b69ed0df28c2:app/src/main/java/com/lufan/parityproject/adapter/ParityDetailAdapter.java
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;

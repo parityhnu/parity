@@ -6,6 +6,8 @@ import android.widget.Toast;
 import com.lufan.parityproject.Activity.GoodsParityDetailActivity;
 import com.lufan.parityproject.Callback;
 import com.lufan.parityproject.Consts.Consts;
+import com.lufan.parityproject.ParityApplication;
+import com.lufan.parityproject.Utils.NavUtil;
 import com.lufan.parityproject.biz.contract.GoodsParityDetailContract;
 import com.lufan.parityproject.data.DataProvider;
 import com.lufan.parityproject.data.object.AttOrCommentOrParityObject;
@@ -339,6 +341,10 @@ public class GoodsParityDetailPresenter implements GoodsParityDetailContract.Pre
 
     @Override
     public void favorite(final ParityObject parityObject) {
+        if (!ParityApplication.getInstance().isSignIn()) {
+            NavUtil.Nav2LoginActivity(mView);
+            return;
+        }
         boolean cancel = mFavoriteState.get(parityObject.getGid());
         DataProvider.getInstance().favorite(parityObject.getTypeGid(),
                 parityObject.getKeyword(),
