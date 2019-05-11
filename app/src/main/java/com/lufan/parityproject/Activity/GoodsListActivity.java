@@ -144,7 +144,7 @@ public class GoodsListActivity extends BaseActivity implements GoodsListContract
             public void onItemClickListener(int position) {
                 GoodsObject goodsObject = mGoodsListAdapter.getItemData(position);
                 String url = goodsObject.getHref();
-                NavUtil.Nav2Web(getApplication(), "https:" + url);
+                NavUtil.Nav2Web(GoodsListActivity.this, "https:" + url);
             }
 
             @Override

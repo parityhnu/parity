@@ -66,7 +66,7 @@ public class FavoriteActivity extends BaseActivity implements FavoriteContract.V
                 ParityObject parityObject = mParityObjectListAdapter.getItemData(position);
                 List<ParityObject> parityObjectList = new ArrayList<>();
                 parityObjectList.add(parityObject);
-                NavUtil.Nav2GoodsParityDetailActivity(getApplication(), parityObjectList);
+                NavUtil.Nav2GoodsParityDetailActivity(FavoriteActivity.this, parityObjectList);
             }
 
             @Override

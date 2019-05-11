@@ -69,7 +69,7 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            NavUtil.Nav2WebViewActivity(mContext, finalAttributeObject.getParityObject().getHref());
+                            NavUtil.Nav2Web(mContext, "https:" + finalAttributeObject.getParityObject().getHref());
                         }
                     });
                     Glide.with(mContext).load("https:" + parityObject.getImage()).into(imageView);
