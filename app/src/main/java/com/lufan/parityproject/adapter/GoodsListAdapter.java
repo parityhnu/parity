@@ -50,11 +50,18 @@ public class GoodsListAdapter extends BaseRecyclerViewAdapter<GoodsObject> imple
                 if (Data.getType() == GoodsType.TB.getValue()) {
                     holder.setViewVisivility(R.id.iv_ic_tb, View.VISIBLE);
                     holder.setViewVisivility(R.id.iv_ic_jd, View.GONE);
+                    holder.setViewVisivility(R.id.iv_ic_tm, View.GONE);
                     holder.setText(R.id.tv_gcomment_sale, String.valueOf(Data.getSalecomment()) + "人付款");
                 } else if (Data.getType() == GoodsType.JD.getValue()) {
                     holder.setViewVisivility(R.id.iv_ic_tb, View.GONE);
                     holder.setViewVisivility(R.id.iv_ic_jd, View.VISIBLE);
+                    holder.setViewVisivility(R.id.iv_ic_tm, View.GONE);
                     holder.setText(R.id.tv_gcomment_sale, String.valueOf(Data.getSalecomment()) + "+评论");
+                } else {
+                    holder.setViewVisivility(R.id.iv_ic_tb, View.GONE);
+                    holder.setViewVisivility(R.id.iv_ic_jd, View.GONE);
+                    holder.setViewVisivility(R.id.iv_ic_tm, View.VISIBLE);
+                    holder.setText(R.id.tv_gcomment_sale, String.valueOf(Data.getSalecomment()) + "人付款");
                 }
                 holder.setText(R.id.tv_gshop, Data.getShop());
             } else {

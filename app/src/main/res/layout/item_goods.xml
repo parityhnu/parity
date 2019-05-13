@@ -71,6 +71,15 @@
         android:layout_marginRight="16dp"
         android:src="@drawable/jd"/>
 
+    <ImageView
+        android:id="@+id/iv_ic_tm"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_above="@id/tv_gcomment_sale"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/tmall"/>
+
     <TextView
         android:id="@+id/tv_gcomment_sale"
         android:layout_width="wrap_content"
