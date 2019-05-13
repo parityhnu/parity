@@ -118,8 +118,8 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                 Date date = new Date(time);
                 String resultTime = simpleDateFormat.format(date);
 
-                //设置名字、评论
-                holder.setText(R.id.tv_user, baseCommentObject.getDisplayUserNick());
+                //设置评论
+
                 holder.setText(R.id.tv_ratecontent, baseCommentObject.getRateContent());
 
                 //评论中图片列表的适配器，用的是网格布局，3列
@@ -129,6 +129,7 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
 
                 //京东没有追加评论的图片，而淘宝和天猫都有
                 if (baseCommentObject instanceof JDCommentObject) {
+                    holder.setText(R.id.tv_user, baseCommentObject.getDisplayUserNick() + "[京东用户]");
                     holder.setText(R.id.tv_time_sku, resultTime + " "
                             + ((JDCommentObject) baseCommentObject).getProductSize()
                             + ((JDCommentObject) baseCommentObject).getProductColor());
@@ -140,6 +141,7 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                         holder.setText(R.id.tv_append_content, baseCommentObject.getContent());
                     }
                 } else if (baseCommentObject instanceof TMCommentObject) {
+                    holder.setText(R.id.tv_user, baseCommentObject.getDisplayUserNick() + "[天猫用户]");
                     holder.setText(R.id.tv_time_sku, resultTime + " "
                             + ((TMCommentObject) baseCommentObject).getAuctionSku());
                     if (baseCommentObject.getContent() == null || TextUtils.isEmpty(baseCommentObject.getContent())
@@ -152,6 +154,7 @@ public class ParityDetailAdapter extends BaseRecyclerViewAdapter<AttOrCommentOrP
                         holder.setRecyclerViewAdapter(R.id.rv_append_pics, commentPicAdapter);
                     }
                 } else if (baseCommentObject instanceof TBCommentObject) {
+                    holder.setText(R.id.tv_user, baseCommentObject.getDisplayUserNick() + "[淘宝用户]");
                     holder.setText(R.id.tv_time_sku, resultTime + " "
                             + ((TBCommentObject) baseCommentObject).getAuctionSku());
                     if (baseCommentObject.getContent() == null || TextUtils.isEmpty(baseCommentObject.getContent())
